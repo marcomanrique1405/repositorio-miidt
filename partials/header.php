@@ -22,7 +22,7 @@ $basePath = '/REPOSITORIO-MIIDT/Biblioteca-MIIDT/public/';
         <div class="container-fluid px-4">
 
             <!-- Logo -->
-            <img src="<?php echo $basePath; ?>assets/img/logo.png" alt="logo" class="logo-img">
+            <img src="../public/assets/img/logo.png" alt="logo" class="logo-img">
 
             <!-- Botón responsive -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
@@ -53,7 +53,7 @@ $basePath = '/REPOSITORIO-MIIDT/Biblioteca-MIIDT/public/';
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="<?php echo $basePath; ?>../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo $basePath; ?>assets/js/dropdown-hover.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/assets/js/dropdown-hover.js"></script>
 </body>
 </html>
