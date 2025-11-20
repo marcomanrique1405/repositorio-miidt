@@ -1,6 +1,6 @@
 <?php
 // Incluir archivo de conexión a la base de datos
-include $_SERVER['DOCUMENT_ROOT'] . '/repositorio_MIIDT/repositorio-miidt/config/database.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/respositorio-MIIDT/respositorio-miidt/config/database.php';
 
 // Inicializar variables de búsqueda y filtros
 $busqueda = isset($_GET['busqueda']) ? $_GET['busqueda'] : '';
@@ -54,7 +54,7 @@ $num_resultados = 0;
 
             <div class="hero-content">
                 <div>
-                    <h2>xdddd</h2>
+                    <h2>Geomática</h2>
                 </div>
             </div>
         </div>
@@ -93,7 +93,7 @@ $num_resultados = 0;
                         LEFT JOIN autor a ON t.matricula = a.matricula
                         LEFT JOIN director d ON t.id_director = d.id_director
                         LEFT JOIN linea_investigacion li ON a.id_linea = li.id_linea
-                        WHERE li.nombre = 'CSR'";
+                        WHERE li.nombre = 'Geomática'";
 
                 // 🔹 Filtros dinámicos
                 if (!empty($busqueda)) {
@@ -230,7 +230,7 @@ $num_resultados = 0;
                             INNER JOIN tesis t ON d.id_director = t.id_director
                             INNER JOIN autor a ON t.matricula = a.matricula
                             INNER JOIN linea_investigacion li ON a.id_linea = li.id_linea
-                            WHERE li.nombre = 'CSR'
+                            WHERE li.nombre = 'Geomática'
                             ORDER BY director_completo ASC";
                             $result_directores = $conn->query($sql_directores);
                             if ($result_directores && $result_directores->num_rows > 0) {
@@ -253,7 +253,7 @@ $num_resultados = 0;
                             FROM tesis t
                             INNER JOIN autor a ON t.matricula = a.matricula
                             INNER JOIN linea_investigacion li ON a.id_linea = li.id_linea
-                            WHERE li.nombre = 'CSR'
+                            WHERE li.nombre = 'Geomática'
                             AND t.fecha_registro IS NOT NULL
                             ORDER BY anio DESC";
 
