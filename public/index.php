@@ -10,117 +10,16 @@
   <title>Document</title>
 </head>
 <body>
-  <?php include '../partials/header.php'; ?>
-  <section id="hero-miidt" class="miidt-hero miidt-hero-ajustado" aria-label="Banner principal">
-    <div class="hero-carousel">
-        <div class="hero-track">
-            <!-- Slide 1 -->
-            <div class="hero-slide"
-                style="
-                    background-image: url('assets/img/grupo-interno.JPG');
-                    background-size: cover;
-                    background-position: center;
-                ">
-            </div>
-            <!-- Slide 2 -->
-            <div class="hero-slide"
-                style="
-                    background-image: url('assets/img/grupo-MIIDT.JPG');
-                    background-size: cover;
-                    background-position: center;
-                ">
-            </div>
-            <!-- Slide 3 -->
-            <div class="hero-slide"
-                style="
-                    background-image: url('assets/img/grupo-interno.JPG');
-                    background-size: cover;
-                    background-position: center;
-                ">
-            </div>
-        </div>
-
-        <div class="hero-content">
-            <div>
-                <h2>Repositorio MIIDT</h2>
-            </div>
-        </div>
-    </div>
-  </section>
-
-  <div class="texto-index">
-    <p>La Maestría en Ingeniería para la Innovación y Desarrollo Tecnológico es un 
-    programa educativo que a través de su planta académica ofrece la oportunidad de que sus estudiantes 
-    puedan realizar estudios aplicando conocimientos que fortalezcan las necesidades en primer instancia
-    del entorno social que guarda el Estado y de ahí que puedan tener incidencia nacional e internacional; 
-    por lo anterior este repositorio, es uno más de los espacios disponibles a todo aquel que busca 
-    continuar o, en su mejor caso, conocer los trabajos que como Maestría estamos trabajando desde una 
-    perspectiva profesionalizante con impacto en investigación.</p>
-  </div>
-  <div class="cartas-chidas">
-    <!-- Carta 1 -->
-    <div class="flip-card" data-card="CSR">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="assets/img/grupo-interno.JPG" alt="Construcción Sismo-Resistente">
-          <h3>Construcción Sismo-Resistente</h3>
-        </div>
-        <div class="flip-card-back">
-          <h3>CSR</h3>
-          <p>Estudio de la sismo-resistencia y mitigación del riesgo sísmico en edificaciones para implementar soluciones funcionales y operativas. Incluye el desarrollo de análisis, diseño, ejecución y control de construcciones sismo-resistentes y económicas.</p>
-        </div>
+  <div class="body-wrap">
+    <main>
+      <div class="container py-4">
+        <h1 class="text-primary">Bootstrap OK 🎉</h1>
+        <button class="btn btn-success">Probar</button>
       </div>
-    </div>
-
-    <!-- Carta 2 -->
-    <div class="flip-card" data-card="Geomatica">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="assets/img/grupo-MIIDT.JPG" alt="Geomática">
-          <h3>Geomática</h3>
-        </div>
-        <div class="flip-card-back">
-          <h3>Geomática</h3>
-          <p>Estudio de las principales tecnologías aplicadas al modelado espacial y al manejo de información geográfica, para implementar soluciones funcionales y operativas. Incluye el análisis, diseño, ejecución y transferencia de las geotecnologías.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Carta 3 -->
-    <div class="flip-card" data-card="TICs">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="assets/img/grupo-interno.JPG" alt="Tecnologías de la Información y Comunicación">
-          <h3>Tecnologías de la Información y Comunicación</h3>
-        </div>
-        <div class="flip-card-back">
-          <h3>TICs</h3>
-          <p>Estudio y aplicación de la programación de aplicaciones informáticas, base de datos, y tecnologías computacionales de vanguardia, para el diseño de soluciones funcrionales y operativas, y la operación, administración y transferencia de las TIC.</p>
-        </div>
-      </div>
-    </div>
+    </main>
   </div>
-
-  <div class="carrucel-fotos-miidt">
-    <div class="carousel-track">
-      <div class="carousel-item"><img src="../public/assets/img/grupo-interno.JPG" alt="Foto 1"></div>
-      <div class="carousel-item"><img src="assets/img/grupo-interno.JPG" alt="Foto 2"></div>
-      <div class="carousel-item"><img src="assets/img/grupo-interno.JPG" alt="Foto 3"></div>
-      <div class="carousel-item"><img src="assets/img/grupo-interno.JPG" alt="Foto 4"></div>
-      <div class="carousel-item"><img src="assets/img/grupo-interno.JPG" alt="Foto 5"></div>
-      <div class="carousel-item"><img src="assets/img/grupo-interno.JPG" alt="Foto 6"></div>
-      <div class="carousel-item"><img src="assets/img/grupo-interno.JPG" alt="Foto 7"></div>
-      <div class="carousel-item"><img src="assets/img/grupo-interno.JPG" alt="Foto 8"></div>
-    </div>
-  </div>
-
-
-  
-    <!-- FOOTHER -->
-  <?php include '../partials/footer.php'; ?>
 
   <!-- JS de Bootstrap: también SIN slash inicial -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/cartas.js"></script>
 </body>
 </html>

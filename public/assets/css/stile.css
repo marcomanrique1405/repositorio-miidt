@@ -1,0 +1,492 @@
+html,
+body {
+    overflow-x: hidden;
+    height: 100%;
+    margin: 0;
+}
+
+.body-wrap {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Estilos del header */
+
+.navbar {
+    background-color: #000D61 !important;
+    height: 60px;
+}
+
+.logo-img {
+    height: 53px;
+    width: 160px;
+}
+
+/*Menu*/
+.dropdown-menu {
+    width: 90px !important;
+    min-width: 100px !important;
+    transform: translateX(22px);
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.navbar-nav .nav-link {
+    color: #FFFFFF !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #9B0C0C !important;
+}
+
+.navbar-nav .nav-link:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.dropdown-item {
+    background-color: transparent !important;
+    color: #FFFFFF;
+}
+
+.dropdown-item:hover {
+    color: #9B0C0C;
+}
+
+/*Banner*/
+/* ===== Variables del banner ===== */
+:root {
+    --hero-h-desktop: 180px;
+    /* alto en escritorio */
+    --hero-h-mobile: 180px;
+    /* alto en móvil */
+    --overlay: linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .65) 35%, rgba(0, 0, 0, .45) 100%);
+    --title-size: clamp(28px, 6vw, 64px);
+    --sub-size: clamp(14px, 2.2vw, 18px);
+}
+
+/* ===== Contenedor del HERO (full-bleed sin tocar el header) ===== */
+.miidt-hero {
+    position: relative;
+    /* técnica full-bleed SIN afectar contenedores padre */
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+
+    /* quita posibles separaciones del módulo */
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    z-index: 1;
+    /* por debajo del header */
+}
+
+/* ===== Banner / carrusel ===== */
+.miidt-hero .hero-carousel {
+    position: relative;
+    height: var(--hero-h-desktop);
+    overflow: hidden;
+    color: #fff;
+}
+
+/* tira de slides */
+.miidt-hero .hero-track {
+    display: flex;
+    width: 300vw;
+    /* 3 slides */
+    height: 100%;
+    will-change: transform;
+    animation: pan-miidt 18s ease-in-out infinite alternate;
+}
+
+/* cada slide ocupa 100vw */
+.miidt-hero .hero-slide {
+    position: relative;
+    width: 100vw;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.miidt-hero .hero-slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--overlay);
+}
+
+/* contenido centrado */
+.miidt-hero .hero-content {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 0 4vw;
+    z-index: 2;
+}
+
+.miidt-hero .hero-content h2 {
+    margin: 0;
+    font-weight: 300;
+    font-size: var(--title-size);
+    letter-spacing: .04em;
+    text-shadow: 0 6px 22px rgba(0, 0, 0, .5);
+    text-transform: uppercase;
+}
+
+.miidt-hero .hero-content p {
+    margin: 0;
+    font-size: var(--sub-size);
+    line-height: 1.45;
+    opacity: .95;
+}
+
+/* animación */
+@keyframes pan-miidt {
+    0% {
+        transform: translateX(0)
+    }
+
+    18% {
+        transform: translateX(0)
+    }
+
+    33% {
+        transform: translateX(-100vw)
+    }
+
+    51% {
+        transform: translateX(-100vw)
+    }
+
+    66% {
+        transform: translateX(-200vw)
+    }
+
+    84% {
+        transform: translateX(-200vw)
+    }
+
+    100% {
+        transform: translateX(-200vw)
+    }
+}
+
+/* móvil */
+@media (max-width:768px) {
+    .miidt-hero .hero-carousel {
+        height: var(--hero-h-mobile);
+    }
+}
+
+/* ==========================================
+   ESTILOS BASE - DESKTOP
+========================================== */
+
+/* Buscador */
+.search-form {
+    max-width: 967px;
+    width: 100%;
+}
+
+.search-form .form-control {
+    height: 45px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding-left: 50px !important;
+}
+
+.search-form .fa-search {
+    color: #6c757d;
+    left: 20px;
+    font-size: 1.2rem;
+}
+
+/* Contenedor de Resultados */
+.contenedor-resultados {
+    width: 100%;
+    min-height: 684px;
+    padding: 20px 30px 30px 30px !important;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado de Resultados */
+.resultado-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333 !important;
+    padding-bottom: 5px;
+    margin-bottom: 15px !important;
+}
+
+.resultado-header .small {
+    font-size: 1rem;
+    color: #1A298A !important;
+    font-weight: bold;
+}
+
+.contenedor-resultados .alert-info {
+    font-size: 1.1rem;
+    color: #007bff;
+    background-color: #e9f5ff;
+    border-color: #b8daff;
+}
+
+/* Tarjetas de Tesis */
+.tesis-card {
+    border: 2px solid #cccaca;
+    border-radius: 6px;
+    box-shadow: none !important;
+    margin-bottom: 15px !important;
+}
+
+.tesis-card .col-md-2.text-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.tesis-card img {
+    max-width: 100%;
+    height: auto;
+    max-height: 170px;
+    object-fit: contain;
+}
+
+.tesis-card .card-body {
+    position: relative;
+    padding: 15px;
+}
+
+.tesis-card .card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.tesis-card .año-publicacion {
+    font-size: 1.3rem;
+    color: #8c0000 !important;
+    font-weight: bolder !important;
+}
+
+/* Botones de las tarjetas */
+.tesis-card .btn-danger {
+    background-color: #8c0000;
+    border-color: #8c0000;
+    font-size: 0.85rem;
+    padding: 8px 15px;
+    white-space: nowrap;
+}
+
+.tesis-card .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    font-size: 0.85rem;
+    padding: 8px 15px;
+    white-space: nowrap;
+}
+
+/* Panel de Filtros - Desktop */
+.filtro-panel {
+    background-color: #1A298A !important;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 20px !important;
+    width: 400px;
+    height: 424px;
+    min-height: 424px;
+    box-sizing: border-box;
+}
+
+.filtro-panel h6 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.filtro-panel h6 i {
+    color: transparent;
+    -webkit-text-stroke: 2px white;
+    font-size: 20px;
+}
+
+.filtro-panel .form-select {
+    height: 42px;
+    background-color: #FFFFFF;
+    color: #000000;
+    border: 1px solid #4a5a8f;
+    border-radius: 10px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.filtro-panel .filtros-activos-caja {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 16px 16px;
+    height: 42px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px !important;
+    margin-bottom: 20px !important;
+}
+
+.filtro-panel .filtros-activos-caja .filtros-activos-label {
+    color: #131314;
+    font-weight: 500;
+}
+
+.filtro-panel .filtros-activos-caja .filtros-activos-valor {
+    color: #172a5a;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.filtro-panel .btn-danger {
+    height: 42px;
+    padding: 8px 10px;
+    background-color: #9B0C0C;
+    border-color: #9B0C0C;
+    margin-top: 40px;
+    text-transform: uppercase;
+}
+
+.btn-limpiar {
+    font-size: 16px !important;
+    text-transform: uppercase;
+}
+
+/* Modal de Portada */
+.modal-custom {
+    max-width: 90%;
+    width: 450px;
+}
+
+#modalPortada .modal-header {
+    background-color: #000D61 !important;
+}
+
+#modalPortada .modal-title {
+    color: #ffffff !important;
+}
+
+#modalPortada .modal-body {
+    padding: 20px;
+}
+
+#modalPortada img {
+    max-width: 100%;
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+
+@media (max-width: 1199.98px) {
+    /* 1. Panel de Filtros: Ancho completo y auto-ajustable en móviles/tablets */
+    .filtro-panel {
+        width: 100%; /* Ocupa el 100% del contenedor col-12 */
+        height: auto;
+        min-height: auto;
+        padding: 15px !important;
+    }
+
+    /* Asegurar que los selectores y el botón de limpiar ocupen todo el ancho disponible */
+    .filtro-panel .form-select,
+    .filtro-panel .filtros-activos-caja,
+    .filtro-panel .btn-danger {
+        width: 100%; /* Se expanden al 100% */
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .filtro-panel .filtros-activos-caja {
+        /* Deshacer el justify-content-between en móviles si el contenido es largo */
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 10px;
+    }
+
+    .filtro-panel .filtros-activos-valor {
+        word-break: break-word; /* Para evitar desbordamiento de texto largo */
+    }
+
+    /* 2. Contenedor de Resultados: Reducir padding en móviles */
+    .contenedor-resultados {
+        padding: 15px !important;
+        min-height: auto;
+    }
+
+    /* 3. Tarjetas de Tesis: Mejorar el apilamiento */
+    .tesis-card .row.g-0 > div {
+        /* En móvil, eliminamos el padding vertical entre items apilados */
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Asegurar que la imagen tenga un contenedor para centrarse mejor cuando ocupa el 100% */
+    .tesis-card .col-12.col-md-3.col-lg-2.text-center {
+        padding: 15px 0 10px 0; /* Un poco de padding arriba/abajo */
+    }
+    
+    .tesis-card img {
+        max-width: 100px; /* Reducir el tamaño de la portada en móvil */
+        max-height: 120px;
+    }
+    
+    .tesis-card .card-body {
+        padding: 10px 15px 15px 15px; /* Reducir padding en el cuerpo */
+    }
+    
+    .tesis-card .card-title {
+        font-size: 1rem; /* Reducir tamaño de título */
+    }
+
+    .tesis-card .card-text {
+        font-size: 0.9rem; /* Reducir tamaño de texto de información */
+    }
+
+    /* 4. Botones: Ocupar el 100% del ancho disponible para que no estén uno al lado del otro */
+    .tesis-card .btn-danger,
+    .tesis-card .btn-secondary {
+        width: 100%;
+        text-align: center;
+        margin-top: 5px;
+    }
+}
+
+/*Estilos del footer*/
+footer {
+    margin-top: auto;
+    border-top: 1px solid #eee;
+    padding: 16px 0;
+}
