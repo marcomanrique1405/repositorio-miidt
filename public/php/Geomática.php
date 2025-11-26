@@ -61,7 +61,7 @@ $num_resultados = 0;
     </section>
 
     <div class="container my-4">
-        <form method="GET" action="" class="position-relative search-form ">
+        <form method="GET" action="" class="position-relative search-form " onsubmit="return false;">
             <input
                 type="text"
                 name="busqueda"
@@ -162,7 +162,7 @@ $num_resultados = 0;
                             }
 
                             echo '
-                            <div class="card mb-3 shadow-sm tesis-card">
+                            <div id="contenedor-resultados" class="card mb-3 shadow-sm tesis-card">
                                 <div class="row g-0">
                                     <div class="col-md-2 col-md-3 col-lg-2 text-center tesis-card-img-container">
                                         <img src="' . htmlspecialchars($row['portada']) . '" class="img-fluid " alt="Portada de Tesis">
@@ -311,6 +311,7 @@ $num_resultados = 0;
 
     <script src="<?php echo $basePath; ?>../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/modal_portada.js"></script>
+    <script src="../assets/js/busqueda_ajax.js"></script>
 </body>
 
 </html>
