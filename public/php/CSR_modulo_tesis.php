@@ -190,7 +190,6 @@ $num_resultados = 0;
 ' . (!empty($row['url']) ? '
 <a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
 class="btn btn-secondary btn-sm" 
-target="_blank" 
 rel="noopener noreferrer">
 <i class="fas fa-download me-1"></i> Descargar PDF
 </a>' : '
