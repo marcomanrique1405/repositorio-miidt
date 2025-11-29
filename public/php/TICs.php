@@ -108,7 +108,8 @@ $num_resultados = 0;
 
                 if (!empty($filtro_estado)) {
                     $filtro_estado_escapado = $conn->real_escape_string($filtro_estado);
-                    $sql .= " AND t.estado = '$filtro_estado_escapado'";
+                    $sql .= " AND (t.estado = '$filtro_estado_escapado' 
+                        OR t.estado = 'Digital y Fisico')";
                 }
 
                 if (!empty($filtro_director)) {
@@ -152,7 +153,7 @@ $num_resultados = 0;
                             $imagen_popup = $portada; // Por defecto usar portada
 
                             foreach ($extensiones_posibles as $ext) {
-                                $ruta_popup = '/repositorio_MIIDT/repositorio-miidt/public/assets/img/popups/linea_CSR/' . $nombre_sin_ext . '.' . $ext;
+                                $ruta_popup = '/repositorio_MIIDT/repositorio-miidt/public/assets/img/popups/linea_TICs/' . $nombre_sin_ext . '.' . $ext;
                                 $ruta_completa = $_SERVER['DOCUMENT_ROOT'] . $ruta_popup;
 
                                 if (file_exists($ruta_completa)) {
@@ -188,11 +189,14 @@ $num_resultados = 0;
 
                                                 <!-- Botón para descargar PDF -->
                                                 ' . (!empty($row['url']) ? '
-                                                <a href="' . htmlspecialchars($row['url']) . '" class="btn btn-secondary btn-sm" download>
-                                                <i class="fas fa-download me-1"></i> Descargar PDF
+                                                <a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
+                                                class="btn btn-secondary btn-sm" 
+                                                target="_blank"
+                                                rel="noopener noreferrer">
+                                                <i class="fas fa-download me-1"></i> Vista Previa PDF
                                                 </a>' : '
                                                 <button class="btn btn-secondary btn-sm" disabled>
-                                                <i class="fas fa-download me-1"></i> No disponible
+                                                <i class="fas fa-download me-1"></i> No disponible PDF
                                                 </button>') . '
                                             </div>
 
@@ -247,7 +251,7 @@ $num_resultados = 0;
                         <select class="form-select my-2" name="anio" onchange="this.form.submit()">
                             <option value="">Año de publicación</option>
                             <?php
-                            // 🔹 Consulta para mostrar solo los años de tesis de la línea "CSR"
+                            // 🔹 Consulta para mostrar solo los años de tesis de la línea "TICs"
                             $sql_anios = "
                             SELECT DISTINCT YEAR(t.fecha_registro) AS anio
                             FROM tesis t
