@@ -1,6 +1,6 @@
 <?php
 // Incluir archivo de conexión a la base de datos
-include $_SERVER['DOCUMENT_ROOT'] . '/respositorio-MIIDT/respositorio-miidt/config/database.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/repositorio_MIIDT/repositorio-miidt/config/database.php';
 
 // Inicializar variables de búsqueda y filtros
 $busqueda = isset($_GET['busqueda']) ? $_GET['busqueda'] : '';
@@ -54,7 +54,7 @@ $num_resultados = 0;
 
             <div class="hero-content">
                 <div>
-                    <h2>TIC's</h2>
+                    <h2>TICs</h2>
                 </div>
             </div>
         </div>
@@ -106,6 +106,7 @@ $num_resultados = 0;
                             )";
                 }
 
+                
                 if (!empty($filtro_estado)) {
                     $filtro_estado_escapado = $conn->real_escape_string($filtro_estado);
                     $sql .= " AND (t.estado = '$filtro_estado_escapado' 
@@ -153,7 +154,7 @@ $num_resultados = 0;
                             $imagen_popup = $portada; // Por defecto usar portada
 
                             foreach ($extensiones_posibles as $ext) {
-                                $ruta_popup = '/repositorio_MIIDT/repositorio-miidt/public/assets/img/popups/linea_TICs/' . $nombre_sin_ext . '.' . $ext;
+                                $ruta_popup = '/repositorio_MIIDT/repositorio-miidt/public/assets/img/popups/linea_CSR/' . $nombre_sin_ext . '.' . $ext;
                                 $ruta_completa = $_SERVER['DOCUMENT_ROOT'] . $ruta_popup;
 
                                 if (file_exists($ruta_completa)) {
@@ -188,15 +189,14 @@ $num_resultados = 0;
                                                 </button>
 
                                                 <!-- Botón para descargar PDF -->
-                                                ' . (!empty($row['url']) ? '
-                                                <a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
-                                                class="btn btn-secondary btn-sm" 
-                                                target="_blank"
-                                                rel="noopener noreferrer">
-                                                <i class="fas fa-download me-1"></i> Vista Previa PDF
-                                                </a>' : '
+' . (!empty($row['url']) ? '
+<a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
+class="btn btn-secondary btn-sm" 
+rel="noopener noreferrer">
+<i class="fas fa-download me-1"></i> Descargar PDF
+</a>' : '
                                                 <button class="btn btn-secondary btn-sm" disabled>
-                                                <i class="fas fa-download me-1"></i> No disponible PDF
+                                                <i class="fas fa-download me-1"></i> No disponible
                                                 </button>') . '
                                             </div>
 
@@ -251,7 +251,7 @@ $num_resultados = 0;
                         <select class="form-select my-2" name="anio" onchange="this.form.submit()">
                             <option value="">Año de publicación</option>
                             <?php
-                            // 🔹 Consulta para mostrar solo los años de tesis de la línea "TICs"
+                            // 🔹 Consulta para mostrar solo los años de tesis de la línea "CSR"
                             $sql_anios = "
                             SELECT DISTINCT YEAR(t.fecha_registro) AS anio
                             FROM tesis t
@@ -311,10 +311,10 @@ $num_resultados = 0;
             </div>
         </div>
     </div>
-
+    
 
     <script src="<?php echo $basePath; ?>../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/modal_portada.js"></script>
+    <script src="../assets/js/modal_portada.js"></script>   
     <script src="../assets/js/busqueda_ajax.js"></script>
 </body>
 

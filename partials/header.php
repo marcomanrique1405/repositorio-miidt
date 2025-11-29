@@ -1,6 +1,6 @@
 <?php
 // Ruta base (ajústala si cambias la carpeta raíz del proyecto)
-$basePath = '/REPOSITORIO-MIIDT/Biblioteca-MIIDT/public/';
+$basePath = '/repositorio_MIIDT/repositorio-miidt/public/';
 ?>
 
 <!DOCTYPE html>
