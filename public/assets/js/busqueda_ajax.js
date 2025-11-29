@@ -9,11 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const director = document.getElementById('filtro-director').value;
         const anio = document.getElementById('filtro-anio').value;
         
+        // ✅ NUEVO: Obtener la línea de investigación
+        const linea = document.getElementById('linea-investigacion')?.value || 'CSR';
+        
         const params = new URLSearchParams({
             busqueda: busqueda,
             estado: estado,
             director: director,
-            anio: anio
+            anio: anio,
+            linea: linea  // ✅ NUEVO: Agregar parámetro línea
         });
 
         console.log('📡 Cargando resultados:', params.toString());
