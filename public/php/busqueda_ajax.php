@@ -5,8 +5,17 @@ $busqueda = isset($_GET['busqueda']) ? $_GET['busqueda'] : '';
 $filtro_estado = isset($_GET['estado']) ? $_GET['estado'] : '';
 $filtro_director = isset($_GET['director']) ? $_GET['director'] : '';
 $filtro_anio = isset($_GET['anio']) ? $_GET['anio'] : '';
+$linea = isset($_GET['linea']) ? $_GET['linea'] : 'CSR'; // ✅ Nuevo parámetro
 
-// Tu consulta SQL (igual que en el archivo principal)
+// Lista de líneas válidas
+$lineas_validas = ['CSR', 'Geomática', 'TICs'];
+$linea = isset($_GET['linea']) ? $_GET['linea'] : 'CSR';
+
+// Validar que la línea sea válida
+if (!in_array($linea, $lineas_validas)) {
+    $linea = 'CSR'; // Valor por defecto si no es válida
+}
+
 $sql = "SELECT 
             t.id_tesis, 
             t.titulo, 
@@ -21,7 +30,7 @@ $sql = "SELECT
         LEFT JOIN autor a ON t.matricula = a.matricula
         LEFT JOIN director d ON t.id_director = d.id_director
         LEFT JOIN linea_investigacion li ON a.id_linea = li.id_linea
-        WHERE li.nombre = 'CSR'";
+        WHERE li.nombre = '" . $conn->real_escape_string($linea) . "'"; 
 
 // Aplicar filtros (tu código actual)
 if (!empty($busqueda)) {
