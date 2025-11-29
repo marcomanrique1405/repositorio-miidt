@@ -18,7 +18,7 @@ $num_resultados = 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca MIIDT - Repositorio de Tesis</title>
-    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/stile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -61,9 +61,11 @@ $num_resultados = 0;
     </section>
 
     <div class="container my-4">
-        <form method="GET" action="" class="position-relative search-form " onsubmit="return false;">
+        <form method="GET" action="" class="position-relative search-form ">
+            <input type="hidden" id="linea-investigacion" value="TICs">
             <input
                 type="text"
+                id="input-busqueda"
                 name="busqueda"
                 class="form-control ps-5"
                 placeholder="Buscar por título, autor, director o línea de investigación..."
@@ -136,6 +138,7 @@ $num_resultados = 0;
                         <span class="text-primary small"><?php echo $num_resultados; ?> Tesis</span>
                     </h5>
 
+                    <div id="resultados-lista">
                     <?php
                     if ($resultado && $num_resultados > 0) {
                         while ($row = $resultado->fetch_assoc()) {
@@ -164,7 +167,7 @@ $num_resultados = 0;
                             }
 
                             echo '
-                            <div id="contenedor-resultados" class="card mb-3 shadow-sm tesis-card">
+                            <div class="card mb-3 shadow-sm tesis-card">
                                 <div class="row g-0">
                                     <div class="col-md-2 col-md-3 col-lg-2 text-center tesis-card-img-container">
                                         <img src="' . htmlspecialchars($row['portada']) . '" class="img-fluid " alt="Portada de Tesis">
@@ -209,6 +212,7 @@ rel="noopener noreferrer">
                         echo '<div class="alert alert-info">No hay resultados para mostrar.</div>';
                     }
                     ?>
+                    </div>
                 </div>
             </div>
 
@@ -218,13 +222,13 @@ rel="noopener noreferrer">
                     <form method="GET" action="">
                         <input type="hidden" name="busqueda" value="<?php echo htmlspecialchars($busqueda); ?>">
 
-                        <select class="form-select my-2" name="estado" onchange="this.form.submit()">
+                        <select class="form-select my-2" id="filtro-estado" name="estado" onchange="this.form.submit()">
                             <option value="">Estado</option>
                             <option value="Digital" <?php if ($filtro_estado == 'Digital') echo 'selected'; ?>>Digital</option>
                             <option value="Fisico" <?php if ($filtro_estado == 'Fisico') echo 'selected'; ?>>Fisico</option>
                         </select>
 
-                        <select class="form-select my-2" name="director" onchange="this.form.submit()">
+                        <select class="form-select my-2" id="filtro-director" name="director" onchange="this.form.submit()">
                             <option value="">Director de tesis</option>
                             <?php
                             $sql_directores = "
@@ -248,10 +252,10 @@ rel="noopener noreferrer">
                             ?>
                         </select>
 
-                        <select class="form-select my-2" name="anio" onchange="this.form.submit()">
+                        <select class="form-select my-2" id="filtro-anio" name="anio" onchange="this.form.submit()">
                             <option value="">Año de publicación</option>
                             <?php
-                            // 🔹 Consulta para mostrar solo los años de tesis de la línea "CSR"
+                            // 🔹 Consulta para mostrar solo los años de tesis de la línea "TICs"
                             $sql_anios = "
                             SELECT DISTINCT YEAR(t.fecha_registro) AS anio
                             FROM tesis t
@@ -276,7 +280,7 @@ rel="noopener noreferrer">
 
                         <div class="filtros-activos-caja mt-4 mb-4">
                             <span class="filtros-activos-label">Filtros activos:</span>
-                            <span class="filtros-activos-valor fw-bold">
+                            <span id="filtros-activos-texto" class="filtros-activos-valor fw-bold">
                                 <?php
                                 $filtros_activos = [];
                                 if (!empty($filtro_estado)) $filtros_activos[] = "Estado: $filtro_estado";
@@ -289,7 +293,7 @@ rel="noopener noreferrer">
                         </div>
 
                         <div class="mt-2 text-center">
-                            <a href="?" class="btn btn-danger btn-limpiar">Limpiar todos los filtros</a>
+                            <button type="button" id="btn-limpiar-filtros" class="btn btn-danger btn-limpiar">Limpiar todos los filtros</button>
                         </div>
                     </form>
                 </div>
