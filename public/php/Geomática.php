@@ -1,6 +1,6 @@
 <?php
 // Incluir archivo de conexión a la base de datos
-include $_SERVER['DOCUMENT_ROOT'] . '/respositorio-MIIDT/respositorio-miidt/config/database.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/repositorio_MIIDT/repositorio-miidt/config/database.php';
 
 // Inicializar variables de búsqueda y filtros
 $busqueda = isset($_GET['busqueda']) ? $_GET['busqueda'] : '';
@@ -106,9 +106,11 @@ $num_resultados = 0;
                             )";
                 }
 
+                
                 if (!empty($filtro_estado)) {
                     $filtro_estado_escapado = $conn->real_escape_string($filtro_estado);
-                    $sql .= " AND t.estado = '$filtro_estado_escapado'";
+                    $sql .= " AND (t.estado = '$filtro_estado_escapado' 
+                        OR t.estado = 'Digital y Fisico')";
                 }
 
                 if (!empty($filtro_director)) {
@@ -187,10 +189,12 @@ $num_resultados = 0;
                                                 </button>
 
                                                 <!-- Botón para descargar PDF -->
-                                                ' . (!empty($row['url']) ? '
-                                                <a href="' . htmlspecialchars($row['url']) . '" class="btn btn-secondary btn-sm" download>
-                                                <i class="fas fa-download me-1"></i> Descargar PDF
-                                                </a>' : '
+' . (!empty($row['url']) ? '
+<a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
+class="btn btn-secondary btn-sm" 
+rel="noopener noreferrer">
+<i class="fas fa-download me-1"></i> Descargar PDF
+</a>' : '
                                                 <button class="btn btn-secondary btn-sm" disabled>
                                                 <i class="fas fa-download me-1"></i> No disponible
                                                 </button>') . '
@@ -310,7 +314,7 @@ $num_resultados = 0;
     
 
     <script src="<?php echo $basePath; ?>../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/modal_portada.js"></script>
+    <script src="../assets/js/modal_portada.js"></script>   
     <script src="../assets/js/busqueda_ajax.js"></script>
 </body>
 

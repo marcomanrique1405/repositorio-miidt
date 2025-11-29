@@ -106,9 +106,11 @@ $num_resultados = 0;
                             )";
                 }
 
+                
                 if (!empty($filtro_estado)) {
                     $filtro_estado_escapado = $conn->real_escape_string($filtro_estado);
-                    $sql .= " AND t.estado = '$filtro_estado_escapado'";
+                    $sql .= " AND (t.estado = '$filtro_estado_escapado' 
+                        OR t.estado = 'Digital y Fisico')";
                 }
 
                 if (!empty($filtro_director)) {
@@ -190,7 +192,6 @@ $num_resultados = 0;
 ' . (!empty($row['url']) ? '
 <a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
 class="btn btn-secondary btn-sm" 
-target="_blank" 
 rel="noopener noreferrer">
 <i class="fas fa-download me-1"></i> Descargar PDF
 </a>' : '
