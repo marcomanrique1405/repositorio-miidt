@@ -19,7 +19,7 @@ $basePath = '/repositorio_MIIDT/repositorio-miidt/public/';
         <div class="container-fluid px-4">
 
             <!-- Logo -->
-            <img src="<?php echo $basePath; ?>assets/img/logo.png" alt="logo" class="logo-img">
+            <img src="../public/assets/img/logo.png" alt="logo" class="logo-img">
 
             <!-- Botón responsive -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
@@ -38,9 +38,9 @@ $basePath = '/repositorio_MIIDT/repositorio-miidt/public/';
                             Líes
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownLies">
-                            <li><a href="<?php echo $basePath; ?>php/CSR_modulo_tesis.php" class="dropdown-item">CSR</a></li>
-                            <li><a href="<?php echo $basePath; ?>php/Geomática.php" class="dropdown-item">Geomática</a></li>
-                            <li><a href="<?php echo $basePath; ?>php/TICs.php" class="dropdown-item">TIC's</a></li>
+                            <li><a href="../public/php/CSR_modulo_tesis.php" class="dropdown-item">CSR</a></li>
+                            <li><a href="../public/php/Geomática.php" class="dropdown-item">Geomática</a></li>
+                            <li><a href="../public/php/TICs.php" class="dropdown-item">TIC's</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -50,7 +50,7 @@ $basePath = '/repositorio_MIIDT/repositorio-miidt/public/';
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo $basePath; ?>assets/js/dropdown-hover.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/assets/js/dropdown-hover.js"></script>
 </body>
 </html>

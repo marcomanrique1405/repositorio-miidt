@@ -24,7 +24,7 @@ $num_resultados = 0;
 </head>
 
 <body>
-    <?php include '../../partials/header.php'; ?>
+   <?php include '../partials/header.php'; ?>
 
     <section id="hero-miidt" class="miidt-hero" aria-label="Banner principal">
         <div class="hero-carousel">
