@@ -195,11 +195,12 @@ $num_resultados = 0;
 ' . (!empty($row['url']) ? '
 <a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
 class="btn btn-secondary btn-sm" 
+target="_blank"
 rel="noopener noreferrer">
-<i class="fas fa-download me-1"></i> Descargar PDF
+<i class="fas fa-download me-1"></i> Vista previa PDF
 </a>' : '
                                                 <button class="btn btn-secondary btn-sm" disabled>
-                                                <i class="fas fa-download me-1"></i> No disponible
+                                                <i class="fas fa-download me-1"></i> No disponible en PDF
                                                 </button>') . '
                                             </div>
 
@@ -316,8 +317,10 @@ rel="noopener noreferrer">
         </div>
     </div>
     
+        <!-- FOOTHER -->
+  <?php include '../../partials/footer.php'; ?>
 
-    <script src="<?php echo $basePath; ?>../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/modal_portada.js"></script>   
     <script src="../assets/js/busqueda_ajax.js"></script>
 </body>

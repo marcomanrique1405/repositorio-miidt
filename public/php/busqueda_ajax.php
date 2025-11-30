@@ -102,10 +102,10 @@ if ($resultado && $resultado->num_rows > 0) {
                                 '<a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
                                     class="btn btn-secondary btn-sm" 
                                     rel="noopener noreferrer">
-                                    <i class="fas fa-download me-1"></i> Descargar PDF
+                                    <i class="fas fa-download me-1"></i> Vista previa PDF
                                 </a>' : 
                                 '<button class="btn btn-secondary btn-sm" disabled>
-                                    <i class="fas fa-download me-1"></i> No disponible
+                                    <i class="fas fa-download me-1"></i> No disponible en PDF
                                 </button>') . '
                             </div>
                         </div>
