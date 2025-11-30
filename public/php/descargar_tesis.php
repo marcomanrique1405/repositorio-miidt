@@ -99,7 +99,7 @@ if (strpos($url_archivo, 'drive.google.com') !== false) {
     if (isset($matches[1])) {
         $file_id = $matches[1];
         // Convertir a URL de descarga directa
-        $download_url = "https://drive.google.com/uc?export=download&id=" . $file_id;
+         $download_url = "https://drive.google.com/file/d/" . $file_id . "/view";  
         
         // Redirigir a Google Drive
         header("Location: " . $download_url);
@@ -167,7 +167,7 @@ if ($extension !== 'pdf') {
 if (ob_get_level()) ob_end_clean();
 
 header('Content-Type: application/pdf');
-header('Content-Disposition: attachment; filename="' . basename($ruta_completa) . '"');
+header('Content-Disposition: inline; filename="' . basename($ruta_completa) . '"');
 header('Content-Length: ' . filesize($ruta_completa));
 header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
