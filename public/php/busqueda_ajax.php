@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/repositorio_MIIDT/repositorio-miidt/config/database.php';
+include '../../config/database.php';
 
 $busqueda = isset($_GET['busqueda']) ? $_GET['busqueda'] : '';
 $filtro_estado = isset($_GET['estado']) ? $_GET['estado'] : '';
@@ -60,25 +60,94 @@ if ($resultado && $resultado->num_rows > 0) {
         $nombre_archivo = basename($portada);
         $info = pathinfo($nombre_archivo);
         $nombre_sin_ext = $info['filename'];
-        $extension_original = $info['extension'];
+        $extension_original = isset($info['extension']) ? $info['extension'] : '';
 
-        $extensiones_posibles = ['jpg', 'jpeg', 'png', 'webp', $extension_original];
-        $imagen_popup = $portada;
-
+        // ✅ BUSCAR PORTADA PRINCIPAL (en la ruta original)
+        $extensiones_posibles = ['jpg', 'jpeg', 'png', 'webp'];
+        if (!empty($extension_original) && !in_array(strtolower($extension_original), $extensiones_posibles)) {
+            $extensiones_posibles[] = $extension_original;
+        }
+        
+        $portada_encontrada = $portada; // Por defecto, usar la portada de la BD
+        $directorio_portada = dirname($portada);
+        
+        // Verificar si existe la portada con diferentes extensiones
         foreach ($extensiones_posibles as $ext) {
-            $ruta_popup = '/repositorio_MIIDT/repositorio-miidt/public/assets/img/popups/linea_CSR/' . $nombre_sin_ext . '.' . $ext;
-            $ruta_completa = $_SERVER['DOCUMENT_ROOT'] . $ruta_popup;
-
-            if (file_exists($ruta_completa)) {
-                $imagen_popup = $ruta_popup;
+            $ruta_portada = $directorio_portada . '/' . $nombre_sin_ext . '.' . $ext;
+            $ruta_completa_portada = $_SERVER['DOCUMENT_ROOT'] . $ruta_portada;
+            
+            if (file_exists($ruta_completa_portada)) {
+                $portada_encontrada = $ruta_portada;
                 break;
             }
         }
 
+   // ========================================
+// GENERAR NOMBRE COMPLETO DEL AUTOR (POPUP)
+// ========================================
+
+$autor = $row['autor_completo'];
+
+// Normalizar nombres: minusculas, sin acentos, sin Ñ
+$mapa = [
+    'á'=>'a','é'=>'e','í'=>'i','ó'=>'o','ú'=>'u',
+    'Á'=>'A','É'=>'E','Í'=>'I','Ó'=>'O','Ú'=>'U',
+    'ñ'=>'n','Ñ'=>'N'
+];
+
+$autor_limpio = strtr($autor, $mapa);
+$autor_limpio = strtolower($autor_limpio);
+
+// Convertir espacios → guiones
+$nombre_completo_popup = str_replace(' ', '-', $autor_limpio);
+
+// ========================================
+// SELECCIONAR CARPETA SEGÚN LÍNEA
+// ========================================
+switch ($row['linea_investigacion']) {
+    case 'CSR':
+        $carpeta_popup = 'linea_CSR';
+        break;
+    case 'Geomática':
+    case 'Geomàtica':
+        $carpeta_popup = 'linea_Geomatica';
+        break;
+    case 'TICs':
+        $carpeta_popup = 'linea_TICs';
+        break;
+    default:
+        $carpeta_popup = 'linea_CSR';
+}
+
+// ========================================
+// BUSCAR ARCHIVO EXACTO
+// ========================================
+$extensiones = ['png','jpg','jpeg','webp'];
+$imagen_popup = $portada_encontrada;
+
+foreach ($extensiones as $ext) {
+
+    // Ruta relativa real del proyecto
+    $ruta_rel = "public/assets/img/popups/$carpeta_popup/{$nombre_completo_popup}.$ext";
+
+    // Ruta absoluta en el disco (para verificar)
+    $ruta_abs = __DIR__ . "/../$ruta_rel";
+    echo "<pre>Probando ruta: $ruta_abs</pre>";
+
+    if (file_exists($ruta_abs)) {
+
+        // Ruta que el navegador SI reconoce
+        $imagen_popup = "/repositorio_MIIDT/repositorio-miidt/$ruta_rel";
+
+        break;
+    }
+}
+
+
         echo '<div class="card mb-3 shadow-sm tesis-card">
                 <div class="row g-0">
                     <div class="col-md-2 col-md-3 col-lg-2 text-center tesis-card-img-container">
-                        <img src="' . htmlspecialchars($row['portada']) . '" class="img-fluid" alt="Portada de Tesis">
+                        <img src="' . htmlspecialchars($portada_encontrada) . '" class="img-fluid" alt="Portada de Tesis">
                     </div>
                     <div class="col-12 col-md-9 col-lg-10">
                         <div class="card-body">

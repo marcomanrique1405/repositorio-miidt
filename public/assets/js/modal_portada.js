@@ -6,14 +6,22 @@ document.addEventListener('DOMContentLoaded', function() {
     botonesPortada.forEach(boton => {
         boton.addEventListener('click', function() {
             const rutaPortada = this.getAttribute('data-imagen-popup');
+            const tituloTesis = this.getAttribute('data-titulo');
 
-            // Actualizar solo la imagen
+            // ✅ Validar que la ruta no esté vacía
+            if (!rutaPortada) {
+                console.error('No se encontró la ruta de la imagen popup');
+                return;
+            }
+
+            // Actualizar la imagen y el título
             if (imagenPortada) {
                 imagenPortada.src = rutaPortada;
-                imagenPortada.alt = 'Portada de tesis';
+                imagenPortada.alt = tituloTesis ? 'Portada de: ' + tituloTesis : 'Portada de tesis';
             }
 
             console.log('Mostrando imagen popup:', rutaPortada);
+            console.log('Título:', tituloTesis);
         });
     });
 
@@ -22,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalPortada.addEventListener('hidden.bs.modal', function() {
             if (imagenPortada) {
                 imagenPortada.src = '';
+                imagenPortada.alt = '';
             }
         });
     }
@@ -30,7 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (imagenPortada) {
         imagenPortada.addEventListener('error', function() {
             console.error('Error al cargar la imagen:', this.src);
-            this.src = '/repositorio_MIIDT/repositorio-miidt/public/assets/img/portada-default.png';
+            
+            // ✅ Ruta absoluta desde la raíz del sitio
+            this.src = '/public/assets/img/portada-default.png';
             this.alt = 'Imagen no disponible';
         });
     }

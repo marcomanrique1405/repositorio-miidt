@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('📡 Cargando resultados:', params.toString());
 
-        fetch('/repositorio_MIIDT/repositorio-miidt/public/php/busqueda_ajax.php?' + params.toString())
+        fetch('../php/busqueda_ajax.php?' + params.toString())
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error en servidor: ' + response.status);

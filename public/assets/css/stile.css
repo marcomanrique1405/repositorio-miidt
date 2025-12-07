@@ -561,7 +561,7 @@ footer {
 =========================================== */
 
 .miidt-footer {
-    background: #001b6a; /* Azul marino */
+    background: #000D61 !important; /* Azul marino */
     color: white;
     padding: 45px 0;
 }
