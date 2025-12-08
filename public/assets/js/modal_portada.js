@@ -30,8 +30,29 @@ document.addEventListener('DOMContentLoaded', function() {
     if (imagenPortada) {
         imagenPortada.addEventListener('error', function() {
             console.error('Error al cargar la imagen:', this.src);
-            this.src = '/repositorio_MIIDT/repositorio-miidt/public/assets/img/portada-default.png';
+            this.src = '../assets/img/portada-default.png';
             this.alt = 'Imagen no disponible';
         });
     }
+
+    /* ============================
+       SELECTS MIIDT – SlimSelect
+    ============================ */
+    function activarSelect(id){
+        new SlimSelect({
+            select: id,
+            settings: {
+                showSearch: false,
+                search: false,
+                maxHeight: '180px',       // ALTURA IDEAL PARA QUE NO SALTE
+                placeholderText: '',      // SIN TEXTO ARRIBA
+                allowDeselect: false      // NO OPCIÓN VACÍA
+            }
+        });
+    }
+
+    activarSelect('#filtro-estado');
+    activarSelect('#filtro-director');
+    activarSelect('#filtro-anio');
+
 });

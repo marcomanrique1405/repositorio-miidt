@@ -96,6 +96,8 @@ main {
         box-shadow: none !important;
         border: none !important;
         position: static !important;
+        top: 100px;          /* ajusta según el alto de tu navbar */
+        z-index: 20;
         float: none;
         width: 100% !important;
         margin-top: 5px !important;
@@ -376,11 +378,34 @@ main {
     color: white;
     border-radius: 10px;
     border: none;
+    position: sticky;
+    top: 100px;
     padding: 20px !important;
     width: 400px;
     height: 424px;
-    min-height: 424px;
+    max-height: 75vh;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scroll-behavior: smooth;
+    scrollbar-width: thin; /* scroll delgado bonito (Firefox) */
     box-sizing: border-box;
+}
+
+/* Scroll bonito para Chrome / Edge */
+.filtro-panel::-webkit-scrollbar {
+    width: 6px;
+}
+.filtro-panel::-webkit-scrollbar-thumb {
+    background: #9B0C0C;
+    border-radius: 10px;
+}
+.filtro-panel::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.2);
+}
+
+/* Forzar que los selects siempre se abran hacia abajo */
+.filtro-panel select {
+    transform-origin: top center !important;
 }
 
 .filtro-panel h6 {
@@ -444,6 +469,87 @@ main {
     font-size: 16px !important;
     text-transform: uppercase;
 }
+
+/* Contenedor del select cerrado */
+.ss-main {
+    height: 42px !important;
+    border-radius: 10px !important;
+    background: #ffffff !important;
+    border: 2px solid #4a5a8f !important;
+    color: #000 !important;
+    padding: 8px 14px !important;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all .20s ease-in-out;
+}
+
+/* Hover */
+.ss-main:hover {
+    border-color: #9B0C0C !important;
+    box-shadow: 0 0 6px rgba(155,12,12,0.4);
+}
+
+/* Placeholder */
+.ss-placeholder {
+    color: #444 !important;
+    opacity: .8;
+}
+
+/* Contenedor del dropdown */
+.ss-content {
+    border-radius: 12px !important;
+    border: none !important;
+    overflow: hidden !important;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+
+/* Lista interna con scroll */
+.ss-list {
+    max-height: 175px !important;
+    overflow-y: auto !important;
+    padding: 6px 0;
+}
+
+/* Scroll MIIDT */
+.ss-list::-webkit-scrollbar {
+    width: 6px;
+}
+.ss-list::-webkit-scrollbar-thumb {
+    background: #9B0C0C;
+    border-radius: 10px;
+}
+.ss-list::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.08);
+}
+
+/* Opciones */
+.ss-option {
+    padding: 10px 16px !important;
+    font-size: 14px;
+    border-radius: 6px;
+    margin: 2px 6px !important;
+    transition: background .15s;
+    color: #1A1A1A !important;
+}
+
+/* Hover */
+.ss-option:hover {
+    background: #1A298A !important;
+    color: white !important;
+}
+
+/* Selección */
+.ss-option.ss-selected {
+    background: #9B0C0C !important;
+    color: white !important;
+}
+
+/* Deshabilitar buscador */
+.ss-search {
+    display: none !important;
+}
+
 
 /* Modal de Portada */
 .modal-custom {
@@ -561,7 +667,7 @@ footer {
 =========================================== */
 
 .miidt-footer {
-    background: #001b6a; /* Azul marino */
+    background: #000D61 !important; /* Azul marino */
     color: white;
     padding: 45px 0;
 }
