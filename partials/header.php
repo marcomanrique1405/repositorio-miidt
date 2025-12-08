@@ -1,6 +1,6 @@
 <?php
 // Ruta base (ajústala si cambias la carpeta raíz del proyecto)
-$basePath = '/REPOSITORIO-MIIDT/Biblioteca-MIIDT/public/';
+$basePath = '/repositorio_MIIDT/repositorio-miidt/public/';
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ $basePath = '/REPOSITORIO-MIIDT/Biblioteca-MIIDT/public/';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca MIIDT</title>
 
-    <link rel="stylesheet" href="<?php echo $basePath; ?>../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo $basePath; ?>../../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo $basePath; ?>assets/css/stile.css">
 </head>
 
@@ -50,7 +50,7 @@ $basePath = '/REPOSITORIO-MIIDT/Biblioteca-MIIDT/public/';
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo $basePath; ?>assets/js/dropdown-hover.js"></script>
+    <script src="<?php echo $basePath; ?>../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="<?php echo $basePath; ?>assets/js/dropdown-hover.js"></script>
 </body>
 </html>

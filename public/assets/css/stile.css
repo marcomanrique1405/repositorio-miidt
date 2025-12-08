@@ -15,30 +15,22 @@ main {
     flex: 1;
 }
 
-/* Estilos del header */
-
+/* ===== NAVBAR ===== */
 .navbar {
     background-color: #000D61 !important;
-    height: 60px;
+    height: auto;
+    min-height: 60px;
 }
 
 .logo-img {
-    height: 53px;
+    height: 48px;
     width: 160px;
 }
 
-/*Menu*/
-.dropdown-menu {
-    width: 90px !important;
-    min-width: 100px !important;
-    transform: translateX(22px);
-    background-color: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
-}
-
+/* ===== ENLACES DEL NAVBAR ===== */
 .navbar-nav .nav-link {
     color: #FFFFFF !important;
+    padding: 8px 16px;
 }
 
 .navbar-nav .nav-link:hover {
@@ -50,15 +42,86 @@ main {
     box-shadow: none !important;
 }
 
-.dropdown-item {
-    background-color: transparent !important;
-    color: #FFFFFF;
+/* ===== BOTÓN HAMBURGUESA ===== */
+.navbar-toggler {
+    padding: 8px 10px;
 }
 
-.dropdown-item:hover {
-    color: #9B0C0C;
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
 }
 
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ===== DROPDOWN - ESCRITORIO ===== */
+@media (min-width: 992px) {
+    .dropdown-menu {
+        background-color: transparent !important; 
+        box-shadow: none !important;
+        border: none !important;
+        min-width: 200px;
+        margin-top: 0;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        right: auto !important;
+    }
+    
+    .dropdown-item {
+        color: #FFFFFF;
+        padding: 10px 20px;
+        background-color: transparent !important;
+        text-align: center;
+    }
+    
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        color: #9B0C0C !important;
+    }
+}
+
+/* ===== DROPDOWN - MÓVIL ===== */
+@media (max-width: 991.98px) {
+    /* Menú colapsable en móvil */
+    .navbar-collapse {
+        background-color: transparent !important;
+        padding: 15px;
+        margin-top: 10px;
+    }
+    
+    /* Dropdown dentro del collapse */
+    .dropdown-menu {
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        position: static !important;
+        top: 100px;          /* ajusta según el alto de tu navbar */
+        z-index: 20;
+        float: none;
+        width: 100% !important;
+        margin-top: 5px !important;
+        padding: 5px 0;
+    }
+    
+    .dropdown-item {
+        color: #FFFFFF !important;
+        padding: 10px 20px;
+        background-color: transparent !important;
+    }
+    
+    .dropdown-item:hover,
+.dropdown-item:focus,
+.dropdown-item:active {
+    color: #9B0C0C !important;
+}
+
+    
+    /* Separación entre items del menú */
+    .navbar-nav .nav-item {
+        margin-bottom: 5px;
+    }
+}
 /*Banner*/
 /* ===== Variables del banner ===== */
 :root {
@@ -315,11 +378,34 @@ main {
     color: white;
     border-radius: 10px;
     border: none;
+    position: sticky;
+    top: 100px;
     padding: 20px !important;
     width: 400px;
     height: 424px;
-    min-height: 424px;
+    max-height: 75vh;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scroll-behavior: smooth;
+    scrollbar-width: thin; /* scroll delgado bonito (Firefox) */
     box-sizing: border-box;
+}
+
+/* Scroll bonito para Chrome / Edge */
+.filtro-panel::-webkit-scrollbar {
+    width: 6px;
+}
+.filtro-panel::-webkit-scrollbar-thumb {
+    background: #9B0C0C;
+    border-radius: 10px;
+}
+.filtro-panel::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.2);
+}
+
+/* Forzar que los selects siempre se abran hacia abajo */
+.filtro-panel select {
+    transform-origin: top center !important;
 }
 
 .filtro-panel h6 {
@@ -383,6 +469,87 @@ main {
     font-size: 16px !important;
     text-transform: uppercase;
 }
+
+/* Contenedor del select cerrado */
+.ss-main {
+    height: 42px !important;
+    border-radius: 10px !important;
+    background: #ffffff !important;
+    border: 2px solid #4a5a8f !important;
+    color: #000 !important;
+    padding: 8px 14px !important;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all .20s ease-in-out;
+}
+
+/* Hover */
+.ss-main:hover {
+    border-color: #9B0C0C !important;
+    box-shadow: 0 0 6px rgba(155,12,12,0.4);
+}
+
+/* Placeholder */
+.ss-placeholder {
+    color: #444 !important;
+    opacity: .8;
+}
+
+/* Contenedor del dropdown */
+.ss-content {
+    border-radius: 12px !important;
+    border: none !important;
+    overflow: hidden !important;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+
+/* Lista interna con scroll */
+.ss-list {
+    max-height: 175px !important;
+    overflow-y: auto !important;
+    padding: 6px 0;
+}
+
+/* Scroll MIIDT */
+.ss-list::-webkit-scrollbar {
+    width: 6px;
+}
+.ss-list::-webkit-scrollbar-thumb {
+    background: #9B0C0C;
+    border-radius: 10px;
+}
+.ss-list::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.08);
+}
+
+/* Opciones */
+.ss-option {
+    padding: 10px 16px !important;
+    font-size: 14px;
+    border-radius: 6px;
+    margin: 2px 6px !important;
+    transition: background .15s;
+    color: #1A1A1A !important;
+}
+
+/* Hover */
+.ss-option:hover {
+    background: #1A298A !important;
+    color: white !important;
+}
+
+/* Selección */
+.ss-option.ss-selected {
+    background: #9B0C0C !important;
+    color: white !important;
+}
+
+/* Deshabilitar buscador */
+.ss-search {
+    display: none !important;
+}
+
 
 /* Modal de Portada */
 .modal-custom {
@@ -489,4 +656,485 @@ footer {
     margin-top: auto;
     border-top: 1px solid #eee;
     padding: 16px 0;
+}
+
+/* ===========================
+      FOOTER MIIDT – COMPLETO
+=========================== */
+
+/* ===========================================
+      FOOTER ESTILO MEJORADO Y RESPONSIVO
+=========================================== */
+
+.miidt-footer {
+    background: #000D61 !important; /* Azul marino */
+    color: white;
+    padding: 45px 0;
+}
+
+.miidt-footer-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+
+/* ========================
+      COLUMNA IZQUIERDA
+======================== */
+
+.footer-contact {
+    flex: 2;
+    min-width: 260px;
+}
+
+.footer-contact h6 {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.footer-contact p {
+    margin: 6px 0;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.footer-contact i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
+
+/* ========================
+       COLUMNA DERECHA
+======================== */
+
+.footer-links {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.footer-follow h6 {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.footer-follow i {
+    font-size: 32px;
+    color: white;
+}
+
+.footer-other-pages {
+    margin-top: 45px;
+}
+
+.footer-other-pages p {
+    margin: 6px 0;
+    font-size: 1rem;
+}
+
+
+/* =======================================
+            RESPONSIVE
+======================================= */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 1000px) {
+    .miidt-footer-content {
+        gap: 20px;
+    }
+}
+
+/* Celulares */
+@media (max-width: 768px) {
+
+    .miidt-footer-content {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 50px; /* Espaciado uniforme entre bloques */
+    }
+
+    .footer-contact,
+    .footer-links {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    /* BLOQUE COMPLETO CENTRADO */
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 35px; /* Separa Síguenos del resto */
+    }
+
+    /* Asegura simetría perfecta */
+    .footer-follow,
+    .footer-other-pages {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-other-pages {
+        margin-top: 0 !important;
+    }
+
+    .footer-follow h6,
+    .footer-other-pages p,
+    .footer-other-pages .fw-bold {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .footer-follow i {
+        font-size: 40px;
+        margin-top: 10px; 
+    }
+
+    .footer-other-pages p {
+        margin-bottom: 8px;
+    }
+
+    .footer-other-pages .fw-bold {
+        margin-top: 5px;
+    }
+}
+
+
+/* ===================================
+      TEXTO INDEX — ESTILO PERFECTO
+=================================== */
+
+.texto-index {
+    max-width: 1500px;         /* reduce el ancho para que no sea tan largo */
+    margin: 50px auto;        /* centra el bloque y da espacio arriba/abajo */
+    padding: 0 25px;          /* espacio lateral en móviles */
+    text-align: center;       /* centra el texto como en la imagen */
+}
+
+.texto-index p {
+    font-size: 25px;       /* tamaño más grande y legible */
+    line-height: 1.9;         /* interlineado amplio como en tu imagen */
+    font-weight: 400;         /* peso normal */
+    color: #333;              /* texto más suave pero profesional */
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .texto-index {
+        margin: 40px auto;
+        max-width: 95%;
+    }
+
+    .texto-index p {
+        font-size: 1.15rem;
+        line-height: 1.7;
+    }
+}
+
+/* ==========================================================
+   TARJETAS FLIP — ESTILO DEFINITIVO (300x400 + separación)
+========================================================== */
+
+.cartas-chidas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 150px; /* separación exacta entre tarjetas */
+    flex-wrap: wrap;
+    margin-top: 60px;
+    margin-bottom: 50px;
+}
+
+/* ---- CONTENEDOR DE TARJETA ---- */
+.flip-card {
+    width: 300px;    /* tamaño exacto */
+    height: 400px;   /* tamaño exacto */
+    perspective: 1000px;
+}
+
+/* ---- INTERIOR VOLTEABLE ---- */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s ease;
+    transform-style: preserve-3d;
+    border-radius: 20px;
+}
+
+/* Volteo en hover */
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* ---- FRONT & BACK ---- */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* ---- FRONT ---- */
+.flip-card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* mantiene proporciones sin deformar */
+}
+
+.flip-card-front h3 {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    color: white;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+/* ---- BACK ---- */
+.flip-card-back {
+    background: linear-gradient(160deg, #0050c8, #000b52);
+    color: white;
+    transform: rotateY(180deg);
+
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.flip-card-back h3 {
+    font-size: 1.7rem;
+    margin-bottom: 15px;
+}
+
+.flip-card-back p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* ==========================================================
+   RESPONSIVIDAD
+========================================================== */
+
+/* TABLET */
+@media (max-width: 992px) {
+    .cartas-chidas {
+        gap: 80px;
+    }
+}
+
+/* MÓVIL */
+@media (max-width: 600px) {
+    .cartas-chidas {
+        gap: 40px;
+    }
+
+    .flip-card {
+        width: 260px;
+        height: 350px;
+    }
+}
+
+.flip-card-inner.active {
+    transform: rotateY(180deg);
+}
+
+/*================================*/
+.flip-card,
+.flip-card-inner,
+.flip-card-front,
+.flip-card-back {
+    height: 400px !important; /* fijamos la altura exacta */
+}
+
+.flip-card {
+    position: relative;
+}
+
+.flip-card-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+/* ================================
+   FONDO DIFUMINADO AZUL + TEXTO CENTRADO
+================================ */
+
+.flip-card-front {
+    position: relative;
+}
+
+/* 🔵 DIFUMINADO AZUL TIPO V BONITO */
+.flip-card-front::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 32, 96, 0) 0%,
+        rgba(0, 32, 96, 0.45) 40%,
+        rgba(0, 32, 96, 0.75) 75%
+    );
+
+    pointer-events: none;
+}
+
+/* 🔥 TEXTO CENTRADO EXACTAMENTE EN MEDIO */
+.flip-card-front h3 {
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+
+    color: white;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.6);
+
+    width: 90%;
+    line-height: 1.3;
+}
+
+
+/* ===========================================
+   FIX: EVITAR QUE LA TARJETA SE MUEVA AL VOLTEAR
+=========================================== */
+
+/* Contenedor con altura fija */
+.flip-card {
+    width: 300px;
+    height: 400px;
+    position: relative;
+    perspective: 1000px;
+}
+
+/* El interior ya no empuja nada al voltearse */
+.flip-card-inner {
+    position: absolute; /* <-- fija */
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.8s ease;
+}
+
+/* Ambas caras ocupan EXACTAMENTE el mismo espacio */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* La parte de atrás ya no empuja nada */
+.flip-card-back {
+    transform: rotateY(180deg);
+}
+
+/* El volteo suave */
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+
+/* ======== CARRUSEL DOBLE LENTO CON PAUSAS ======== */
+
+.carrusel-doble {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 75px;
+}
+
+.carrusel-track {
+    display: flex;
+    animation: carruselDoble 30s ease-in-out infinite alternate;
+}
+
+.carrusel-slide {
+    display: flex;
+}
+
+.carrusel-slide img {
+    width: 50vw;      /* 2 imágenes por vista */
+    height: 320px;
+    object-fit: cover;
+}
+
+/* Animación que recorre cada slide lentamente */
+@keyframes carruselDoble {
+
+    /* SLIDE 1 (posición inicial) */
+    0%   { transform: translateX(0); }
+    15%  { transform: translateX(0); }      /* Pausa */
+
+    /* SLIDE 2 */
+    35%  { transform: translateX(-100vw); }
+    45%  { transform: translateX(-100vw); } /* Pausa */
+
+    /* SLIDE 3 */
+    65%  { transform: translateX(-200vw); }
+    80%  { transform: translateX(-200vw); } /* Pausa */
+
+    /* REGRESO SUAVE */
+    100% { transform: translateX(0); }
+}
+
+.carrusel-doble {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carrusel-track {
+    display: flex;
+    width: max-content;
+    animation: deslizarSuave 40s linear infinite;
+}
+
+.carrusel-slide {
+    display: flex;
+}
+
+.carrusel-slide img {
+    width: 50vw;
+    height: 320px;
+    object-fit: cover;
+}
+
+/* Loop perfecto sin brincos */
+@keyframes deslizarSuave {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-150vw); }
 }
