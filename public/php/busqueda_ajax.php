@@ -132,7 +132,6 @@ foreach ($extensiones as $ext) {
 
     // Ruta absoluta en el disco (para verificar)
     $ruta_abs = __DIR__ . "/../$ruta_rel";
-    echo "<pre>Probando ruta: $ruta_abs</pre>";
 
     if (file_exists($ruta_abs)) {
 

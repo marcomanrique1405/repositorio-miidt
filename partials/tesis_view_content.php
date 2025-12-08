@@ -25,102 +25,109 @@
                     </h5>
 
                     <div id="resultados-lista">
-                    <?php
-                    if ($resultado && $num_resultados > 0) {
-                        while ($row = $resultado->fetch_assoc()) {
+                        <?php
+                        if ($resultado && $num_resultados > 0) {
+                            while ($row = $resultado->fetch_assoc()) {
 
-                            $portada = $row['portada'];
-                            $nombre_archivo = basename($portada);
-                            $info = pathinfo($nombre_archivo);
-                            $nombre_sin_ext = $info['filename'];
-                            $extension_original = isset($info['extension']) ? $info['extension'] : '';
+                                $portada = $row['portada'];
+                                $nombre_archivo = basename($portada);
+                                $info = pathinfo($nombre_archivo);
+                                $nombre_sin_ext = $info['filename'];
+                                $extension_original = isset($info['extension']) ? $info['extension'] : '';
 
-                            // ✅ BUSCAR PORTADA PRINCIPAL (en la ruta original)
-                            $extensiones_posibles = ['jpg', 'jpeg', 'png', 'webp'];
-                            if (!empty($extension_original) && !in_array(strtolower($extension_original), $extensiones_posibles)) {
-                                $extensiones_posibles[] = $extension_original;
-                            }
-                            
-                            $portada_encontrada = $portada; // Por defecto, usar la portada de la BD
-                            $directorio_portada = dirname($portada);
-                            
-                            // Verificar si existe la portada con diferentes extensiones
-                            foreach ($extensiones_posibles as $ext) {
-                                $ruta_portada = $directorio_portada . '/' . $nombre_sin_ext . '.' . $ext;
-                                $ruta_completa_portada = $_SERVER['DOCUMENT_ROOT'] . $ruta_portada;
-                                
-                                if (file_exists($ruta_completa_portada)) {
-                                    $portada_encontrada = $ruta_portada;
-                                    break;
+                                // ✅ BUSCAR PORTADA PRINCIPAL (en la ruta original)
+                                $extensiones_posibles = ['jpg', 'jpeg', 'png', 'webp'];
+                                if (!empty($extension_original) && !in_array(strtolower($extension_original), $extensiones_posibles)) {
+                                    $extensiones_posibles[] = $extension_original;
                                 }
-                            }
 
-// ========================================
-// GENERAR NOMBRE COMPLETO DEL AUTOR (POPUP)
-// ========================================
+                                $portada_encontrada = $portada; // Por defecto, usar la portada de la BD
+                                $directorio_portada = dirname($portada);
 
-$autor = $row['autor_completo'];
+                                // Verificar si existe la portada con diferentes extensiones
+                                foreach ($extensiones_posibles as $ext) {
+                                    $ruta_portada = $directorio_portada . '/' . $nombre_sin_ext . '.' . $ext;
+                                    $ruta_completa_portada = $_SERVER['DOCUMENT_ROOT'] . $ruta_portada;
 
-// Normalizar nombres: minusculas, sin acentos, sin Ñ
-$mapa = [
-    'á'=>'a','é'=>'e','í'=>'i','ó'=>'o','ú'=>'u',
-    'Á'=>'A','É'=>'E','Í'=>'I','Ó'=>'O','Ú'=>'U',
-    'ñ'=>'n','Ñ'=>'N'
-];
+                                    if (file_exists($ruta_completa_portada)) {
+                                        $portada_encontrada = $ruta_portada;
+                                        break;
+                                    }
+                                }
 
-$autor_limpio = strtr($autor, $mapa);
-$autor_limpio = strtolower($autor_limpio);
+                                // ========================================
+                                // GENERAR NOMBRE COMPLETO DEL AUTOR (POPUP)
+                                // ========================================
 
-// Convertir espacios → guiones
-$nombre_completo_popup = str_replace(' ', '-', $autor_limpio);
+                                $autor = $row['autor_completo'];
 
-// ========================================
-// SELECCIONAR CARPETA SEGÚN LÍNEA
-// ========================================
-switch ($row['linea_investigacion']) {
-    case 'CSR':
-        $carpeta_popup = 'linea_CSR';
-        break;
-    case 'Geomática':
-    case 'Geomàtica':
-        $carpeta_popup = 'linea_Geomatica';
-        break;
-    case 'TICs':
-        $carpeta_popup = 'linea_TICs';
-        break;
-    default:
-        $carpeta_popup = 'linea_CSR';
-}
+                                // Normalizar nombres: minusculas, sin acentos, sin Ñ
+                                $mapa = [
+                                    'á' => 'a',
+                                    'é' => 'e',
+                                    'í' => 'i',
+                                    'ó' => 'o',
+                                    'ú' => 'u',
+                                    'Á' => 'A',
+                                    'É' => 'E',
+                                    'Í' => 'I',
+                                    'Ó' => 'O',
+                                    'Ú' => 'U',
+                                    'ñ' => 'n',
+                                    'Ñ' => 'N'
+                                ];
 
-// ========================================
-// BUSCAR ARCHIVO EXACTO
-// ========================================
-$extensiones = ['png','jpg','jpeg','webp'];
-$imagen_popup = $portada_encontrada;
+                                $autor_limpio = strtr($autor, $mapa);
+                                $autor_limpio = strtolower($autor_limpio);
 
-foreach ($extensiones as $ext) {
+                                // Convertir espacios → guiones
+                                $nombre_completo_popup = str_replace(' ', '-', $autor_limpio);
 
-    // Ruta relativa real del proyecto
-    $ruta_rel = "public/assets/img/popups/$carpeta_popup/{$nombre_completo_popup}.$ext";
+                                // ========================================
+                                // SELECCIONAR CARPETA SEGÚN LÍNEA
+                                // ========================================
+                                switch ($row['linea_investigacion']) {
+                                    case 'CSR':
+                                        $carpeta_popup = 'linea_CSR';
+                                        break;
+                                    case 'Geomática':
+                                    case 'Geomàtica':
+                                        $carpeta_popup = 'linea_Geomatica';
+                                        break;
+                                    case 'TICs':
+                                        $carpeta_popup = 'linea_TICs';
+                                        break;
+                                    default:
+                                        $carpeta_popup = 'linea_CSR';
+                                }
 
-    // Ruta absoluta en el disco (para verificar)
-    $ruta_abs = __DIR__ . "/../$ruta_rel";
-    echo "<pre>Probando ruta: $ruta_abs</pre>";
+                                // ========================================
+                                // BUSCAR ARCHIVO EXACTO
+                                // ========================================
+                                $extensiones = ['png', 'jpg', 'jpeg', 'webp'];
+                                $imagen_popup = $portada_encontrada;
+
+                                foreach ($extensiones as $ext) {
+
+                                    // Ruta relativa real del proyecto
+                                    $ruta_rel = "public/assets/img/popups/$carpeta_popup/{$nombre_completo_popup}.$ext";
+
+                                    // Ruta absoluta en el disco (para verificar)
+                                    $ruta_abs = __DIR__ . "/../$ruta_rel";
+
+                                    if (file_exists($ruta_abs)) {
+
+                                        // Ruta que el navegador SI reconoce
+                                        $imagen_popup = "/repositorio_MIIDT/repositorio-miidt/$ruta_rel";
+
+                                        break;
+                                    }
+                                }
 
 
-    if (file_exists($ruta_abs)) {
-
-        // Ruta que el navegador SI reconoce
-        $imagen_popup = "/repositorio_MIIDT/repositorio-miidt/$ruta_rel";
-
-        break;
-    }
-}
 
 
-
-
-                            echo '
+                                echo '
                             <div class="card mb-3 shadow-sm tesis-card">
                                 <div class="row g-0">
                                     <div class="col-md-2 col-md-3 col-lg-2 text-center tesis-card-img-container">
@@ -146,13 +153,13 @@ foreach ($extensiones as $ext) {
                                                 </button>
 
                                                 <!-- Botón para descargar PDF -->
-' . (!empty($row['url']) ? '
-<a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
-class="btn btn-secondary btn-sm" 
-target="_blank"
-rel="noopener noreferrer">
-<i class="fas fa-download me-1"></i> Vista previa PDF
-</a>' : '
+                                                ' . (!empty($row['url']) ? '
+                                                <a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
+                                                class="btn btn-secondary btn-sm" 
+                                                target="_blank"
+                                                rel="noopener noreferrer">
+                                                <i class="fas fa-download me-1"></i> Vista previa PDF
+                                                </a>' : '
                                                 <button class="btn btn-secondary btn-sm" disabled>
                                                 <i class="fas fa-download me-1"></i> No disponible en PDF
                                                 </button>') . '
@@ -162,11 +169,11 @@ rel="noopener noreferrer">
                                     </div>
                                 </div>
                             </div>';
+                            }
+                        } else {
+                            echo '<div class="alert alert-info">No hay resultados para mostrar.</div>';
                         }
-                    } else {
-                        echo '<div class="alert alert-info">No hay resultados para mostrar.</div>';
-                    }
-                    ?>
+                        ?>
                     </div>
                 </div>
             </div>
@@ -177,13 +184,13 @@ rel="noopener noreferrer">
                     <form method="GET" action="">
                         <input type="hidden" name="busqueda" value="<?php echo htmlspecialchars($busqueda); ?>">
 
-                        <select class="form-select my-2" id="filtro-estado" name="estado" onchange="this.form.submit()">
+                        <select class="form-select my-2 slim" id="filtro-estado" name="estado" onchange="this.form.submit()">
                             <option value="">Estado</option>
                             <option value="Digital" <?php if ($filtro_estado == 'Digital') echo 'selected'; ?>>Digital</option>
                             <option value="Fisico" <?php if ($filtro_estado == 'Fisico') echo 'selected'; ?>>Fisico</option>
                         </select>
 
-                        <select class="form-select my-2" id="filtro-director" name="director" onchange="this.form.submit()">
+                        <select class="form-select my-2 slim" id="filtro-director" name="director" onchange="this.form.submit()">
                             <option value="">Director de tesis</option>
                             <?php
                             $result_directores = $tesisModule->getDirectoresByLinea($current_linea);
@@ -198,7 +205,7 @@ rel="noopener noreferrer">
                             ?>
                         </select>
 
-                        <select class="form-select my-2" id="filtro-anio" name="anio" onchange="this.form.submit()">
+                        <select class="form-select my-2 slim" id="filtro-anio" name="anio" onchange="this.form.submit()">
                             <option value="">Año de publicación</option>
                             <?php
                             $result_anios = $tesisModule->getAniosByLinea($current_linea);

@@ -30,6 +30,7 @@ $num_resultados = $resultado ? $resultado->num_rows : 0;
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/stile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/slim-select@2.6.0/dist/slimselect.css" rel="stylesheet">
 </head>
 
 <body>
@@ -75,6 +76,7 @@ $num_resultados = $resultado ? $resultado->num_rows : 0;
   <?php include '../../partials/footer.php'; ?>
     
 
+  <script src="https://cdn.jsdelivr.net/npm/slim-select@2.6.0/dist/slimselect.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/modal_portada.js"></script>   
     <script src="../assets/js/busqueda_ajax.js"></script>

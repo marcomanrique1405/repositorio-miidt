@@ -6,22 +6,14 @@ document.addEventListener('DOMContentLoaded', function() {
     botonesPortada.forEach(boton => {
         boton.addEventListener('click', function() {
             const rutaPortada = this.getAttribute('data-imagen-popup');
-            const tituloTesis = this.getAttribute('data-titulo');
 
-            // ✅ Validar que la ruta no esté vacía
-            if (!rutaPortada) {
-                console.error('No se encontró la ruta de la imagen popup');
-                return;
-            }
-
-            // Actualizar la imagen y el título
+            // Actualizar solo la imagen
             if (imagenPortada) {
                 imagenPortada.src = rutaPortada;
-                imagenPortada.alt = tituloTesis ? 'Portada de: ' + tituloTesis : 'Portada de tesis';
+                imagenPortada.alt = 'Portada de tesis';
             }
 
             console.log('Mostrando imagen popup:', rutaPortada);
-            console.log('Título:', tituloTesis);
         });
     });
 
@@ -30,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modalPortada.addEventListener('hidden.bs.modal', function() {
             if (imagenPortada) {
                 imagenPortada.src = '';
-                imagenPortada.alt = '';
             }
         });
     }
@@ -39,10 +30,29 @@ document.addEventListener('DOMContentLoaded', function() {
     if (imagenPortada) {
         imagenPortada.addEventListener('error', function() {
             console.error('Error al cargar la imagen:', this.src);
-            
-            // ✅ Ruta absoluta desde la raíz del sitio
-            this.src = '/public/assets/img/portada-default.png';
+            this.src = '../assets/img/portada-default.png';
             this.alt = 'Imagen no disponible';
         });
     }
+
+    /* ============================
+       SELECTS MIIDT – SlimSelect
+    ============================ */
+    function activarSelect(id){
+        new SlimSelect({
+            select: id,
+            settings: {
+                showSearch: false,
+                search: false,
+                maxHeight: '180px',       // ALTURA IDEAL PARA QUE NO SALTE
+                placeholderText: '',      // SIN TEXTO ARRIBA
+                allowDeselect: false      // NO OPCIÓN VACÍA
+            }
+        });
+    }
+
+    activarSelect('#filtro-estado');
+    activarSelect('#filtro-director');
+    activarSelect('#filtro-anio');
+
 });
