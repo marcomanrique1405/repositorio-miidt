@@ -62,7 +62,7 @@
     <div class="flip-card" data-card="CSR">
       <div class="flip-card-inner">
         <div class="flip-card-front">
-          <img src="assets/img/grupo-interno.JPG" alt="Construcción Sismo-Resistente">
+          <img src="assets/img/imagenes_tarjetas/sismo.png" alt="Construcción Sismo-Resistente">
           <h3>Construcción Sismo-Resistente</h3>
         </div>
         <div class="flip-card-back">
@@ -76,7 +76,7 @@
     <div class="flip-card" data-card="Geomatica">
       <div class="flip-card-inner">
         <div class="flip-card-front">
-          <img src="assets/img/grupo-MIIDT.JPG" alt="Geomática">
+          <img src="assets/img/imagenes_tarjetas/GEO.jpeg" alt="Geomática">
           <h3>Geomática</h3>
         </div>
         <div class="flip-card-back">
@@ -90,7 +90,7 @@
     <div class="flip-card" data-card="TICs">
       <div class="flip-card-inner">
         <div class="flip-card-front">
-          <img src="assets/img/grupo-interno.JPG" alt="Tecnologías de la Información y Comunicación">
+          <img src="assets/img/imagenes_tarjetas/TICS.jpeg" alt="Tecnologías de la Información y Comunicación">
           <h3>Tecnologías de la Información y Comunicación</h3>
         </div>
         <div class="flip-card-back">
@@ -105,28 +105,36 @@
     <div class="carrusel-track">
 
         <div class="carrusel-slide">
-            <img src="assets/img/grupo-interno.JPG">
-            <img src="assets/img/grupo-MIIDT.JPG">
+            <img src="assets/img/imagene_inicio_index/1.jpeg">
+            <img src="assets/img/imagene_inicio_index/2.jpeg">
         </div>
 
         <div class="carrusel-slide">
-            <img src="assets/img/grupo-MIIDT.JPG">
-            <img src="assets/img/grupo-interno.JPG">
+            <img src="assets/img/imagene_inicio_index/3.jpeg">
+            <img src="assets/img/imagene_inicio_index/4.jpeg">
         </div>
 
         <div class="carrusel-slide">
-            <img src="assets/img/grupo-interno.JPG">
-            <img src="assets/img/grupo-interno.JPG">
+            <img src="assets/img/imagene_inicio_index/5.jpeg">
+            <img src="assets/img/imagene_inicio_index/6.jpeg">
         </div>
 
                 <!-- 🔥 SLIDE CLONADO para loop perfecto -->
         <div class="carrusel-slide">
-            <img src="assets/img/grupo-interno.JPG">
-            <img src="assets/img/grupo-MIIDT.JPG">
+            <img src="assets/img/imagene_inicio_index/1.jpeg">
+            <img src="assets/img/imagene_inicio_index/2.jpeg">
         </div>
 
       </div>
   </div>
+
+  <div class="texto-recursos">
+    <p>
+        Visita nuestros recursos digitales de la UAGro.<br>
+        Da click <a href="https://www.miidt.uagro.mx/index.php" target="_blank">aquí</a>.
+    </p>
+  </div>
+
 
 
 
