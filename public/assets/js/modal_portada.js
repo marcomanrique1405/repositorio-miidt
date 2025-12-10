@@ -28,11 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-     // Cuando el modal YA terminó de abrirse → aquí sobreescribimos el título
-    modalPortada.addEventListener('shown.bs.modal', function () {
-        tituloModal.textContent = 'Portada Oficial De La Tesis';
-    });
-
     // Limpiar cuando se cierra el modal
     if (modalPortada) {
         modalPortada.addEventListener('hidden.bs.modal', function () {

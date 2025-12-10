@@ -115,6 +115,9 @@
                                     // Ruta absoluta en el disco (para verificar)
                                     $ruta_abs = __DIR__ . "/../$ruta_rel";
 
+                                    error_log("Probando ruta: $ruta_abs");
+
+
                                     if (file_exists($ruta_abs)) {
 
                                         // Ruta que el navegador SI reconoce
