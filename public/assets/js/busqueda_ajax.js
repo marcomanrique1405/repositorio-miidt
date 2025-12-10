@@ -2,6 +2,36 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 Iniciando sistema de búsqueda AJAX');
 
+    // 🎨 Inicializar SlimSelect para todos los filtros
+    let slimEstado, slimDirector, slimAnio;
+
+    try {
+        slimEstado = new SlimSelect({
+            select: '#filtro-estado',
+            settings: {
+                placeholderText: 'Estado'
+            }
+        });
+
+        slimDirector = new SlimSelect({
+            select: '#filtro-director',
+            settings: {
+                placeholderText: 'Director de tesis'
+            }
+        });
+
+        slimAnio = new SlimSelect({
+            select: '#filtro-anio',
+            settings: {
+                placeholderText: 'Año de publicación'
+            }
+        });
+
+        console.log('✅ SlimSelect inicializado correctamente');
+    } catch (error) {
+        console.error('❌ Error al inicializar SlimSelect:', error);
+    }
+
     // 🔍 Función para cargar resultados
     function cargarResultados() {
         const busqueda = document.getElementById('input-busqueda').value;
@@ -27,15 +57,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!response.ok) {
                     throw new Error('Error en servidor: ' + response.status);
                 }
-                return response.text();
+                return response.json(); // ✅ Cambio: parsear JSON en lugar de texto
             })
-            .then(html => {
+            .then(data => {
                 const contenedor = document.getElementById('resultados-lista');
                 if (contenedor) {
-                    contenedor.innerHTML = html;
+                    contenedor.innerHTML = data.html; // ✅ Usar el HTML del JSON
                     reinicializarModales();
                     actualizarFiltrosActivos();
-                    console.log('✅ Resultados actualizados');
+                    actualizarContador(data.count); // ✅ NUEVO: Actualizar contador
+                    console.log('✅ Resultados actualizados:', data.count, 'tesis');
                 } else {
                     console.error('❌ No se encontró #resultados-lista');
                 }
@@ -113,10 +144,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
             console.log('🧹 Limpiando filtros');
 
+            // Limpiar input de búsqueda
             document.getElementById('input-busqueda').value = '';
-            document.getElementById('filtro-estado').value = '';
-            document.getElementById('filtro-director').value = '';
-            document.getElementById('filtro-anio').value = '';
+
+            // ✅ NUEVO: Resetear SlimSelect correctamente para restaurar placeholders
+            if (slimEstado) {
+                slimEstado.setSelected([]);
+            } else {
+                document.getElementById('filtro-estado').value = '';
+            }
+
+            if (slimDirector) {
+                slimDirector.setSelected([]);
+            } else {
+                document.getElementById('filtro-director').value = '';
+            }
+
+            if (slimAnio) {
+                slimAnio.setSelected([]);
+            } else {
+                document.getElementById('filtro-anio').value = '';
+            }
 
             cargarResultados();
         });
@@ -127,10 +175,13 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.ver-portada-btn').forEach(btn => {
             btn.addEventListener('click', function () {
                 const imagenUrl = this.getAttribute('data-imagen-popup');
+                const titulo = this.getAttribute('data-titulo');
 
                 const imgElement = document.getElementById('imagenPortada');
+                const titleElement = document.getElementById('modalPortadaLabel');
 
                 if (imgElement) imgElement.src = imagenUrl;
+                if (titleElement) titleElement.textContent = 'Portada Oficial De La Tesis';
             });
         });
     }
@@ -150,6 +201,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const textoFiltros = document.getElementById('filtros-activos-texto');
         if (textoFiltros) {
             textoFiltros.textContent = filtrosActivos.length > 0 ? filtrosActivos.join(', ') : 'Ninguno';
+        }
+    }
+
+    // 🔢 NUEVO: Actualizar contador de resultados
+    function actualizarContador(count) {
+        const resultadoHeader = document.querySelector('.resultado-header .text-primary');
+        if (resultadoHeader) {
+            resultadoHeader.textContent = `${count} Tesis`;
         }
     }
 

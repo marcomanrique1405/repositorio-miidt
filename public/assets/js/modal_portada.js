@@ -1,52 +1,71 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const botonesPortada = document.querySelectorAll('.ver-portada-btn');
     const imagenPortada = document.getElementById('imagenPortada');
     const modalPortada = document.getElementById('modalPortada');
+    const tituloModal = document.getElementById('modalPortadaLabel');
 
     botonesPortada.forEach(boton => {
-        boton.addEventListener('click', function() {
+        boton.addEventListener('click', function () {
             const rutaPortada = this.getAttribute('data-imagen-popup');
+            // ✅ Validar que la ruta no esté vacía
+            if (!rutaPortada) {
+                console.error('No se encontró la ruta de la imagen popup');
+                return;
+            }
 
-            // Actualizar solo la imagen
+            // Actualizar la imagen y el título
             if (imagenPortada) {
                 imagenPortada.src = rutaPortada;
-                imagenPortada.alt = 'Portada de tesis';
+                imagenPortada.alt = 'Portada Oficial De La Tesis';
+
+            }
+
+            if (tituloModal) {
+                tituloModal.textContent = 'Portada Oficial De La Tesis';
             }
 
             console.log('Mostrando imagen popup:', rutaPortada);
         });
     });
 
+     // Cuando el modal YA terminó de abrirse → aquí sobreescribimos el título
+    modalPortada.addEventListener('shown.bs.modal', function () {
+        tituloModal.textContent = 'Portada Oficial De La Tesis';
+    });
+
     // Limpiar cuando se cierra el modal
     if (modalPortada) {
-        modalPortada.addEventListener('hidden.bs.modal', function() {
+        modalPortada.addEventListener('hidden.bs.modal', function () {
             if (imagenPortada) {
                 imagenPortada.src = '';
+                imagenPortada.alt = '';
             }
         });
     }
 
     // Manejar errores de carga
     if (imagenPortada) {
-        imagenPortada.addEventListener('error', function() {
+        imagenPortada.addEventListener('error', function () {
             console.error('Error al cargar la imagen:', this.src);
-            this.src = '../assets/img/portada-default.png';
+
+            // ✅ Ruta absoluta desde la raíz del sitio
+            this.src = '/public/assets/img/portada-default.png';
             this.alt = 'Imagen no disponible';
         });
     }
+});
 
-    /* ============================
-       SELECTS MIIDT – SlimSelect
-    ============================ */
+document.addEventListener('DOMContentLoaded', function () {
+
     function activarSelect(id){
         new SlimSelect({
             select: id,
             settings: {
                 showSearch: false,
                 search: false,
-                maxHeight: '180px',       // ALTURA IDEAL PARA QUE NO SALTE
-                placeholderText: '',      // SIN TEXTO ARRIBA
-                allowDeselect: false      // NO OPCIÓN VACÍA
+                maxHeight: '100px',
+                placeholderText: placeholder,  // 🔥 No mostrar texto arriba
+                allowDeselect: false, // 🔥 No dejar opción vacía
             }
         });
     }
