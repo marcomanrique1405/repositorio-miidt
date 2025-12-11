@@ -128,10 +128,10 @@
                                 }
 
                                 // ✅ Si no se encontró imagen popup, usar la portada como fallback
-if ($imagen_popup === null) {
-    $imagen_popup = $portada_encontrada;
-    error_log("⚠️ No se encontró popup, usando portada: $imagen_popup");
-}
+                                if ($imagen_popup === null) {
+                                    $imagen_popup = $portada_encontrada;
+                                    error_log("⚠️ No se encontró popup, usando portada: $imagen_popup");
+                                }
 
 
                                 echo '
