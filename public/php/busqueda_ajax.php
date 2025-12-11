@@ -30,7 +30,7 @@ ob_start();
 
 if ($resultado && $num_resultados > 0) {
     while ($row = $resultado->fetch_assoc()) {
-        
+
         $portada = $row['portada'];
         $nombre_archivo = basename($portada);
         $info = pathinfo($nombre_archivo);
@@ -42,37 +42,99 @@ if ($resultado && $num_resultados > 0) {
         if (!empty($extension_original) && !in_array(strtolower($extension_original), $extensiones_posibles)) {
             $extensiones_posibles[] = $extension_original;
         }
-        
+
         $portada_encontrada = $portada; // Por defecto, usar la portada de la BD
         $directorio_portada = dirname($portada);
-        
+
         // Verificar si existe la portada con diferentes extensiones
         foreach ($extensiones_posibles as $ext) {
             $ruta_portada = $directorio_portada . '/' . $nombre_sin_ext . '.' . $ext;
             $ruta_completa_portada = $_SERVER['DOCUMENT_ROOT'] . $ruta_portada;
-            
+
             if (file_exists($ruta_completa_portada)) {
                 $portada_encontrada = $ruta_portada;
                 break;
             }
         }
 
-        // ✅ BUSCAR IMAGEN POPUP (en la carpeta de popups según la línea de investigación)
-        $imagen_popup = $portada_encontrada; // Por defecto, usar la misma portada encontrada
-        
-        // Normalizar el nombre de la línea para la ruta (eliminar acentos y espacios)
-        $linea_normalizada = str_replace(['à', 'è', 'ì', 'ò', 'ù'], ['a', 'e', 'i', 'o', 'u'], $row['linea_investigacion']);
-        $carpeta_popup = 'linea_' . str_replace(' ', '_', $linea_normalizada);
-        
-        foreach ($extensiones_posibles as $ext) {
-            $ruta_popup = '../assets/img/popups/' . $carpeta_popup . '/' . $nombre_sin_ext . '.' . $ext;
-            $ruta_completa_popup = $_SERVER['DOCUMENT_ROOT'] . $ruta_popup;
+        // ========================================
+        // GENERAR NOMBRE COMPLETO DEL AUTOR (POPUP)
+        // ========================================
 
-            if (file_exists($ruta_completa_popup)) {
-                $imagen_popup = $ruta_popup;
+        $autor = $row['autor_completo'];
+
+        // Normalizar nombres: minusculas, sin acentos, sin Ñ
+        $mapa = [
+            'á' => 'a',
+            'é' => 'e',
+            'í' => 'i',
+            'ó' => 'o',
+            'ú' => 'u',
+            'Á' => 'A',
+            'É' => 'E',
+            'Í' => 'I',
+            'Ó' => 'O',
+            'Ú' => 'U',
+            'ñ' => 'n',
+            'Ñ' => 'N'
+        ];
+
+        $autor_limpio = strtr($autor, $mapa);
+        $autor_limpio = strtolower($autor_limpio);
+
+        // Convertir espacios → guiones
+        $nombre_completo_popup = str_replace(' ', '-', $autor_limpio);
+
+        // ========================================
+        // SELECCIONAR CARPETA SEGÚN LÍNEA
+        // ========================================
+        switch ($row['linea_investigacion']) {
+            case 'CSR':
+                $carpeta_popup = 'linea_CSR';
+                break;
+            case 'Geomática':
+            case 'Geomàtica':
+                $carpeta_popup = 'linea_Geomatica';
+                break;
+            case 'TICs':
+                $carpeta_popup = 'linea_TICs';
+                break;
+            default:
+                $carpeta_popup = 'linea_CSR';
+        }
+
+        // ========================================
+        // BUSCAR ARCHIVO EXACTO
+        // ========================================
+        $extensiones = ['png', 'jpg', 'jpeg', 'webp'];
+        $imagen_popup = $portada_encontrada;
+
+        foreach ($extensiones as $ext) {
+
+            // Ruta relativa real del proyecto
+            $ruta_rel = "public/assets/img/popups/$carpeta_popup/{$nombre_completo_popup}.$ext";
+
+            // Ruta absoluta en el disco (para verificar)
+            $ruta_abs = __DIR__ . "/../../$ruta_rel";
+
+            error_log("Probando ruta: $ruta_abs");
+
+
+            if (file_exists($ruta_abs)) {
+
+                // Ruta que el navegador SI reconoce
+                $imagen_popup = "/repositorio_MIIDT/repositorio-miidt/$ruta_rel";
+                error_log("✅ Imagen popup encontrada: $imagen_popup");
                 break;
             }
         }
+
+        // ✅ Si no se encontró imagen popup, usar la portada como fallback
+if ($imagen_popup === null) {
+    $imagen_popup = $portada_encontrada;
+    error_log("⚠️ No se encontró popup, usando portada: $imagen_popup");
+}
+
 
         echo '<div class="card mb-3 shadow-sm tesis-card">
                 <div class="row g-0">
@@ -97,14 +159,14 @@ if ($resultado && $num_resultados > 0) {
                                     <i class="fas fa-image me-1"></i> Visualizar Portada
                                 </button>
 
-                                ' . (!empty($row['url']) ? 
-                                '<a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
+                                ' . (!empty($row['url']) ?
+                                   '<a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
                                     class="btn btn-secondary btn-sm"
                                     target="_blank"
                                     rel="noopener noreferrer">
                                     <i class="fas fa-download me-1"></i> Vista previa PDF
-                                </a>' : 
-                                '<button class="btn btn-secondary btn-sm" disabled>
+                                    </a>' :
+                                   '<button class="btn btn-secondary btn-sm" disabled>
                                     <i class="fas fa-download me-1"></i> No disponible en PDF
                                 </button>') . '
                             </div>
@@ -126,5 +188,3 @@ echo json_encode([
     'html' => $html_output,
     'count' => $num_resultados
 ]);
-?>
-

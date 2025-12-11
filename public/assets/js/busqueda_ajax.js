@@ -2,6 +2,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 Iniciando sistema de búsqueda AJAX');
 
+    const contenedor = document.getElementById('resultados-lista');
+    if (contenedor) {
+        contenedor.addEventListener('click', manejarClickPortada);
+    }
     // 🎨 Inicializar SlimSelect para todos los filtros
     let slimEstado, slimDirector, slimAnio;
 
@@ -170,21 +174,42 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 🔄 Reinicializar modales
-    function reinicializarModales() {
-        document.querySelectorAll('.ver-portada-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const imagenUrl = this.getAttribute('data-imagen-popup');
-                const titulo = this.getAttribute('data-titulo');
-
-                const imgElement = document.getElementById('imagenPortada');
-                const titleElement = document.getElementById('modalPortadaLabel');
-
-                if (imgElement) imgElement.src = imagenUrl;
-                if (titleElement) titleElement.textContent = 'Portada Oficial De La Tesis';
-            });
-        });
+    // 🔄 Reinicializar modales usando DELEGACIÓN DE EVENTOS
+function reinicializarModales() {
+    // Remover listeners anteriores si existen
+    const contenedor = document.getElementById('resultados-lista');
+    
+    if (contenedor) {
+        // Usar delegación de eventos en el contenedor padre
+        contenedor.removeEventListener('click', manejarClickPortada);
+        contenedor.addEventListener('click', manejarClickPortada);
+        
+        console.log('✅ Event listener de modal reinicializado');
     }
+}
+
+// Función separada para manejar el click
+function manejarClickPortada(e) {
+    const btn = e.target.closest('.ver-portada-btn');
+    
+    if (btn) {
+        const imagenUrl = btn.getAttribute('data-imagen-popup');
+        const titulo = btn.getAttribute('data-titulo');
+
+        console.log('🖼️ Mostrando portada:', imagenUrl); // Debug
+
+        const imgElement = document.getElementById('imagenPortada');
+        const titleElement = document.getElementById('modalPortadaLabel');
+
+        if (imgElement) {
+            imgElement.src = imagenUrl;
+            console.log('✅ Imagen asignada:', imagenUrl);
+        }
+        if (titleElement) {
+            titleElement.textContent = 'Portada Oficial De La Tesis';
+        }
+    }
+}
 
     // 📊 Actualizar texto filtros activos
     function actualizarFiltrosActivos() {
