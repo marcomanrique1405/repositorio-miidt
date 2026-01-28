@@ -735,11 +735,21 @@ footer {
 
 .footer-other-pages {
     margin-top: 45px;
+    color: white
 }
 
 .footer-other-pages p {
     margin: 6px 0;
     font-size: 1rem;
+}
+
+.footer-other-pages a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+.footer-other-pages a:hover {
+    text-decoration: underline; /* si quieres que se subraye al pasar el mouse */
 }
 
 
@@ -855,7 +865,7 @@ footer {
     align-items: center;
     gap: 150px; /* separación exacta entre tarjetas */
     flex-wrap: wrap;
-    margin-top: 60px;
+    margin-top: 50px;
     margin-bottom: 50px;
 }
 
@@ -1074,7 +1084,7 @@ footer {
     width: 100%;
     overflow: hidden;
     position: relative;
-    margin-bottom: 75px;
+    margin-bottom: 20px;
 }
 
 .carrusel-track {
@@ -1137,4 +1147,22 @@ footer {
 @keyframes deslizarSuave {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-150vw); }
+}
+
+
+.texto-recursos {
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 40px 20px 60px;
+    color: #333;
+}
+
+.texto-recursos a {
+    color: #c40000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.texto-recursos a:hover {
+    text-decoration: underline;
 }

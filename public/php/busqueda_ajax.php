@@ -1,5 +1,6 @@
 <?php
 include '../../config/database.php';
+include '../../src/modules/TesisModule.php'; // ✅ NUEVO: Incluir el módulo
 
 $busqueda = isset($_GET['busqueda']) ? $_GET['busqueda'] : '';
 $filtro_estado = isset($_GET['estado']) ? $_GET['estado'] : '';
@@ -7,55 +8,29 @@ $filtro_director = isset($_GET['director']) ? $_GET['director'] : '';
 $filtro_anio = isset($_GET['anio']) ? $_GET['anio'] : '';
 
 // ✅ VALIDACIÓN DE LÍNEA
-$lineas_validas = ['CSR', 'Geomàtica', 'TICs'];
+$lineas_validas = ['CSR', 'Geomática', 'Geomàtica', 'TICs'];
 $linea = isset($_GET['linea']) ? $_GET['linea'] : 'CSR';
+
+// Normalizar Geomàtica (acento grave) a Geomática (acento agudo) para consistencia con BD
+if ($linea === 'Geomàtica') {
+    $linea = 'Geomática';
+}
 
 if (!in_array($linea, $lineas_validas)) {
     $linea = 'CSR';
 }
 
-$sql = "SELECT 
-            t.id_tesis, 
-            t.titulo, 
-            t.url, 
-            t.portada, 
-            YEAR(t.fecha_registro) AS anio_registro,
-            t.estado,
-            CONCAT(a.nombre, ' ', a.apellido_paterno, ' ', IFNULL(a.apellido_materno, '')) AS autor_completo,
-            CONCAT(d.nombre, ' ', d.apellido_paterno, ' ', IFNULL(d.apellido_materno, '')) AS director_completo,
-            li.nombre AS linea_investigacion
-        FROM tesis t
-        LEFT JOIN autor a ON t.matricula = a.matricula
-        LEFT JOIN director d ON t.id_director = d.id_director
-        LEFT JOIN linea_investigacion li ON a.id_linea = li.id_linea
-        WHERE li.nombre = '" . $conn->real_escape_string($linea) . "'";
+// ✅ NUEVO: Usar TesisModule en lugar de SQL directo
+$tesisModule = new TesisModule($conn);
+$resultado = $tesisModule->getTesisByLinea($linea, $busqueda, $filtro_estado, $filtro_director, $filtro_anio);
+$num_resultados = $resultado ? $resultado->num_rows : 0;
 
-if (!empty($busqueda)) {
-    $busqueda_escapada = $conn->real_escape_string($busqueda);
-    $sql .= " AND (t.titulo LIKE '%$busqueda_escapada%' 
-                OR CONCAT(a.nombre, ' ', a.apellido_paterno, ' ', IFNULL(a.apellido_materno, '')) LIKE '%$busqueda_escapada%' 
-                OR CONCAT(d.nombre, ' ', d.apellido_paterno, ' ', IFNULL(d.apellido_materno, '')) LIKE '%$busqueda_escapada%')";
-}
+// Iniciar captura de salida HTML
+ob_start();
 
-if (!empty($filtro_estado)) {
-    $sql .= " AND t.estado = '" . $conn->real_escape_string($filtro_estado) . "'";
-}
-
-if (!empty($filtro_director)) {
-    $sql .= " AND t.id_director = '" . $conn->real_escape_string($filtro_director) . "'";
-}
-
-if (!empty($filtro_anio)) {
-    $sql .= " AND YEAR(t.fecha_registro) = '" . $conn->real_escape_string($filtro_anio) . "'";
-}
-
-$sql .= " ORDER BY t.fecha_registro DESC";
-
-$resultado = $conn->query($sql);
-
-if ($resultado && $resultado->num_rows > 0) {
+if ($resultado && $num_resultados > 0) {
     while ($row = $resultado->fetch_assoc()) {
-        
+
         $portada = $row['portada'];
         $nombre_archivo = basename($portada);
         $info = pathinfo($nombre_archivo);
@@ -67,79 +42,97 @@ if ($resultado && $resultado->num_rows > 0) {
         if (!empty($extension_original) && !in_array(strtolower($extension_original), $extensiones_posibles)) {
             $extensiones_posibles[] = $extension_original;
         }
-        
+
         $portada_encontrada = $portada; // Por defecto, usar la portada de la BD
         $directorio_portada = dirname($portada);
-        
+
         // Verificar si existe la portada con diferentes extensiones
         foreach ($extensiones_posibles as $ext) {
             $ruta_portada = $directorio_portada . '/' . $nombre_sin_ext . '.' . $ext;
             $ruta_completa_portada = $_SERVER['DOCUMENT_ROOT'] . $ruta_portada;
-            
+
             if (file_exists($ruta_completa_portada)) {
                 $portada_encontrada = $ruta_portada;
                 break;
             }
         }
 
-   // ========================================
-// GENERAR NOMBRE COMPLETO DEL AUTOR (POPUP)
-// ========================================
+        // ========================================
+        // GENERAR NOMBRE COMPLETO DEL AUTOR (POPUP)
+        // ========================================
 
-$autor = $row['autor_completo'];
+        $autor = $row['autor_completo'];
 
-// Normalizar nombres: minusculas, sin acentos, sin Ñ
-$mapa = [
-    'á'=>'a','é'=>'e','í'=>'i','ó'=>'o','ú'=>'u',
-    'Á'=>'A','É'=>'E','Í'=>'I','Ó'=>'O','Ú'=>'U',
-    'ñ'=>'n','Ñ'=>'N'
-];
+        // Normalizar nombres: minusculas, sin acentos, sin Ñ
+        $mapa = [
+            'á' => 'a',
+            'é' => 'e',
+            'í' => 'i',
+            'ó' => 'o',
+            'ú' => 'u',
+            'Á' => 'A',
+            'É' => 'E',
+            'Í' => 'I',
+            'Ó' => 'O',
+            'Ú' => 'U',
+            'ñ' => 'n',
+            'Ñ' => 'N'
+        ];
 
-$autor_limpio = strtr($autor, $mapa);
-$autor_limpio = strtolower($autor_limpio);
+        $autor_limpio = strtr($autor, $mapa);
+        $autor_limpio = strtolower($autor_limpio);
 
-// Convertir espacios → guiones
-$nombre_completo_popup = str_replace(' ', '-', $autor_limpio);
+        // Convertir espacios → guiones
+        $nombre_completo_popup = str_replace(' ', '-', $autor_limpio);
 
-// ========================================
-// SELECCIONAR CARPETA SEGÚN LÍNEA
-// ========================================
-switch ($row['linea_investigacion']) {
-    case 'CSR':
-        $carpeta_popup = 'linea_CSR';
-        break;
-    case 'Geomática':
-    case 'Geomàtica':
-        $carpeta_popup = 'linea_Geomatica';
-        break;
-    case 'TICs':
-        $carpeta_popup = 'linea_TICs';
-        break;
-    default:
-        $carpeta_popup = 'linea_CSR';
-}
+        // ========================================
+        // SELECCIONAR CARPETA SEGÚN LÍNEA
+        // ========================================
+        switch ($row['linea_investigacion']) {
+            case 'CSR':
+                $carpeta_popup = 'linea_CSR';
+                break;
+            case 'Geomática':
+            case 'Geomàtica':
+                $carpeta_popup = 'linea_Geomatica';
+                break;
+            case 'TICs':
+                $carpeta_popup = 'linea_TICs';
+                break;
+            default:
+                $carpeta_popup = 'linea_CSR';
+        }
 
-// ========================================
-// BUSCAR ARCHIVO EXACTO
-// ========================================
-$extensiones = ['png','jpg','jpeg','webp'];
-$imagen_popup = $portada_encontrada;
+        // ========================================
+        // BUSCAR ARCHIVO EXACTO
+        // ========================================
+        $extensiones = ['png', 'jpg', 'jpeg', 'webp'];
+        $imagen_popup = $portada_encontrada;
 
-foreach ($extensiones as $ext) {
+        foreach ($extensiones as $ext) {
 
-    // Ruta relativa real del proyecto
-    $ruta_rel = "public/assets/img/popups/$carpeta_popup/{$nombre_completo_popup}.$ext";
+            // Ruta relativa real del proyecto
+            $ruta_rel = "public/assets/img/popups/$carpeta_popup/{$nombre_completo_popup}.$ext";
 
-    // Ruta absoluta en el disco (para verificar)
-    $ruta_abs = __DIR__ . "/../$ruta_rel";
+            // Ruta absoluta en el disco (para verificar)
+            $ruta_abs = __DIR__ . "/../../$ruta_rel";
 
-    if (file_exists($ruta_abs)) {
+            error_log("Probando ruta: $ruta_abs");
 
-        // Ruta que el navegador SI reconoce
-        $imagen_popup = "/repositorio_MIIDT/repositorio-miidt/$ruta_rel";
 
-        break;
-    }
+            if (file_exists($ruta_abs)) {
+
+                // Ruta que el navegador SI reconoce
+                $imagen_popup = "/repositorio_MIIDT/repositorio-miidt/$ruta_rel";
+                error_log("✅ Imagen popup encontrada: $imagen_popup");
+                break;
+            }
+        }
+
+        // ✅ Si no se encontró imagen popup, usar la portada como fallback
+if ($imagen_popup === null) {
+    $imagen_popup = $portada_encontrada;
+    error_log("⚠️ No se encontró popup, usando portada: $imagen_popup");
 }
 
 
@@ -166,13 +159,14 @@ foreach ($extensiones as $ext) {
                                     <i class="fas fa-image me-1"></i> Visualizar Portada
                                 </button>
 
-                                ' . (!empty($row['url']) ? 
-                                '<a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
-                                    class="btn btn-secondary btn-sm" 
+                                ' . (!empty($row['url']) ?
+                                   '<a href="descargar_tesis.php?url=' . urlencode($row['url']) . '" 
+                                    class="btn btn-secondary btn-sm"
+                                    target="_blank"
                                     rel="noopener noreferrer">
                                     <i class="fas fa-download me-1"></i> Vista previa PDF
-                                </a>' : 
-                                '<button class="btn btn-secondary btn-sm" disabled>
+                                    </a>' :
+                                   '<button class="btn btn-secondary btn-sm" disabled>
                                     <i class="fas fa-download me-1"></i> No disponible en PDF
                                 </button>') . '
                             </div>
@@ -184,4 +178,13 @@ foreach ($extensiones as $ext) {
 } else {
     echo '<div class="alert alert-info">No hay resultados para mostrar.</div>';
 }
-?>
+
+// Capturar el HTML generado
+$html_output = ob_get_clean();
+
+// Devolver respuesta JSON
+header('Content-Type: application/json');
+echo json_encode([
+    'html' => $html_output,
+    'count' => $num_resultados
+]);

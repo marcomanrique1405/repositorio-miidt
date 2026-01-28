@@ -115,16 +115,23 @@
                                     // Ruta absoluta en el disco (para verificar)
                                     $ruta_abs = __DIR__ . "/../$ruta_rel";
 
+                                    error_log("Probando ruta: $ruta_abs");
+
+
                                     if (file_exists($ruta_abs)) {
 
                                         // Ruta que el navegador SI reconoce
                                         $imagen_popup = "/repositorio_MIIDT/repositorio-miidt/$ruta_rel";
-
+                                        error_log("✅ Imagen popup encontrada: $imagen_popup");
                                         break;
                                     }
                                 }
 
-
+                                // ✅ Si no se encontró imagen popup, usar la portada como fallback
+                                if ($imagen_popup === null) {
+                                    $imagen_popup = $portada_encontrada;
+                                    error_log("⚠️ No se encontró popup, usando portada: $imagen_popup");
+                                }
 
 
                                 echo '
@@ -184,13 +191,13 @@
                     <form method="GET" action="">
                         <input type="hidden" name="busqueda" value="<?php echo htmlspecialchars($busqueda); ?>">
 
-                        <select class="form-select my-2 slim" id="filtro-estado" name="estado" onchange="this.form.submit()">
+                        <select class="form-select my-2 slim" id="filtro-estado" name="estado">
                             <option value="">Estado</option>
                             <option value="Digital" <?php if ($filtro_estado == 'Digital') echo 'selected'; ?>>Digital</option>
                             <option value="Fisico" <?php if ($filtro_estado == 'Fisico') echo 'selected'; ?>>Fisico</option>
                         </select>
 
-                        <select class="form-select my-2 slim" id="filtro-director" name="director" onchange="this.form.submit()">
+                        <select class="form-select my-2 slim" id="filtro-director" name="director">
                             <option value="">Director de tesis</option>
                             <?php
                             $result_directores = $tesisModule->getDirectoresByLinea($current_linea);
@@ -205,7 +212,7 @@
                             ?>
                         </select>
 
-                        <select class="form-select my-2 slim" id="filtro-anio" name="anio" onchange="this.form.submit()">
+                        <select class="form-select my-2 slim" id="filtro-anio" name="anio">
                             <option value="">Año de publicación</option>
                             <?php
                             $result_anios = $tesisModule->getAniosByLinea($current_linea);
