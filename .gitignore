@@ -13,3 +13,8 @@ package.json
 
 # Logs
 *.log
+
+
+# Uploads / archivos generados
+uploads/
+public/uploads/
