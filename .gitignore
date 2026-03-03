@@ -1,0 +1,15 @@
+# Secrets
+.app.env
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# Node
+node_modules/
+package-lock.json
+package.json
+
+# Logs
+*.log
