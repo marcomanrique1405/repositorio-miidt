@@ -31,7 +31,7 @@ $basePath = '/';
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a href="<?php echo $basePath; ?>index.php" class="nav-link active">Inicio</a>
+                    <a href="<?php echo $basePath; ?>repositorio_miidt/index.php" class="nav-link active">Inicio</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link" id="navbarDropdownLies" role="button" data-bs-toggle="dropdown" aria-expanded="false">
