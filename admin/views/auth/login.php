@@ -38,7 +38,8 @@ $usernameValue = $usernameValue ?? '';
                 </div>
             <?php endif; ?>
 
-            <form method="post" action="<?= htmlspecialchars($base) ?>/login" class="admin-login__form" autocomplete="off">
+            <!-- CAMBIO AQUÍ -->
+            <form method="post" action="<?= htmlspecialchars($base) ?>/index.php/login" class="admin-login__form" autocomplete="off">
 
                 <div class="admin-login__field">
                     <label for="username" class="admin-login__label">Usuario:</label>

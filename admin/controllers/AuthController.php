@@ -6,9 +6,12 @@ final class AuthController
     public function login(): void
     {
         if (!empty($_SESSION['admin_auth'])) {
-            header('Location: ' . ADMIN_BASE . '/dashboard');
+            header('Location: ' . ADMIN_BASE . '/index.php/dashboard'); // 🔥 FIX
             exit;
         }
+
+        $error = '';
+        $usernameValue = '';
 
         require ADMIN_ROOT . '/views/auth/login.php';
     }
@@ -16,7 +19,7 @@ final class AuthController
     public function doLogin(): void
     {
         if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
-            header('Location: ' . ADMIN_BASE . '/login');
+            header('Location: ' . ADMIN_BASE . '/index.php/login'); // 🔥 FIX
             exit;
         }
 
@@ -24,30 +27,55 @@ final class AuthController
         $password = (string)($_POST['password'] ?? '');
 
         if ($username === '' || $password === '') {
-            header('Location: ' . ADMIN_BASE . '/login');
-            exit;
+            $error = 'Todos los campos son obligatorios.';
+            $usernameValue = $username;
+            require ADMIN_ROOT . '/views/auth/login.php';
+            return;
         }
 
-        // Aquí iría la validación real contra tu BD (modelo)
-        // Por ahora queda placeholder seguro: no autentica a nadie.
-        $isValid = false;
+        require_once ADMIN_ROOT . '/models/Usuario.php';
+        $usuarioModel = new Usuario();
 
-        if (!$isValid) {
-            header('Location: ' . ADMIN_BASE . '/login');
-            exit;
+        $usuario = $usuarioModel->findByUsername($username);
+
+        if (!$usuario) {
+            $error = 'Usuario no encontrado.';
+            $usernameValue = $username;
+            require ADMIN_ROOT . '/views/auth/login.php';
+            return;
+        }
+
+        if ($usuario['estado'] !== 'activo') {
+            $error = 'La cuenta está inactiva.';
+            $usernameValue = $username;
+            require ADMIN_ROOT . '/views/auth/login.php';
+            return;
+        }
+
+        if (!password_verify($password, $usuario['password_hash'])) {
+            $error = 'Contraseña incorrecta.';
+            $usernameValue = $username;
+            require ADMIN_ROOT . '/views/auth/login.php';
+            return;
         }
 
         session_regenerate_id(true);
-        $_SESSION['admin_auth'] = true;
 
-        header('Location: ' . ADMIN_BASE . '/dashboard');
+        $_SESSION['admin_auth'] = true;
+        $_SESSION['admin_id'] = $usuario['id_usuario'];
+        $_SESSION['admin_username'] = $usuario['username'];
+        $_SESSION['admin_nombre'] = $usuario['nombre_completo'];
+
+        $usuarioModel->updateUltimoLogin((int)$usuario['id_usuario']);
+
+        header('Location: ' . ADMIN_BASE . '/index.php/dashboard'); // 🔥 FIX
         exit;
     }
 
     public function dashboard(): void
     {
         if (empty($_SESSION['admin_auth'])) {
-            header('Location: ' . ADMIN_BASE . '/login');
+            header('Location: ' . ADMIN_BASE . '/index.php/login'); // 🔥 FIX
             exit;
         }
 
@@ -66,14 +94,14 @@ final class AuthController
                 time() - 42000,
                 $params['path'],
                 $params['domain'],
-                (bool)$params['secure'],
-                (bool)$params['httponly']
+                (bool) $params['secure'],
+                (bool) $params['httponly']
             );
         }
 
         session_destroy();
 
-        header('Location: ' . ADMIN_BASE . '/login');
+        header('Location: ' . ADMIN_BASE . '/index.php/login'); // 🔥 FIX
         exit;
     }
 }
