@@ -44,7 +44,7 @@ final class Usuario
         );
 
         if (!$stmt) {
-            error_log("❌ Error prepare update: " . $this->db->error);
+            error_log(" Error prepare update: " . $this->db->error);
             return;
         }
 
