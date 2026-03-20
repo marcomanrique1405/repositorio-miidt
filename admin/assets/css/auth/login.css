@@ -153,3 +153,39 @@ html, body{
         width:300px;
     }
 }
+
+.admin-login__alert{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%) translateY(-20px);
+    padding:12px 18px;
+    border-radius:10px;
+    background:#b30000;
+    color:#fff;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:16px;
+    font-weight:600;
+    box-shadow:0 8px 20px rgba(0,0,0,.3);
+    opacity:0;
+    z-index:999;
+    animation:fadeInOut 4s ease forwards;
+}
+
+@keyframes fadeInOut {
+    0%{
+        opacity:0;
+        transform:translateX(-50%) translateY(-20px);
+    }
+    10%{
+        opacity:1;
+        transform:translateX(-50%) translateY(0);
+    }
+    80%{
+        opacity:1;
+    }
+    100%{
+        opacity:0;
+        transform:translateX(-50%) translateY(-20px);
+    }
+}

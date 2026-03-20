@@ -6,7 +6,7 @@ final class AuthController
     public function login(): void
     {
         if (!empty($_SESSION['admin_auth'])) {
-            header('Location: ' . ADMIN_BASE . '/index.php/dashboard'); // 🔥 FIX
+            header('Location: ' . ADMIN_BASE . '/index.php/dashboard'); // FIX
             exit;
         }
 
@@ -19,7 +19,7 @@ final class AuthController
     public function doLogin(): void
     {
         if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
-            header('Location: ' . ADMIN_BASE . '/index.php/login'); // 🔥 FIX
+            header('Location: ' . ADMIN_BASE . '/index.php/login'); // FIX
             exit;
         }
 
@@ -39,21 +39,21 @@ final class AuthController
         $usuario = $usuarioModel->findByUsername($username);
 
         if (!$usuario) {
-            $error = 'Usuario no encontrado.';
+            $error = 'Credenciales incorrectas';
             $usernameValue = $username;
             require ADMIN_ROOT . '/views/auth/login.php';
             return;
         }
 
         if ($usuario['estado'] !== 'activo') {
-            $error = 'La cuenta está inactiva.';
+            $error = 'Cuenta no encontrada';
             $usernameValue = $username;
             require ADMIN_ROOT . '/views/auth/login.php';
             return;
         }
 
         if (!password_verify($password, $usuario['password_hash'])) {
-            $error = 'Contraseña incorrecta.';
+            $error = 'Credenciales incorrectas';
             $usernameValue = $username;
             require ADMIN_ROOT . '/views/auth/login.php';
             return;
@@ -68,14 +68,14 @@ final class AuthController
 
         $usuarioModel->updateUltimoLogin((int)$usuario['id_usuario']);
 
-        header('Location: ' . ADMIN_BASE . '/index.php/dashboard'); // 🔥 FIX
+        header('Location: ' . ADMIN_BASE . '/index.php/dashboard'); // FIX
         exit;
     }
 
     public function dashboard(): void
     {
         if (empty($_SESSION['admin_auth'])) {
-            header('Location: ' . ADMIN_BASE . '/index.php/login'); // 🔥 FIX
+            header('Location: ' . ADMIN_BASE . '/index.php/login'); // FIX
             exit;
         }
 
@@ -101,7 +101,7 @@ final class AuthController
 
         session_destroy();
 
-        header('Location: ' . ADMIN_BASE . '/index.php/login'); // 🔥 FIX
+        header('Location: ' . ADMIN_BASE . '/index.php/login'); // FIX
         exit;
     }
 }

@@ -38,7 +38,6 @@ $usernameValue = $usernameValue ?? '';
                 </div>
             <?php endif; ?>
 
-            <!-- CAMBIO AQUÍ -->
             <form method="post" action="<?= htmlspecialchars($base) ?>/index.php/login" class="admin-login__form" autocomplete="off">
 
                 <div class="admin-login__field">
@@ -76,5 +75,12 @@ $usernameValue = $usernameValue ?? '';
 </main>
 
 <script src="<?= htmlspecialchars($base) ?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+setTimeout(() => {
+    const alert = document.querySelector('.admin-login__alert');
+    if(alert) alert.remove();
+}, 4000);
+</script>
+
 </body>
 </html>
