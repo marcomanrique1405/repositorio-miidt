@@ -18,7 +18,7 @@ $usernameValue = $usernameValue ?? '';
     <title>Admin - Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?= htmlspecialchars($base) ?>/assets/css/auth/login.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars($base) ?>/assets/css/auth/style.css">
 </head>
 <body class="admin-login">
 <main class="admin-login__wrap">

@@ -75,12 +75,45 @@ final class AuthController
     public function dashboard(): void
     {
         if (empty($_SESSION['admin_auth'])) {
-            header('Location: ' . ADMIN_BASE . '/index.php/login'); // FIX
+            header('Location: ' . ADMIN_BASE . '/index.php/login');
             exit;
         }
 
+        require_once ADMIN_ROOT . '/models/Dashboard.php';
+
+        $dashboard = new Dashboard();
+
+        $totalTesis = $dashboard->totalTesis();
+        $totalDirectores = $dashboard->totalDirectores();
+        $totalFisico = $dashboard->totalFisico();
+        $totalDigital = $dashboard->totalDigital();
+
         require ADMIN_ROOT . '/views/auth/dashboard.php';
     }
+
+    public function stats(): void
+{
+    if (empty($_SESSION['admin_auth'])) {
+        http_response_code(403);
+        echo json_encode(['error' => 'No autorizado']);
+        return;
+    }
+
+    require_once ADMIN_ROOT . '/models/Dashboard.php';
+
+    $dashboard = new Dashboard();
+
+    $data = [
+        'tesis' => $dashboard->totalTesis(),
+        'directores' => $dashboard->totalDirectores(),
+        'fisico' => $dashboard->totalFisico(),
+        'digital' => $dashboard->totalDigital()
+    ];
+
+    header('Content-Type: application/json');
+    echo json_encode($data);
+}
+
 
     public function logout(): void
     {
@@ -104,4 +137,7 @@ final class AuthController
         header('Location: ' . ADMIN_BASE . '/index.php/login'); // FIX
         exit;
     }
+
+
+    
 }
