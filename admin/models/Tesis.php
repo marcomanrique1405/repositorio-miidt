@@ -43,7 +43,7 @@ final class Tesis
             return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
         }
 
-        // 🔍 BÚSQUEDA
+    
         $sql = "
             SELECT 
                 t.id_tesis,
