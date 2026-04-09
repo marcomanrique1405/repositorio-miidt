@@ -96,7 +96,7 @@ main {
         box-shadow: none !important;
         border: none !important;
         position: static !important;
-        top: 100px;          /* ajusta según el alto de tu navbar */
+        top: 100px;          
         z-index: 20;
         float: none;
         width: 100% !important;
@@ -123,32 +123,26 @@ main {
     }
 }
 /*Banner*/
-/* ===== Variables del banner ===== */
 :root {
     --hero-h-desktop: 180px;
-    /* alto en escritorio */
     --hero-h-mobile: 180px;
-    /* alto en móvil */
     --overlay: linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .65) 35%, rgba(0, 0, 0, .45) 100%);
     --title-size: clamp(28px, 6vw, 64px);
     --sub-size: clamp(14px, 2.2vw, 18px);
 }
 
-/* ===== Contenedor del HERO (full-bleed sin tocar el header) ===== */
+/* ===== Contenedor ===== */
 .miidt-hero {
     position: relative;
-    /* técnica full-bleed SIN afectar contenedores padre */
     left: 50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
     width: 100vw;
 
-    /* quita posibles separaciones del módulo */
     margin-top: 0 !important;
     padding-top: 0 !important;
     z-index: 1;
-    /* por debajo del header */
 }
 
 /* ===== Banner / carrusel ===== */
@@ -163,7 +157,6 @@ main {
 .miidt-hero .hero-track {
     display: flex;
     width: 300vw;
-    /* 3 slides */
     height: 100%;
     will-change: transform;
     animation: pan-miidt 18s ease-in-out infinite alternate;
@@ -658,12 +651,10 @@ footer {
     padding: 16px 0;
 }
 
-/* ===========================
-      FOOTER MIIDT – COMPLETO
-=========================== */
+
 
 /* ===========================================
-      FOOTER ESTILO MEJORADO Y RESPONSIVO
+      FOOTER 
 =========================================== */
 
 .miidt-footer {
@@ -829,21 +820,21 @@ footer {
 =================================== */
 
 .texto-index {
-    margin-top: 10px;     /* AJUSTA AQUÍ */
+    margin-top: 10px;     
     max-width: 1500px;
     margin-left: auto;
-    margin-right: auto;    /* Centrado sin afectar margin-top */
+    margin-right: auto;    
     padding: 0 25px;
     text-align: center;
 }
 
 
 .texto-index p {
-    font-family: inherit !important;  /* usa la misma tipografía del sitio */
-    font-size: 22px;       /* tamaño más grande y legible */
-    line-height: 1.1;         /* interlineado amplio como en tu imagen */
-    font-weight: 400;         /* peso normal */
-    color: #333;              /* texto más suave pero profesional */
+    font-family: inherit !important;  
+    font-size: 22px;       
+    line-height: 1.1;         
+    font-weight: 400;         
+    color: #333;              
 }
 
 /* RESPONSIVO */
@@ -867,7 +858,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 150px; /* separación exacta entre tarjetas */
+    gap: 150px; 
     flex-wrap: wrap;
     margin-top: 50px;
     margin-bottom: 50px;
@@ -875,8 +866,8 @@ footer {
 
 /* ---- CONTENEDOR DE TARJETA ---- */
 .flip-card {
-    width: 300px;    /* tamaño exacto */
-    height: 400px;   /* tamaño exacto */
+    width: 300px;    
+    height: 400px;   
     perspective: 1000px;
 }
 
@@ -979,7 +970,7 @@ footer {
 .flip-card-inner,
 .flip-card-front,
 .flip-card-back {
-    height: 400px !important; /* fijamos la altura exacta */
+    height: 400px !important; 
 }
 
 .flip-card {
@@ -1015,7 +1006,6 @@ footer {
     position: relative;
 }
 
-/* 🔵 DIFUMINADO AZUL TIPO V BONITO */
 .flip-card-front::after {
     content: "";
     position: absolute;
@@ -1032,7 +1022,6 @@ footer {
     pointer-events: none;
 }
 
-/* 🔥 TEXTO CENTRADO EXACTAMENTE EN MEDIO */
 .flip-card-front h3 {
     position: absolute;
     top: 250px;
@@ -1065,7 +1054,7 @@ footer {
 
 /* El interior ya no empuja nada al voltearse */
 .flip-card-inner {
-    position: absolute; /* <-- fija */
+    position: absolute; 
     inset: 0;
     width: 100%;
     height: 100%;
@@ -1115,7 +1104,7 @@ footer {
 }
 
 .carrusel-slide img {
-    width: 50vw;      /* 2 imágenes por vista */
+    width: 50vw;      
     height: 320px;
     object-fit: cover;
 }
@@ -1125,15 +1114,15 @@ footer {
 
     /* SLIDE 1 (posición inicial) */
     0%   { transform: translateX(0); }
-    15%  { transform: translateX(0); }      /* Pausa */
+    15%  { transform: translateX(0); }      
 
     /* SLIDE 2 */
     35%  { transform: translateX(-100vw); }
-    45%  { transform: translateX(-100vw); } /* Pausa */
+    45%  { transform: translateX(-100vw); } 
 
     /* SLIDE 3 */
     65%  { transform: translateX(-200vw); }
-    80%  { transform: translateX(-200vw); } /* Pausa */
+    80%  { transform: translateX(-200vw); } 
 
     /* REGRESO SUAVE */
     100% { transform: translateX(0); }
