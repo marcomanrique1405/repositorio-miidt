@@ -620,8 +620,6 @@ body.admin-dashboard{
 /* CONTENEDOR GENERAL */
 .admin-dashboard__tesis-panel {
     margin-top: 20px;
-
-    /* 🔥 NUEVO: para layout tipo columna */
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -681,8 +679,6 @@ body.admin-dashboard{
     border: 1px solid #d1d5db;
     border-radius: 15px;
     padding: 15px;
-
-    /* 🔥 CLAVE: SCROLL INTERNO */
     flex: 1;
     overflow-y: auto;
     max-height: 70vh;
@@ -784,7 +780,6 @@ body.admin-dashboard{
     color: #1e3a8a;
 }
 
-/* 🔥 OPCIONAL: SCROLL BONITO */
 .admin-dashboard__tesis-results::-webkit-scrollbar {
     width: 6px;
 }
