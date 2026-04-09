@@ -13,7 +13,7 @@ final class Tesis
 
     public function buscar(string $query): array
     {
-        // 🔥 TRAER TODAS
+    
         if ($query === '') {
 
             $sql = "
