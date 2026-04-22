@@ -69,6 +69,15 @@ switch ($path) {
         echo '405 - Method Not Allowed';
         break;
 
+    case '/filtrar-tesis':
+        if ($method === 'POST') {
+            $controller->filtrarTesis();
+            exit;
+        }
+        http_response_code(405);
+        echo '405 - Method Not Allowed';
+        break;
+
     default:
         http_response_code(404);
         echo '404 - Not Found';
