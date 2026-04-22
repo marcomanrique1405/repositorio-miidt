@@ -92,28 +92,27 @@ final class AuthController
     }
 
     public function stats(): void
-{
-    if (empty($_SESSION['admin_auth'])) {
-        http_response_code(403);
-        echo json_encode(['error' => 'No autorizado']);
-        return;
+    {
+        if (empty($_SESSION['admin_auth'])) {
+            http_response_code(403);
+            echo json_encode(['error' => 'No autorizado']);
+            return;
+        }
+
+        require_once ADMIN_ROOT . '/models/Dashboard.php';
+
+        $dashboard = new Dashboard();
+
+        $data = [
+            'tesis' => $dashboard->totalTesis(),
+            'directores' => $dashboard->totalDirectores(),
+            'fisico' => $dashboard->totalFisico(),
+            'digital' => $dashboard->totalDigital()
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
-
-    require_once ADMIN_ROOT . '/models/Dashboard.php';
-
-    $dashboard = new Dashboard();
-
-    $data = [
-        'tesis' => $dashboard->totalTesis(),
-        'directores' => $dashboard->totalDirectores(),
-        'fisico' => $dashboard->totalFisico(),
-        'digital' => $dashboard->totalDigital()
-    ];
-
-    header('Content-Type: application/json');
-    echo json_encode($data);
-}
-
 
     public function logout(): void
     {
@@ -138,6 +137,25 @@ final class AuthController
         exit;
     }
 
+    // 🔥 SOLO ESTO SE AGREGA (NO TOQUÉ NADA MÁS)
+    public function filtrarTesis(): void
+    {
+        if (empty($_SESSION['admin_auth'])) {
+            http_response_code(403);
+            echo json_encode(['error' => 'No autorizado']);
+            return;
+        }
 
-    
+        require_once ADMIN_ROOT . '/models/Tesis.php';
+
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        $tesisModel = new Tesis();
+
+        $resultados = $tesisModel->filtrar($input);
+
+        header('Content-Type: application/json');
+        echo json_encode($resultados);
+    }
+
 }

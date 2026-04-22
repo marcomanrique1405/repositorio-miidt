@@ -1,7 +1,7 @@
 <div class="admin-dashboard__tesis-panel"> 
 
     <div class="admin-dashboard__tesis-toolbar">
-        <button type="button" class="admin-dashboard__btn-add" id="btn-agregar-tesis">
+        <button type="button" id="btnAgregarTesis" class="btn-agregar">
             + Agregar
         </button>
     </div>

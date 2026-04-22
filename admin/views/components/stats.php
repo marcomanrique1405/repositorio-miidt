@@ -97,6 +97,7 @@ function animarContador(elemento, valorFinal, duracion = 1000) {
     actualizar();
 }
 
+// Interceptamos cuando ya se actualizan los números
 function aplicarAnimacion() {
     const tesis = document.getElementById('stat-tesis');
     const directores = document.getElementById('stat-directores');
@@ -109,5 +110,6 @@ function aplicarAnimacion() {
     animarContador(digital, parseInt(digital.textContent));
 }
 
+// Espera a que carguen los datos y luego anima
 setTimeout(aplicarAnimacion, 300);
 </script>
