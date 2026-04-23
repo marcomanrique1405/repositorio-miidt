@@ -1,26 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     const select = document.getElementById('filtro-anio');
     if (!select) return;
 
     let menu = null;
 
-    select.addEventListener('mousedown', (e) => {
+    function posicionarMenu() {
+        if (!menu) return;
 
-        e.preventDefault();
+        const rect = select.getBoundingClientRect();
 
-        if (menu) {
-            menu.remove();
-            menu = null;
-            return;
-        }
+        menu.style.left = rect.left + 'px';
+        menu.style.top = (rect.bottom + 2) + 'px';
+        menu.style.width = rect.width + 'px';
+    }
+
+    function abrirMenu() {
+        if (menu) return;
 
         const rect = select.getBoundingClientRect();
 
         menu = document.createElement('div');
         menu.style.position = 'fixed';
         menu.style.left = rect.left + 'px';
-        menu.style.top = (rect.bottom + 2) + 'px'; // más pegado al select
+        menu.style.top = (rect.bottom + 2) + 'px';
         menu.style.width = rect.width + 'px';
         menu.style.maxHeight = '220px';
         menu.style.overflowY = 'auto';
@@ -41,9 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
             option.style.cursor = 'pointer';
             option.style.fontSize = '13px';
             option.style.color = '#333';
-            option.style.transition = '0.15s';
 
-            if (select.value == anio) {
+            if (String(select.value) === String(anio)) {
                 option.style.background = '#1f3c88';
                 option.style.color = '#fff';
             }
@@ -54,19 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             option.addEventListener('mouseleave', () => {
-                if (select.value == anio) return;
+                if (String(select.value) === String(anio)) return;
                 option.style.background = '#fff';
                 option.style.color = '#333';
             });
 
-            option.addEventListener('click', () => {
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+
                 select.value = anio;
                 select.dispatchEvent(new Event('change', { bubbles: true }));
 
-                if (menu) {
-                    menu.remove();
-                    menu = null;
-                }
+                menu.remove();
+                menu = null;
             });
 
             menu.appendChild(option);
@@ -74,15 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.body.appendChild(menu);
 
+        // 🔥 REPOSICIONAR EN TIEMPO REAL
+        window.addEventListener('scroll', posicionarMenu, true);
+        window.addEventListener('resize', posicionarMenu);
+    }
+
+    select.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        abrirMenu();
     });
 
-    document.addEventListener('click', (e) => {
-        if (!menu) return;
-
-        if (e.target !== select && !menu.contains(e.target)) {
-            menu.remove();
-            menu = null;
-        }
+    select.addEventListener('focus', () => {
+        select.blur();
     });
 
 });
