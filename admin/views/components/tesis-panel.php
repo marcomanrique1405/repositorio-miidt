@@ -4,6 +4,10 @@
         <button type="button" id="btnAgregarTesis" class="btn-agregar">
             + Agregar
         </button>
+
+        <button type="button" id="btn-filtros-toggle" class="btn-filtros">
+            Filtros
+        </button>
     </div>
 
     <div class="admin-dashboard__tesis-search">

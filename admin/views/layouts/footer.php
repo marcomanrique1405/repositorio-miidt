@@ -19,6 +19,7 @@ $base = ($base === '/' ? '' : $base);
 <script src="<?= htmlspecialchars($base) ?>/assets/js/select-fix.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/vistas-dashboard.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/select-anio-espacio.js"></script>
+<script src="<?= htmlspecialchars($base) ?>/assets/js/menu-mobile.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
