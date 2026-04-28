@@ -34,33 +34,7 @@
             <span class="admin-dashboard__tesis-results-count" id="tesis-total">0 Tesis</span>
         </div>
 
-        <div class="admin-dashboard__tesis-list" id="contenedor-tesis">
-
-            <div class="tesis-item">
-                <div class="tesis-item__cover">
-                    <img src="ruta-imagen.jpg" alt="Portada de tesis">
-                </div>
-
-                <div class="tesis-item__content">
-                    <h3 class="tesis-item__title">
-                        Aplicación de sistemas de información geográfica para la identificación de zonas vulnerables ante riesgos sísmicos en comunidades marginadas.
-                    </h3>
-
-                    <p class="tesis-item__meta"><strong>Autor:</strong> María López García</p>
-                    <p class="tesis-item__meta"><strong>Director:</strong> Dr. Roberto Arroyo Matus</p>
-                    <p class="tesis-item__meta"><strong>LIES:</strong> Construcción Sismo Resistente</p>
-                    <p class="tesis-item__meta"><strong>Estado:</strong> Físico, Digital</p>
-
-                    <div class="tesis-item__actions">
-                        <button type="button" class="tesis-item__edit">Editar</button>
-                        <button type="button" class="tesis-item__delete">Eliminar</button>
-                    </div>
-                </div>
-
-                <div class="tesis-item__year">2026</div>
-            </div>
-
-        </div>
+        <div class="admin-dashboard__tesis-list" id="contenedor-tesis"></div>
     </section>
 
 </div>
