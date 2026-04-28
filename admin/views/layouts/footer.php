@@ -16,6 +16,7 @@ $base = ($base === '/' ? '' : $base);
 <script src="<?= htmlspecialchars($base) ?>/assets/js/tesis.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/filtros.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/checkbox-unico.js"></script>
+<script src="<?= htmlspecialchars($base) ?>/assets/js/autor-popup.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/select-fix.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/vistas-dashboard.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/select-anio-espacio.js"></script>

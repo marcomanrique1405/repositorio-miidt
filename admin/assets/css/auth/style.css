@@ -842,239 +842,10 @@ body.admin-dashboard{
 
 
 
-/* ==========================================
-   OCULTAR VISTA
-========================================== */
-.admin-hidden{
-    display:none !important;
-}
 
-/* ==========================================
-   CONTENEDOR GENERAL
-========================================== */
-#vistaAgregar{
-    width:100%;
-    margin-top:10px;
-}
 
-.admin-dashboard__form-wrapper{
-    width:100%;
-    background:transparent;
-}
 
-/* ==========================================
-   HEADER ROJO
-========================================== */
-.admin-dashboard__form-header{
-    width:100%;
-    background:#b30808;
-    color:#ffffff;
-    text-align:center;
-    font-family:'Roboto Condensed', sans-serif;
-    font-size:26px;
-    font-weight:700;
-    padding:10px;
-    margin-bottom:18px;
-}
 
-/* ==========================================
-   CONTENEDOR GENERAL (FONDO GRIS)
-========================================== */
-.admin-dashboard__form-body{
-    width:100%;
-    background:#f4f5f7;
-    border-radius:18px;
-    padding:10px;
-    box-sizing:border-box;
-}
-
-/* ==========================================
-    TARJETAS INTERNAS (CLAVE DEL DISEÑO)
-========================================== */
-.admin-dashboard__form-card{
-    background:#ffffff;
-    border:1px solid #d2d2d2;
-    border-radius:18px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.10);
-    padding:24px 28px;
-    margin-bottom:22px;
-}
-
-/* ==========================================
-   TITULOS AZULES
-========================================== */
-.admin-dashboard__form-section-title{
-    width:100%;
-    max-width:920px;
-    margin:0 auto 24px auto;
-    background:#081c6b;
-    color:#ffffff;
-    text-align:center;
-    font-family:'Roboto Condensed', sans-serif;
-    font-size:20px;
-    font-weight:700;
-    padding:10px;
-    border-radius:999px;
-}
-
-/* ==========================================
-   LABELS
-========================================== */
-.admin-dashboard__form-card > label{
-    display:block;
-    font-family:'Roboto Condensed', sans-serif;
-    font-size:16px;
-    font-weight:500;
-    color:#222;
-    margin-bottom:6px;
-}
-
-/* ==========================================
-   INPUTS (IGUALITOS AL DISEÑO)
-========================================== */
-.admin-dashboard__form-card input{
-    width:100%;
-    height:48px;
-    border:1.5px solid #bdbdbd;
-    border-radius:26px;
-    background:#f1f1f1;
-    padding:10px 18px;
-    font-family:'Roboto Condensed', sans-serif;
-    font-size:15px;
-    color:#444;
-    margin-bottom:18px;
-    outline:none;
-}
-
-.admin-dashboard__form-card input::placeholder{
-    color:#9a9a9a;
-}
-
-/* ==========================================
-   GRID EXACTO
-========================================== */
-.admin-dashboard__form-row{
-    display:grid;
-    grid-template-columns: 0.9fr 1.6fr 1fr;
-    gap:40px;
-    margin-top:10px;
-    margin-bottom:20px;
-    align-items:center;
-}
-
-/* LABEL INTERNO */
-.admin-dashboard__form-row label{
-    font-size:15px;
-    margin-bottom:10px;
-}
-
-/* CHECKBOXES */
-.admin-checkbox-group{
-    display:flex;
-    gap:18px;
-    flex-wrap:wrap;
-    align-items:center;
-}
-
-.admin-checkbox-group label{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    font-size:15px;
-}
-
-/* ==========================================
-   ARCHIVOS Y RECURSOS
-========================================== */
-.admin-dashboard__form-files{
-    display:flex;
-    justify-content:space-between;
-    gap:40px;
-    margin-top:10px;
-}
-
-.admin-dashboard__file-box{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:10px;
-}
-
-.admin-dashboard__file-box span{
-    font-size:14px;
-    color:#333;
-}
-
-/* BOTON SUBIR */
-.btn-subir{
-    background:#bdbdbd;
-    border:none;
-    border-radius:10px;
-    padding:10px 22px;
-    font-size:15px;
-    font-weight:600;
-    cursor:pointer;
-}
-
-.btn-subir:hover{
-    background:#9e9e9e;
-}
-
-/* ==========================================
-   BOTONES INFERIORES
-========================================== */
-.admin-dashboard__form-actions{
-    display:flex;
-    justify-content:center;
-    gap:120px;
-    margin-top:30px;
-}
-
-.btn-cancelar,
-.btn-guardar{
-    width:260px;
-    height:55px;
-    border:none;
-    border-radius:10px;
-    font-family:'Roboto Condensed', sans-serif;
-    font-size:26px;
-    font-weight:700;
-    color:#ffffff;
-    cursor:pointer;
-}
-
-.btn-cancelar{
-    background:#5a6472;
-}
-
-.btn-guardar{
-    background:#b30808;
-}
-
-/* ==========================================
-   RESPONSIVE
-========================================== */
-@media (max-width:768px){
-
-    .admin-dashboard__form-row{
-        grid-template-columns:1fr;
-    }
-
-    .admin-dashboard__form-files{
-        flex-direction:column;
-    }
-
-    .admin-dashboard__form-actions{
-        flex-direction:column;
-        gap:15px;
-    }
-
-    .btn-cancelar,
-    .btn-guardar{
-        width:100%;
-    }
-}
 
 
 
@@ -1713,4 +1484,539 @@ html{
     height:1px;
     background:#d6d6d6;
     margin-left:10px;
+}
+
+
+
+/* ==========================================
+   KPIs RESPONSIVOS SOLO ENTRE 1002px Y 1329px
+========================================== */
+@media (min-width:1002px) and (max-width:1329px){
+
+    .admin-dashboard__stats{
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+        gap:18px;
+        width:100%;
+    }
+
+    .admin-dashboard__stat{
+        width:100%;
+        min-width:0;
+        box-sizing:border-box;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   OCULTAR VISTA
+========================================== */
+.admin-hidden{
+    display:none !important;
+}
+
+/* ==========================================
+   ALTA DE TESIS - CONTENEDOR GENERAL
+========================================== */
+
+#vistaAgregar,
+#agregarTesisPanel{
+    width:100%;
+    margin-top:10px;
+    font-family:'Roboto Condensed', sans-serif;
+}
+
+.admin-dashboard__form-wrapper{
+    width:100%;
+    background:#ffffff;
+}
+
+.admin-dashboard__form-header{
+    width:100%;
+    background:#b30808;
+    color:#ffffff;
+    text-align:center;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:28px;
+    font-weight:700;
+    padding:10px 0;
+    box-sizing:border-box;
+}
+
+.admin-dashboard__form-body{
+    width:100%;
+    background:#ffffff;
+    padding:24px 0 35px;
+    box-sizing:border-box;
+}
+
+/* ==========================================
+   TARJETAS DEL FORMULARIO
+========================================== */
+
+.admin-dashboard__form-card{
+    width:92%;
+    margin:0 auto 26px;
+    background:#f9f9f9;
+    border:1px solid #9d9d9d;
+    border-radius:14px;
+    padding:16px 30px 18px;
+    box-sizing:border-box;
+    box-shadow:0 4px 8px rgba(0,0,0,0.18);
+    position:relative;
+
+    display:grid;
+    grid-template-columns:185px 1fr;
+    column-gap:20px;
+    align-items:center;
+}
+
+/* Título azul de cada tarjeta */
+.admin-dashboard__form-section-title{
+    grid-column:1 / -1;
+    width:100%;
+    background:#001a78;
+    color:#ffffff;
+    text-align:center;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:22px;
+    font-weight:700;
+    padding:10px;
+    border-radius:16px;
+    margin-bottom:30px;
+    box-sizing:border-box;
+}
+
+/* ==========================================
+   LABELS E INPUTS ALINEADOS COMO LA IMAGEN 1
+========================================== */
+
+.admin-dashboard__form-card > label{
+    display:flex;
+    align-items:center;
+    min-height:50px;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:17px;
+    font-weight:400;
+    color:#111111;
+    margin:0 0 20px 14px;
+}
+
+.admin-dashboard__form-card > input[type="text"]{
+    width:100%;
+    height:50px;
+    border:1px solid #8f8f8f;
+    border-radius:20px;
+    padding:8px 14px;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:16px;
+    color:#111;
+    background:#ffffff;
+    box-sizing:border-box;
+    outline:none;
+    margin:0 0 20px 0;
+}
+
+.admin-dashboard__form-card > input[type="text"]::placeholder{
+    color:#8c8c8c;
+}
+
+.admin-dashboard__form-card > input[type="text"]:focus{
+    border-color:#001a78;
+    box-shadow:0 0 0 2px rgba(0,26,120,0.12);
+}
+
+/* Autor se comporta como botón */
+#autor{
+    cursor:pointer;
+    background:#ffffff;
+}
+
+/* Input del año */
+#fechaTesis{
+    text-align:center;
+}
+
+/* ==========================================
+   FILA DE AÑO / LÍNEA / ESTADO
+========================================== */
+
+.admin-dashboard__form-row{
+    grid-column:1 / -1;
+
+    display:grid;
+    grid-template-columns:280px 1fr 240px;
+    gap:80px;
+    align-items:end;
+
+    margin-top:2px;
+    padding:0;
+}
+
+.admin-dashboard__form-row > div{
+    width:100%;
+}
+
+.admin-dashboard__form-row > div > label{
+    display:block;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:17px;
+    font-weight:400;
+    color:#111111;
+    margin:0 0 18px 14px;
+}
+
+.admin-dashboard__form-row input[type="text"]{
+    width:100%;
+    height:50px;
+    border:1px solid #8f8f8f;
+    border-radius:20px;
+    padding:8px 14px;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:16px;
+    color:#111;
+    background:#ffffff;
+    box-sizing:border-box;
+    outline:none;
+}
+
+.admin-dashboard__form-row input[type="text"]::placeholder{
+    color:#8c8c8c;
+}
+
+/* ==========================================
+   CHECKBOXES
+========================================== */
+
+.admin-checkbox-group{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    flex-wrap:wrap;
+    min-height:50px;
+}
+
+.admin-checkbox-group label{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin:0;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:16px;
+    font-weight:400;
+    color:#111;
+    cursor:pointer;
+}
+
+.admin-checkbox-group input[type="checkbox"]{
+    width:16px;
+    height:16px;
+    margin:0;
+    accent-color:#001a78;
+    cursor:pointer;
+}
+
+/* ==========================================
+   ARCHIVOS Y RECURSOS
+========================================== */
+
+.admin-dashboard__form-files{
+    grid-column:1 / -1;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    margin-top:22px;
+}
+
+.admin-dashboard__file-box{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.admin-dashboard__file-box span{
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:17px;
+    color:#111;
+}
+
+.btn-subir{
+    width:160px;
+    height:42px;
+    border:none;
+    border-radius:7px;
+    background:#bdbdbd;
+    color:#111111;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.2s ease;
+}
+
+.btn-subir:hover{
+    background:#a8a8a8;
+}
+
+/* ==========================================
+   BOTONES PRINCIPALES
+========================================== */
+
+.admin-dashboard__form-actions{
+    width:70%;
+    margin:30px auto 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:60px;
+}
+
+.btn-cancelar,
+.btn-guardar{
+    width:330px;
+    height:52px;
+    border:none;
+    border-radius:7px;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:34px;
+    font-weight:700;
+    color:#ffffff;
+    cursor:pointer;
+    transition:0.2s ease;
+}
+
+.btn-cancelar{
+    background:#4f5c6d;
+}
+
+.btn-cancelar:hover{
+    background:#404b59;
+}
+
+.btn-guardar{
+    background:#b30808;
+}
+
+.btn-guardar:hover{
+    background:#930606;
+}
+
+/* ==========================================
+   POPUP AUTOR
+========================================== */
+
+.autor-popup{
+    position:absolute;
+    top:78px;
+    right:45px;
+    width:360px;
+    max-height:560px;
+    overflow-y:auto;
+    background:#ffffff;
+    border:1px solid #bdbdbd;
+    border-radius:8px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.22);
+    padding:22px 24px;
+    z-index:99999;
+    font-family:'Roboto Condensed', sans-serif;
+    box-sizing:border-box;
+}
+
+.autor-popup__title{
+    text-align:center;
+    font-size:23px;
+    font-weight:700;
+    color:#111;
+    margin:0 0 22px;
+}
+
+.autor-popup label{
+    display:block;
+    font-size:18px;
+    font-weight:400;
+    color:#111;
+    margin-bottom:7px;
+}
+
+.autor-popup input[type="text"]{
+    width:100%;
+    height:43px;
+    border:1px solid #aaa;
+    border-radius:5px;
+    padding:7px 10px;
+    font-size:17px;
+    margin-bottom:18px;
+    box-sizing:border-box;
+    font-family:'Roboto Condensed', sans-serif;
+    background:#ffffff;
+}
+
+.autor-popup input[type="text"]:focus{
+    outline:none;
+    border-color:#001a78;
+    box-shadow:0 0 0 2px rgba(0,26,120,0.12);
+}
+
+.autor-popup__checkboxes{
+    display:flex;
+    gap:36px;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.autor-popup__checkboxes label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:0;
+    font-size:18px;
+}
+
+.autor-popup__checkboxes input[type="checkbox"]{
+    width:16px;
+    height:16px;
+    margin:0;
+    accent-color:#e52323;
+}
+
+.autor-popup__divider{
+    width:100%;
+    height:1px;
+    background:#cfcfcf;
+    margin:18px 0 24px;
+}
+
+.autor-popup__actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:24px;
+}
+
+.autor-popup__cancelar,
+.autor-popup__guardar{
+    border:none;
+    background:transparent;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.autor-popup__cancelar{
+    color:#c03030;
+}
+
+.autor-popup__guardar{
+    color:#001a78;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:1200px){
+
+    .admin-dashboard__form-card{
+        width:94%;
+        grid-template-columns:170px 1fr;
+    }
+
+    .admin-dashboard__form-row{
+        grid-template-columns:250px 1fr 210px;
+        gap:45px;
+    }
+
+    .admin-dashboard__form-actions{
+        width:85%;
+        gap:35px;
+    }
+}
+
+@media (max-width:900px){
+
+    .admin-dashboard__form-card{
+        grid-template-columns:1fr;
+        padding:18px 18px 20px;
+    }
+
+    .admin-dashboard__form-card > label{
+        min-height:auto;
+        margin:0 0 8px 0;
+    }
+
+    .admin-dashboard__form-card > input[type="text"]{
+        margin:0 0 22px 0;
+    }
+
+    .admin-dashboard__form-row{
+        grid-template-columns:1fr;
+        gap:18px;
+    }
+
+    .admin-dashboard__form-row > div > label{
+        margin:0 0 8px 0;
+    }
+
+    .admin-dashboard__form-files{
+        grid-template-columns:1fr;
+        gap:24px;
+    }
+
+    .admin-dashboard__form-actions{
+        width:90%;
+        flex-direction:column;
+        gap:18px;
+    }
+
+    .btn-cancelar,
+    .btn-guardar{
+        width:100%;
+    }
+
+    .autor-popup{
+        position:fixed;
+        top:50%;
+        left:50%;
+        right:auto;
+        transform:translate(-50%, -50%);
+        width:90%;
+        max-width:380px;
+        max-height:85vh;
+    }
+}
+
+@media (max-width:520px){
+
+    .admin-dashboard__form-header{
+        font-size:24px;
+    }
+
+    .admin-dashboard__form-section-title{
+        font-size:19px;
+    }
+
+    .btn-cancelar,
+    .btn-guardar{
+        font-size:28px;
+    }
 }
