@@ -1521,12 +1521,6 @@ html{
 
 
 
-
-
-
-
-
-
 /* ==========================================
    OCULTAR VISTA
 ========================================== */
@@ -1607,7 +1601,7 @@ html{
 }
 
 /* ==========================================
-   LABELS E INPUTS ALINEADOS COMO LA IMAGEN 1
+   LABELS E INPUTS ALINEADOS
 ========================================== */
 
 .admin-dashboard__form-card > label{
@@ -1666,7 +1660,7 @@ html{
     display:grid;
     grid-template-columns:280px 1fr 240px;
     gap:80px;
-    align-items:end;
+    align-items:start;
 
     margin-top:2px;
     padding:0;
@@ -1674,17 +1668,23 @@ html{
 
 .admin-dashboard__form-row > div{
     width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
 }
 
+/* Labels principales: Año, Línea de Investigación, Estado */
 .admin-dashboard__form-row > div > label{
     display:block;
     font-family:'Roboto Condensed', sans-serif;
     font-size:17px;
     font-weight:400;
     color:#111111;
-    margin:0 0 18px 14px;
+    margin:0 0 34px 0;
+    line-height:1.2;
 }
 
+/* Input de año */
 .admin-dashboard__form-row input[type="text"]{
     width:100%;
     height:50px;
@@ -1697,6 +1697,7 @@ html{
     background:#ffffff;
     box-sizing:border-box;
     outline:none;
+    margin:0;
 }
 
 .admin-dashboard__form-row input[type="text"]::placeholder{
@@ -1704,70 +1705,132 @@ html{
 }
 
 /* ==========================================
-   CHECKBOXES
+   CHECKBOXES ALINEADOS COMO LA REFERENCIA
 ========================================== */
 
 .admin-checkbox-group{
     display:flex;
     align-items:center;
-    gap:24px;
-    flex-wrap:wrap;
-    min-height:50px;
+    justify-content:flex-start;
+    gap:26px;
+    flex-wrap:nowrap;
+    min-height:auto;
+    margin:0;
+    padding:0;
 }
 
 .admin-checkbox-group label{
-    display:flex;
+    display:inline-flex;
     align-items:center;
-    gap:7px;
-    margin:0;
+    justify-content:flex-start;
+    gap:8px;
+    margin:0 !important;
+    padding:0;
     font-family:'Roboto Condensed', sans-serif;
     font-size:16px;
     font-weight:400;
     color:#111;
+    line-height:1;
+    white-space:nowrap;
     cursor:pointer;
 }
 
 .admin-checkbox-group input[type="checkbox"]{
-    width:16px;
-    height:16px;
+    width:18px;
+    height:18px;
     margin:0;
+    padding:0;
     accent-color:#001a78;
     cursor:pointer;
+    flex:0 0 auto;
+}
+
+/* Ajuste fino individual para que LI y Estado no se recorran raro */
+.admin-dashboard__form-row > div:nth-child(2) .admin-checkbox-group,
+.admin-dashboard__form-row > div:nth-child(3) .admin-checkbox-group{
+    margin-left:0;
 }
 
 /* ==========================================
    ARCHIVOS Y RECURSOS
 ========================================== */
 
+/* Ajuste específico de la segunda tarjeta */
+.admin-dashboard__form-card:nth-of-type(2){
+    padding:16px 18px 18px;
+    grid-template-columns:185px 1fr;
+    column-gap:20px;
+}
+
+/* Título de la segunda tarjeta */
+.admin-dashboard__form-card:nth-of-type(2) .admin-dashboard__form-section-title{
+    margin-bottom:30px;
+}
+
+/* Label del link, igual que la referencia */
+.admin-dashboard__form-card:nth-of-type(2) > label{
+    width:120px;
+    min-height:50px;
+    margin:0 0 20px 0;
+    justify-content:center;
+    text-align:center;
+    line-height:1.15;
+}
+
+/* Input del link alineado */
+.admin-dashboard__form-card:nth-of-type(2) > input[type="text"]{
+    height:50px;
+    margin:0 24px 20px 0;
+}
+
+/* Contenedor de los dos botones de imágenes */
 .admin-dashboard__form-files{
     grid-column:1 / -1;
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:40px;
     margin-top:22px;
+    padding:0;
+    box-sizing:border-box;
 }
 
+/* Caja base */
 .admin-dashboard__file-box{
     display:flex;
     flex-direction:column;
-    gap:14px;
+    gap:28px;
 }
 
+/* Pasta física a la izquierda */
+.admin-dashboard__file-box:first-child{
+    align-items:flex-start;
+    text-align:left;
+}
+
+/* Portada institucional a la derecha */
+.admin-dashboard__file-box:nth-child(2){
+    align-items:flex-end;
+    text-align:right;
+}
+
+/* Texto de las cajas */
 .admin-dashboard__file-box span{
     font-family:'Roboto Condensed', sans-serif;
     font-size:17px;
+    font-weight:400;
     color:#111;
 }
 
+/* Botón subir */
 .btn-subir{
-    width:160px;
-    height:42px;
+    width:175px;
+    height:52px;
     border:none;
     border-radius:7px;
     background:#bdbdbd;
     color:#111111;
     font-family:'Roboto Condensed', sans-serif;
-    font-size:16px;
+    font-size:17px;
     font-weight:700;
     cursor:pointer;
     transition:0.2s ease;
@@ -1946,6 +2009,10 @@ html{
         gap:45px;
     }
 
+    .admin-dashboard__form-card:nth-of-type(2){
+        grid-template-columns:170px 1fr;
+    }
+
     .admin-dashboard__form-actions{
         width:85%;
         gap:35px;
@@ -1974,12 +2041,41 @@ html{
     }
 
     .admin-dashboard__form-row > div > label{
+        margin:0 0 12px 0;
+    }
+
+    .admin-checkbox-group{
+        flex-wrap:wrap;
+        gap:18px;
+    }
+
+    .admin-dashboard__form-card:nth-of-type(2){
+        grid-template-columns:1fr;
+        padding:18px 18px 20px;
+    }
+
+    .admin-dashboard__form-card:nth-of-type(2) > label{
+        width:auto;
+        min-height:auto;
+        justify-content:flex-start;
+        text-align:left;
         margin:0 0 8px 0;
+    }
+
+    .admin-dashboard__form-card:nth-of-type(2) > input[type="text"]{
+        margin:0 0 22px 0;
     }
 
     .admin-dashboard__form-files{
         grid-template-columns:1fr;
         gap:24px;
+    }
+
+    .admin-dashboard__file-box,
+    .admin-dashboard__file-box:first-child,
+    .admin-dashboard__file-box:nth-child(2){
+        align-items:flex-start;
+        text-align:left;
     }
 
     .admin-dashboard__form-actions{
@@ -2019,4 +2115,66 @@ html{
     .btn-guardar{
         font-size:28px;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   CHECKBOX ESTILO CONTORNO AZUL
+   SOLO EN AGREGAR TESIS
+========================================== */
+
+#agregarTesisPanel .admin-checkbox-group input[type="checkbox"]{
+    appearance:none;
+    -webkit-appearance:none;
+    width:18px;
+    height:18px;
+    border:2px solid #001a78;
+    border-radius:2px;
+    background:#ffffff;
+    cursor:pointer;
+    position:relative;
+    display:inline-block;
+    vertical-align:middle;
+    flex:0 0 auto;
+    margin:0;
+    padding:0;
+}
+
+/* Seleccionado: fondo blanco y borde azul */
+#agregarTesisPanel .admin-checkbox-group input[type="checkbox"]:checked{
+    background:#ffffff;
+    border-color:#001a78;
+}
+
+/* Palomita azul */
+#agregarTesisPanel .admin-checkbox-group input[type="checkbox"]:checked::after{
+    content:"";
+    position:absolute;
+    left:4px;
+    top:0px;
+    width:5px;
+    height:10px;
+    border:solid #001a78;
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg);
 }
