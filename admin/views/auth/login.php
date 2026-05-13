@@ -16,8 +16,9 @@ $usernameValue = $usernameValue ?? '';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin - Login</title>
+    <link rel="icon" href="<?= htmlspecialchars($base) ?>/assets/img/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="<?= htmlspecialchars($base) ?>/assets/vendor/bootstrap/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="<?= htmlspecialchars($base) ?>/assets/css/auth/style.css">
 </head>
 <body class="admin-login">
@@ -47,7 +48,7 @@ $usernameValue = $usernameValue ?? '';
                         id="username"
                         name="username"
                         class="admin-login__input"
-                        value="<?= htmlspecialchars((string)$usernameValue) ?>"
+                        value=""
                         required
                     >
                 </div><br>
@@ -59,6 +60,7 @@ $usernameValue = $usernameValue ?? '';
                         id="password"
                         name="password"
                         class="admin-login__input"
+                        value=""
                         required
                     >
                 </div>
@@ -74,8 +76,15 @@ $usernameValue = $usernameValue ?? '';
     </div>
 </main>
 
-<script src="<?= htmlspecialchars($base) ?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
+const usernameInput = document.getElementById('username');
+
+if (usernameInput) {
+    usernameInput.addEventListener('input', () => {
+        usernameInput.value = usernameInput.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü]/g, '');
+    });
+}
+
 setTimeout(() => {
     const alert = document.querySelector('.admin-login__alert');
     if(alert) alert.remove();

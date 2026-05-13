@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    console.log("JS TESIS ACTIVO");
-
     const input = document.getElementById('buscador-tesis');
     const contenedor = document.getElementById('contenedor-tesis');
     const total = document.getElementById('tesis-total');
@@ -22,8 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const url = `${BASE_URL}/index.php/tesis/buscar?q=${encodeURIComponent(query)}`;
 
-            console.log("URL:", url);
-
             const res = await fetch(url);
 
             if (!res.ok) {
@@ -32,12 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await res.json();
 
-            console.log("DATA:", data);
-
             render(data);
 
         } catch (e) {
-            console.error("ERROR:", e);
+            contenedor.innerHTML = `<p>No se pudieron cargar las tesis.</p>`;
+            total.textContent = `0 Tesis`;
         }
     }
 

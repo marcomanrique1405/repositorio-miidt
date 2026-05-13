@@ -24,4 +24,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+
+    // ===== ALTA DE TESIS - LÍNEA DE INVESTIGACIÓN (solo uno) =====
+    document.querySelectorAll(
+        '#agregarTesisPanel .admin-checkbox-group input[value="CSR"], ' +
+        '#agregarTesisPanel .admin-checkbox-group input[value="Geomatica"], ' +
+        '#agregarTesisPanel .admin-checkbox-group input[value="TIC"]'
+    ).forEach(checkbox => {
+        checkbox.addEventListener('click', function () {
+
+            document.querySelectorAll(
+                '#agregarTesisPanel .admin-checkbox-group input[value="CSR"], ' +
+                '#agregarTesisPanel .admin-checkbox-group input[value="Geomatica"], ' +
+                '#agregarTesisPanel .admin-checkbox-group input[value="TIC"]'
+            ).forEach(el => {
+                el.checked = false;
+            });
+
+            this.checked = true;
+        });
+    });
+
 });

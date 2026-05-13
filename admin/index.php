@@ -69,6 +69,28 @@ switch ($path) {
         echo '405 - Method Not Allowed';
         break;
 
+    case '/directores/buscar':
+        if ($method === 'GET') {
+            require_once ADMIN_ROOT . '/controllers/TesisController.php';
+            $controller = new TesisController();
+            $controller->buscarDirectores();
+            exit;
+        }
+        http_response_code(405);
+        echo '405 - Method Not Allowed';
+        break;
+
+    case '/tesis/guardar':
+        if ($method === 'POST') {
+            require_once ADMIN_ROOT . '/controllers/TesisController.php';
+            $controller = new TesisController();
+            $controller->guardar();
+            exit;
+        }
+        http_response_code(405);
+        echo '405 - Method Not Allowed';
+        break;
+
     case '/filtrar-tesis':
         if ($method === 'POST') {
             $controller->filtrarTesis();
