@@ -2178,3 +2178,502 @@ html{
     border-width:0 2px 2px 0;
     transform:rotate(45deg);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   FIX DIRECTOR AUTOCOMPLETE
+   Para que se vea igual que los inputs principales
+   y las sugerencias floten encima sin mover el contenido
+========================================== */
+
+/* El contenedor del director ocupa la columna derecha del grid */
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap{
+    width:100% !important;
+    position:relative !important;
+    margin:0 0 20px 0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+}
+
+/* Input director igual que Título y Autor */
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > #director{
+    width:100% !important;
+    height:50px !important;
+    border:1px solid #8f8f8f !important;
+    border-radius:20px !important;
+    padding:8px 14px !important;
+    font-family:'Roboto Condensed', sans-serif !important;
+    font-size:16px !important;
+    color:#111 !important;
+    background:#ffffff !important;
+    box-sizing:border-box !important;
+    outline:none !important;
+    margin:0 !important;
+    display:block !important;
+}
+
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > #director::placeholder{
+    color:#8c8c8c !important;
+}
+
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > #director:focus{
+    border-color:#001a78 !important;
+    box-shadow:0 0 0 2px rgba(0,26,120,0.12) !important;
+}
+
+/* Caja de sugerencias: flota encima, no empuja Año / Línea / Estado */
+#agregarTesisPanel .director-autocomplete-wrap #director-sugerencias,
+#agregarTesisPanel .director-autocomplete-wrap .director-sugerencias{
+    position:absolute !important;
+    top:56px !important;
+    left:0 !important;
+    right:0 !important;
+    width:100% !important;
+    max-height:220px !important;
+    overflow-y:auto !important;
+    background:#ffffff !important;
+    border:1px solid #bdbdbd !important;
+    border-radius:12px !important;
+    box-shadow:0 8px 20px rgba(0,0,0,0.18) !important;
+    z-index:999999 !important;
+    display:none;
+    box-sizing:border-box !important;
+}
+
+/* Opciones del desplegable */
+#agregarTesisPanel .director-sugerencias__item{
+    display:block !important;
+    padding:10px 16px !important;
+    font-family:'Roboto Condensed', sans-serif !important;
+    font-size:16px !important;
+    color:#111 !important;
+    background:#ffffff !important;
+    cursor:pointer !important;
+    border-bottom:1px solid #eeeeee !important;
+}
+
+#agregarTesisPanel .director-sugerencias__item:last-child{
+    border-bottom:none !important;
+}
+
+#agregarTesisPanel .director-sugerencias__item:hover{
+    background:#001a78 !important;
+    color:#ffffff !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   MODAL SUBIR IMAGEN - ALTA DE TESIS
+========================================== */
+
+.upload-tesis-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    backdrop-filter:blur(1px);
+    z-index:999999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-family:'Roboto Condensed', sans-serif;
+}
+
+.upload-tesis-overlay.is-active{
+    display:flex;
+}
+
+.upload-tesis-modal{
+    width:560px;
+    max-width:92vw;
+    background:#ffffff;
+    border-radius:14px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.35);
+    overflow:hidden;
+    animation:uploadModalIn 0.18s ease;
+}
+
+@keyframes uploadModalIn{
+    from{
+        opacity:0;
+        transform:translateY(10px) scale(0.98);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+.upload-tesis-header{
+    width:100%;
+    padding:18px 24px;
+    border-bottom:1px solid #e3e3e3;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-sizing:border-box;
+}
+
+.upload-tesis-title{
+    margin:0;
+    font-size:28px;
+    font-weight:700;
+    color:#111;
+}
+
+.upload-tesis-close{
+    border:none;
+    background:transparent;
+    font-size:36px;
+    line-height:1;
+    color:#b30808;
+    cursor:pointer;
+    padding:0;
+}
+
+.upload-tesis-body{
+    padding:24px 28px 24px;
+    box-sizing:border-box;
+}
+
+.upload-tesis-text{
+    font-size:23px;
+    font-weight:400;
+    color:#111;
+    margin:0 0 28px;
+}
+
+.upload-tesis-dropzone{
+    width:100%;
+    min-height:190px;
+    border:2px dashed #a8a8a8;
+    border-radius:8px;
+    background:#eeeeee;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:14px;
+    text-align:center;
+    box-sizing:border-box;
+    cursor:pointer;
+    transition:0.18s ease;
+    padding:18px;
+}
+
+.upload-tesis-dropzone.is-dragover{
+    border-color:#b30808;
+    background:#f7eeee;
+}
+
+.upload-tesis-icon{
+    font-size:70px;
+    line-height:1;
+    color:#000;
+}
+
+.upload-tesis-instruction{
+    font-size:23px;
+    color:#111;
+}
+
+.upload-tesis-instruction span{
+    color:#b30808;
+}
+
+.upload-tesis-preview{
+    max-width:140px;
+    max-height:170px;
+    object-fit:contain;
+    display:none;
+}
+
+.upload-tesis-remove{
+    position:absolute;
+    width:22px;
+    height:22px;
+    border:none;
+    border-radius:50%;
+    background:#e9ffff;
+    color:#111;
+    font-size:20px;
+    line-height:20px;
+    cursor:pointer;
+    display:none;
+}
+
+.upload-tesis-preview-wrap{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.upload-tesis-preview-wrap.has-image .upload-tesis-preview{
+    display:block;
+}
+
+.upload-tesis-preview-wrap.has-image .upload-tesis-remove{
+    display:block;
+    top:-10px;
+    right:-10px;
+}
+
+.upload-tesis-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:20px 0 26px;
+    font-size:20px;
+    color:#111;
+}
+
+.upload-tesis-info-icon{
+    width:20px;
+    height:20px;
+    border:2px solid #111;
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    font-weight:700;
+}
+
+.upload-tesis-submit{
+    width:100%;
+    height:42px;
+    border:none;
+    border-radius:7px;
+    background:#b30808;
+    color:#ffffff;
+    font-size:18px;
+    font-weight:700;
+    font-family:'Roboto Condensed', sans-serif;
+    cursor:pointer;
+    transition:0.18s ease;
+}
+
+.upload-tesis-submit:hover{
+    background:#930606;
+}
+
+.upload-tesis-submit:disabled{
+    opacity:0.55;
+    cursor:not-allowed;
+}
+
+@media(max-width:600px){
+    .upload-tesis-title{
+        font-size:24px;
+    }
+
+    .upload-tesis-text,
+    .upload-tesis-instruction{
+        font-size:20px;
+    }
+
+    .upload-tesis-body{
+        padding:20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   MODAL RESULTADO ALTA DE TESIS
+   ÉXITO / ERROR
+========================================== */
+
+.tesis-modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(1px);
+    z-index:9999999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Roboto Condensed', sans-serif;
+}
+
+.tesis-modal-card{
+    width:620px;
+    max-width:90vw;
+    background:#ffffff;
+    border-radius:18px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.35);
+    padding:34px 34px 28px;
+    box-sizing:border-box;
+    text-align:center;
+    animation:tesisModalEntrada 0.18s ease;
+}
+
+@keyframes tesisModalEntrada{
+    from{
+        opacity:0;
+        transform:translateY(10px) scale(0.98);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+.tesis-modal-icon-wrap{
+    width:145px;
+    height:145px;
+    border-radius:50%;
+    margin:0 auto 30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.tesis-modal-icon-wrap.success{
+    background:#e5fbf3;
+}
+
+.tesis-modal-icon-wrap.error{
+    background:#ffe8e8;
+}
+
+.tesis-modal-icon{
+    width:74px;
+    height:74px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#ffffff;
+    font-size:48px;
+    font-weight:700;
+    line-height:1;
+}
+
+.tesis-modal-icon.success{
+    background:#10c989;
+}
+
+.tesis-modal-icon.error{
+    background:#b30808;
+}
+
+.tesis-modal-title{
+    margin:0 0 28px;
+    color:#000000;
+    font-size:38px;
+    font-weight:700;
+    line-height:1.15;
+}
+
+.tesis-modal-text{
+    margin:0 0 22px;
+    color:#000000;
+    font-size:34px;
+    font-weight:700;
+    line-height:1.2;
+}
+
+.tesis-modal-message{
+    margin:0 0 26px;
+    color:#111111;
+    font-size:24px;
+    font-weight:500;
+    line-height:1.35;
+}
+
+.tesis-modal-button{
+    width:210px;
+    height:48px;
+    border:none;
+    border-radius:10px;
+    background:#b30808;
+    color:#ffffff;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:22px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.2s ease;
+}
+
+.tesis-modal-button:hover{
+    background:#930606;
+}
+
+@media(max-width:650px){
+    .tesis-modal-card{
+        padding:28px 22px 24px;
+    }
+
+    .tesis-modal-icon-wrap{
+        width:120px;
+        height:120px;
+        margin-bottom:24px;
+    }
+
+    .tesis-modal-icon{
+        width:64px;
+        height:64px;
+        font-size:42px;
+    }
+
+    .tesis-modal-title{
+        font-size:30px;
+    }
+
+    .tesis-modal-text{
+        font-size:26px;
+    }
+
+    .tesis-modal-message{
+        font-size:21px;
+    }
+}

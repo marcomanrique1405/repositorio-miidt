@@ -12,6 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function setHiddenValue(id, value) {
+        const input = document.getElementById(id);
+        if (input) {
+            input.value = value;
+        }
+    }
+
     function abrirPopupAutor() {
         cerrarPopupAutor();
 
@@ -73,8 +80,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const nombre = document.getElementById('autorNombre').value.trim();
             const apellidoPaterno = document.getElementById('autorApellidoPaterno').value.trim();
             const apellidoMaterno = document.getElementById('autorApellidoMaterno').value.trim();
+            const matricula = document.getElementById('autorMatricula').value.trim();
+            const correo = document.getElementById('autorCorreo').value.trim();
+
+            const sexoSeleccionado = popup.querySelector('input[name="sexoAutor"]:checked');
+            const sexo = sexoSeleccionado ? sexoSeleccionado.value : '';
+
+            if (!nombre || !apellidoPaterno || !matricula || !sexo) {
+                alert('Completa nombre, apellido paterno, matrícula y sexo del autor.');
+                return;
+            }
 
             inputAutor.value = `${nombre} ${apellidoPaterno} ${apellidoMaterno}`.trim();
+
+            setHiddenValue('autorNombreHidden', nombre);
+            setHiddenValue('autorApellidoPaternoHidden', apellidoPaterno);
+            setHiddenValue('autorApellidoMaternoHidden', apellidoMaterno);
+            setHiddenValue('autorMatriculaHidden', matricula);
+            setHiddenValue('autorCorreoHidden', correo);
+            setHiddenValue('autorSexoHidden', sexo);
 
             cerrarPopupAutor();
         });

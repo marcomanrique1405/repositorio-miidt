@@ -22,10 +22,22 @@
                 <input type="text" id="titulo" placeholder="Escribe el título">
 
                 <label>Autor:</label>
-                <input type="text" id="autor" placeholder="Nombre del autor">
+                <input type="text" id="autor" placeholder="Nombre del autor" readonly>
+
+                <input type="hidden" id="autorMatriculaHidden">
+                <input type="hidden" id="autorNombreHidden">
+                <input type="hidden" id="autorApellidoPaternoHidden">
+                <input type="hidden" id="autorApellidoMaternoHidden">
+                <input type="hidden" id="autorCorreoHidden">
+                <input type="hidden" id="autorSexoHidden">
 
                 <label>Director de tesis:</label>
-                <input type="text" id="director" placeholder="Buscar director">
+                <div class="director-autocomplete-wrap">
+                    <input type="text" id="director" placeholder="Buscar director" autocomplete="off">
+                    <input type="hidden" id="idDirector">
+                    <input type="hidden" id="idDirectorLinea">
+                    <div id="director-sugerencias" class="director-sugerencias"></div>
+                </div>
 
                 <div class="admin-dashboard__form-row">
 
@@ -37,9 +49,9 @@
                     <div>
                         <label>Línea de Investigación:</label>
                         <div class="admin-checkbox-group">
-                            <label><input type="checkbox" value="CSR"> CSR</label>
-                            <label><input type="checkbox" value="Geomatica"> Geomática</label>
-                            <label><input type="checkbox" value="TIC"> TIC</label>
+                            <label><input type="checkbox" value="CSR" data-id-linea="1"> CSR</label>
+                            <label><input type="checkbox" value="Geomatica" data-id-linea="3"> Geomática</label>
+                            <label><input type="checkbox" value="TIC" data-id-linea="2"> TIC</label>
                         </div>
                     </div>
 
@@ -71,12 +83,14 @@
 
                     <div class="admin-dashboard__file-box">
                         <span>Pasta física:</span>
-                        <button type="button" class="btn-subir">Subir imagen</button>
+                        <input type="file" id="pastaFisicaInput" accept="image/*" hidden>
+                        <button type="button" id="btnPastaFisica" class="btn-subir">Subir imagen</button>
                     </div>
 
                     <div class="admin-dashboard__file-box">
                         <span>Portada institucional:</span>
-                        <button type="button" class="btn-subir">Subir imagen</button>
+                        <input type="file" id="portadaInstitucionalInput" accept="image/*" hidden>
+                        <button type="button" id="btnPortadaInstitucional" class="btn-subir">Subir imagen</button>
                     </div>
 
                 </div>

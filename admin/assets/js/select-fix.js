@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let scrollOriginal = 0;
 
-    // 👉 cuando abre el select
+    //  cuando abre el select
     select.addEventListener('mousedown', () => {
 
         scrollOriginal = sidebar.scrollTop;
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 0);
     });
 
-    // 👉 cuando selecciona una opción
+    //  cuando selecciona una opción
     select.addEventListener('change', () => {
 
         setTimeout(() => {

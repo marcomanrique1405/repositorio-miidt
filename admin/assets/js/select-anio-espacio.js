@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.body.appendChild(menu);
 
-        // 🔥 REPOSICIONAR EN TIEMPO REAL
+        //  REPOSICIONAR EN TIEMPO REAL
         window.addEventListener('scroll', posicionarMenu, true);
         window.addEventListener('resize', posicionarMenu);
     }
