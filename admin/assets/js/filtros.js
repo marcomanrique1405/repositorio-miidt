@@ -60,6 +60,7 @@ async function filtrarTesis() {
         }
 
         const data = await response.json();
+
         renderizarTesis(Array.isArray(data) ? data : []);
         actualizarTextoFiltrosActivos(filtros);
 
@@ -92,33 +93,94 @@ function renderizarTesis(tesis) {
     }
 
     tesis.forEach(t => {
-        const imagen = t.imagen && t.imagen.trim() !== ''
+        /*
+           IMPORTANTE:
+           El problema estaba aquí.
+           Antes este render pintaba los botones Editar/Eliminar sin data-id.
+           Ahora tomamos el id_tesis de forma segura y lo ponemos en:
+           - la tarjeta .tesis-item
+           - el botón Editar
+           - el botón Eliminar
+        */
+        const idTesis = String(
+            t.id_tesis ??
+            t.idTesis ??
+            t.id ??
+            ''
+        ).trim();
+
+        const imagen = t.imagen && String(t.imagen).trim() !== ''
             ? t.imagen
             : `${BASE_URL}/assets/img/no-image.png`;
 
-        contenedor.innerHTML += `
-            <div class="tesis-item">
-                <div class="tesis-item__cover">
-                    <img src="${imagen}" alt="Portada de tesis">
-                </div>
+        const div = document.createElement('div');
+        div.className = 'tesis-item';
 
-                <div class="tesis-item__content">
-                    <h3 class="tesis-item__title">${t.titulo ?? ''}</h3>
+        div.setAttribute('data-id', idTesis);
+        div.setAttribute('data-id-tesis', idTesis);
 
-                    <p class="tesis-item__meta"><strong>Autor:</strong> ${t.autor ?? ''}</p>
-                    <p class="tesis-item__meta"><strong>Director:</strong> ${t.director ?? ''}</p>
-                    <p class="tesis-item__meta"><strong>LIES:</strong> ${t.lies ?? ''}</p>
-                    <p class="tesis-item__meta"><strong>Estado:</strong> ${t.estado ?? ''}</p>
-
-                    <div class="tesis-item__actions">
-                        <button type="button" class="tesis-item__edit">Editar</button>
-                        <button type="button" class="tesis-item__delete">Eliminar</button>
-                    </div>
-                </div>
-
-                <div class="tesis-item__year">${t.anio ?? ''}</div>
+        div.innerHTML = `
+            <div class="tesis-item__cover">
+                <img 
+                    src="${imagen}" 
+                    alt="Portada de tesis"
+                    onerror="this.src='${BASE_URL}/assets/img/default.jpg'"
+                >
             </div>
+
+            <div class="tesis-item__content">
+                <h3 class="tesis-item__title">${t.titulo ?? ''}</h3>
+
+                <p class="tesis-item__meta"><strong>Autor:</strong> ${t.autor ?? ''}</p>
+                <p class="tesis-item__meta"><strong>Director:</strong> ${t.director ?? ''}</p>
+                <p class="tesis-item__meta"><strong>LIES:</strong> ${t.lies ?? ''}</p>
+                <p class="tesis-item__meta"><strong>Estado:</strong> ${t.estado ?? ''}</p>
+
+                <div class="tesis-item__actions">
+                    <button 
+                        type="button" 
+                        class="tesis-item__edit"
+                        data-id="${idTesis}"
+                        data-id-tesis="${idTesis}"
+                        aria-label="Editar tesis"
+                    >
+                        Editar
+                    </button>
+
+                    <button 
+                        type="button" 
+                        class="tesis-item__delete"
+                        data-id="${idTesis}"
+                        data-id-tesis="${idTesis}"
+                        aria-label="Eliminar tesis"
+                    >
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+
+            <div class="tesis-item__year">${t.anio ?? ''}</div>
         `;
+
+        /*
+           Refuerzo extra:
+           Después de crear el HTML, volvemos a asegurar
+           que los botones tengan el id.
+        */
+        const btnEditar = div.querySelector('.tesis-item__edit');
+        const btnEliminar = div.querySelector('.tesis-item__delete');
+
+        if (btnEditar) {
+            btnEditar.setAttribute('data-id', idTesis);
+            btnEditar.setAttribute('data-id-tesis', idTesis);
+        }
+
+        if (btnEliminar) {
+            btnEliminar.setAttribute('data-id', idTesis);
+            btnEliminar.setAttribute('data-id-tesis', idTesis);
+        }
+
+        contenedor.appendChild(div);
     });
 }
 

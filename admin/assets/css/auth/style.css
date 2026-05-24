@@ -2677,3 +2677,1186 @@ html{
         font-size:21px;
     }
 }
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   FLATPICKR - CALENDARIO TESIS
+   Estilo visual igual al diseño
+========================================== */
+
+.flatpickr-calendar{
+    width: 430px !important;
+    max-width: 430px !important;
+    background: #fdfdfd !important;
+    border: none !important;
+    border-radius: 28px !important;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.18) !important;
+    padding: 22px 20px 20px !important;
+    font-family: 'Roboto Condensed', sans-serif !important;
+    overflow: hidden !important;
+}
+
+.flatpickr-calendar.open,
+.flatpickr-calendar.inline{
+    display: block !important;
+    z-index: 99999 !important;
+}
+
+.flatpickr-calendar.arrowTop::before,
+.flatpickr-calendar.arrowTop::after,
+.flatpickr-calendar.arrowBottom::before,
+.flatpickr-calendar.arrowBottom::after{
+    display: none !important;
+}
+
+/* CONTENEDOR GENERAL */
+.flatpickr-innerContainer{
+    display: block !important;
+}
+
+.flatpickr-rContainer{
+    width: 100% !important;
+}
+
+.flatpickr-days{
+    width: 100% !important;
+}
+
+.dayContainer{
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    justify-content: center !important;
+    padding-top: 6px !important;
+}
+
+/* HEADER */
+.flatpickr-months{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 16px !important;
+    position: relative !important;
+}
+
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month{
+    position: static !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #111111 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.flatpickr-months .flatpickr-prev-month svg,
+.flatpickr-months .flatpickr-next-month svg{
+    width: 18px !important;
+    height: 18px !important;
+    fill: #111111 !important;
+}
+
+.flatpickr-month{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    width: auto !important;
+    flex: 1 !important;
+    padding: 0 8px !important;
+    height: auto !important;
+}
+
+.flatpickr-current-month{
+    position: static !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    padding: 0 !important;
+    font-size: 0 !important;
+    height: auto !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months{
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-size: 34px !important;
+    font-weight: 700 !important;
+    color: #111111 !important;
+    line-height: 1 !important;
+    padding: 0 28px 0 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    background-image: none !important;
+}
+
+.flatpickr-current-month .numInputWrapper{
+    width: auto !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.flatpickr-current-month input.cur-year{
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-size: 34px !important;
+    font-weight: 700 !important;
+    color: #111111 !important;
+    width: 92px !important;
+    min-width: 92px !important;
+    text-align: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.flatpickr-current-month .numInputWrapper span{
+    display: none !important;
+}
+
+/* DÍAS DE LA SEMANA */
+.flatpickr-weekdays{
+    width: 100% !important;
+    margin-bottom: 12px !important;
+}
+
+.flatpickr-weekdaycontainer{
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
+    width: 100% !important;
+}
+
+span.flatpickr-weekday{
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-size: 24px !important;
+    font-weight: 500 !important;
+    color: #203a9a !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+/* DÍAS */
+.flatpickr-day{
+    width: 52px !important;
+    max-width: 52px !important;
+    height: 52px !important;
+    line-height: 52px !important;
+    border-radius: 50% !important;
+    border: none !important;
+    margin: 4px auto !important;
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-size: 24px !important;
+    font-weight: 400 !important;
+    color: #222222 !important;
+    background: transparent !important;
+}
+
+.flatpickr-day:hover{
+    background: rgba(179, 8, 8, 0.08) !important;
+    color: #222222 !important;
+}
+
+.flatpickr-day.today{
+    border: none !important;
+    color: #222222 !important;
+    background: rgba(0,0,0,0.06) !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover{
+    background: #b30808 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay{
+    color: #9f9f9f !important;
+}
+
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover{
+    color: #c7c7c7 !important;
+    background: transparent !important;
+    cursor: default !important;
+}
+
+/* AJUSTE RESPONSIVO */
+@media (max-width: 768px){
+    .flatpickr-calendar{
+        width: 380px !important;
+        max-width: 380px !important;
+        padding: 18px 16px 16px !important;
+    }
+
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month input.cur-year{
+        font-size: 28px !important;
+    }
+
+    span.flatpickr-weekday{
+        font-size: 20px !important;
+    }
+
+    .flatpickr-day{
+        width: 46px !important;
+        max-width: 46px !important;
+        height: 46px !important;
+        line-height: 46px !important;
+        font-size: 22px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   AJUSTE FINAL CALENDARIO FLATPICKR
+   Solo posición y tamaño
+========================================== */
+
+.flatpickr-calendar.open{
+    width:390px !important;
+    max-width:390px !important;
+    min-width:390px !important;
+
+    /*
+       Mueve el calendario:
+       X = derecha / izquierda
+       Y = arriba / abajo
+    */
+    transform:translate(45px, -255px) !important;
+
+    z-index:9999999 !important;
+}
+
+/* Ajuste interno para que el tamaño se vea proporcionado */
+.flatpickr-calendar.open .flatpickr-months{
+    margin-bottom:12px !important;
+}
+
+.flatpickr-calendar.open .flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-calendar.open .flatpickr-current-month input.cur-year{
+    font-size:28px !important;
+}
+
+.flatpickr-calendar.open span.flatpickr-weekday{
+    font-size:20px !important;
+}
+
+.flatpickr-calendar.open .flatpickr-day{
+    width:42px !important;
+    max-width:42px !important;
+    height:42px !important;
+    line-height:42px !important;
+    font-size:21px !important;
+    margin:2px auto !important;
+}
+
+.flatpickr-calendar.open .dayContainer{
+    row-gap:5px !important;
+}
+
+
+
+
+/* ==========================================
+   AUTOCOMPLETE DIRECTOR - MISMO DISEÑO QUE INPUTS
+   Aplica en agregar y editar sin romper clases
+========================================== */
+
+#agregarTesisPanel .director-autocomplete-wrap,
+#editarTesisPanel .director-autocomplete-wrap{
+    width:100%;
+    position:relative;
+    margin:0 0 20px 0;
+    box-sizing:border-box;
+}
+
+/* Input de director dentro del autocomplete */
+#agregarTesisPanel .director-autocomplete-wrap input[type="text"],
+#editarTesisPanel .director-autocomplete-wrap input[type="text"]{
+    width:100%;
+    height:50px;
+    border:1px solid #8f8f8f;
+    border-radius:20px;
+    padding:8px 14px;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:16px;
+    color:#111;
+    background:#ffffff;
+    box-sizing:border-box;
+    outline:none;
+    margin:0;
+}
+
+/* Placeholder */
+#agregarTesisPanel .director-autocomplete-wrap input[type="text"]::placeholder,
+#editarTesisPanel .director-autocomplete-wrap input[type="text"]::placeholder{
+    color:#8c8c8c;
+}
+
+/* Focus igual a los demás inputs */
+#agregarTesisPanel .director-autocomplete-wrap input[type="text"]:focus,
+#editarTesisPanel .director-autocomplete-wrap input[type="text"]:focus{
+    border-color:#001a78;
+    box-shadow:0 0 0 2px rgba(0,26,120,0.12);
+}
+
+/* Caja de sugerencias sobrepuesta, sin empujar el formulario */
+#agregarTesisPanel .director-sugerencias,
+#editarTesisPanel .director-sugerencias{
+    display:none;
+    position:absolute;
+    top:54px;
+    left:0;
+    width:100%;
+    max-height:220px;
+    overflow-y:auto;
+    background:#ffffff;
+    border:1px solid #bdbdbd;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.18);
+    z-index:99999;
+    box-sizing:border-box;
+}
+
+/* Cada sugerencia */
+.director-sugerencias__item{
+    padding:10px 14px;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:16px;
+    color:#111;
+    cursor:pointer;
+    background:#ffffff;
+}
+
+.director-sugerencias__item:hover{
+    background:#001a78;
+    color:#ffffff;
+}
+
+/* Autor como campo clickeable */
+#autor,
+#editarAutor{
+    cursor:pointer;
+    background:#ffffff;
+}
+
+
+
+
+
+
+
+
+/* ==========================================
+   FORZAR EDITAR Y AGREGAR DENTRO DEL DASHBOARD
+========================================== */
+
+body.admin-vista-agregar .admin-dashboard__body,
+body.admin-vista-editar .admin-dashboard__body{
+    display:grid !important;
+    grid-template-columns:280px 1fr !important;
+    align-items:start !important;
+}
+
+/* Mantener sidebar visible en agregar y editar */
+body.admin-vista-agregar .admin-dashboard__sidebar-placeholder,
+body.admin-vista-editar .admin-dashboard__sidebar-placeholder{
+    display:block !important;
+    width:280px !important;
+    min-width:280px !important;
+    max-width:280px !important;
+    visibility:visible !important;
+    opacity:1 !important;
+}
+
+/* Mantener main en su espacio */
+body.admin-vista-agregar .admin-dashboard__main,
+body.admin-vista-editar .admin-dashboard__main{
+    width:100% !important;
+    min-width:0 !important;
+    display:block !important;
+}
+
+/* Mantener stats visibles */
+body.admin-vista-agregar .admin-dashboard__stats,
+body.admin-vista-editar .admin-dashboard__stats,
+body.admin-vista-agregar .stats,
+body.admin-vista-editar .stats{
+    display:flex !important;
+    visibility:visible !important;
+    opacity:1 !important;
+}
+
+/* Contenedor central */
+body.admin-vista-agregar #contenedorPrincipal,
+body.admin-vista-editar #contenedorPrincipal{
+    width:100% !important;
+    max-width:100% !important;
+    display:block !important;
+}
+
+/* Formularios */
+body.admin-vista-agregar #agregarTesisPanel,
+body.admin-vista-editar #editarTesisPanel{
+    width:100% !important;
+    max-width:100% !important;
+    margin-top:10px !important;
+}
+
+/* Tarjetas del formulario */
+body.admin-vista-agregar #agregarTesisPanel .admin-dashboard__form-card,
+body.admin-vista-editar #editarTesisPanel .admin-dashboard__form-card{
+    width:92% !important;
+    margin:0 auto 26px !important;
+}
+
+/* Responsive */
+@media(max-width:900px){
+    body.admin-vista-agregar .admin-dashboard__body,
+    body.admin-vista-editar .admin-dashboard__body{
+        display:block !important;
+    }
+
+    body.admin-vista-agregar .admin-dashboard__sidebar-placeholder,
+    body.admin-vista-editar .admin-dashboard__sidebar-placeholder{
+        width:100% !important;
+        min-width:100% !important;
+        max-width:100% !important;
+    }
+
+    body.admin-vista-agregar #agregarTesisPanel .admin-dashboard__form-card,
+    body.admin-vista-editar #editarTesisPanel .admin-dashboard__form-card{
+        width:94% !important;
+    }
+}
+
+
+
+
+
+
+
+
+/* ==========================================
+   PARCHE SOLO VISTA EDITAR TESIS
+   No afecta Agregar, Lista ni Login
+========================================== */
+
+/* Cuando esté en editar, el dashboard debe seguir usando flex */
+body.admin-vista-editar .admin-dashboard__body{
+    display:flex !important;
+    grid-template-columns:unset !important;
+    width:100% !important;
+    min-height:calc(100vh - 52px) !important;
+}
+
+/* Mantener menú lateral igual que en lista/agregar */
+body.admin-vista-editar .admin-dashboard__sidebar-placeholder{
+    width:240px !important;
+    min-width:240px !important;
+    max-width:240px !important;
+    flex-shrink:0 !important;
+    display:block !important;
+    visibility:visible !important;
+    opacity:1 !important;
+}
+
+/* Mantener contenido principal en su lugar */
+body.admin-vista-editar .admin-dashboard__main{
+    flex:1 !important;
+    min-width:0 !important;
+    width:auto !important;
+    padding:16px 18px !important;
+    box-sizing:border-box !important;
+    display:block !important;
+}
+
+/* Vista editar con la misma estructura de scroll que Agregar */
+body.admin-vista-editar #vistaEditar{
+    position:relative !important;
+    width:100% !important;
+    height:calc(100vh - 140px) !important;
+    overflow:hidden !important;
+    margin-top:10px !important;
+    font-family:'Roboto Condensed', sans-serif !important;
+}
+
+/* El wrapper de editar debe quedar dentro de vistaEditar */
+body.admin-vista-editar #vistaEditar .admin-dashboard__form-wrapper{
+    position:absolute !important;
+    top:0 !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+
+    width:100% !important;
+    background:#ffffff !important;
+
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+
+    padding-right:10px !important;
+    box-sizing:border-box !important;
+}
+
+/* Panel editar ajustado al ancho correcto */
+body.admin-vista-editar #editarTesisPanel{
+    width:100% !important;
+    max-width:100% !important;
+    margin-top:0 !important;
+}
+
+/* Tarjetas igual que Agregar */
+body.admin-vista-editar #editarTesisPanel .admin-dashboard__form-card{
+    width:92% !important;
+    margin:0 auto 26px !important;
+}
+
+/* Header del formulario editar */
+body.admin-vista-editar #editarTesisPanel .admin-dashboard__form-header{
+    width:100% !important;
+}
+
+/* Body del formulario editar */
+body.admin-vista-editar #editarTesisPanel .admin-dashboard__form-body{
+    width:100% !important;
+}
+
+/* Responsive solo editar */
+@media(max-width:900px){
+    body.admin-vista-editar .admin-dashboard__body{
+        display:block !important;
+    }
+
+    body.admin-vista-editar .admin-dashboard__sidebar-placeholder{
+        width:100% !important;
+        min-width:100% !important;
+        max-width:100% !important;
+    }
+
+    body.admin-vista-editar #vistaEditar{
+        height:auto !important;
+        overflow:visible !important;
+    }
+
+    body.admin-vista-editar #vistaEditar .admin-dashboard__form-wrapper{
+        position:relative !important;
+        overflow:visible !important;
+        padding-right:0 !important;
+    }
+
+    body.admin-vista-editar #editarTesisPanel .admin-dashboard__form-card{
+        width:94% !important;
+    }
+}
+
+
+
+
+
+
+
+
+/* ==========================================
+   CHECKBOX ESTILO CONTORNO AZUL
+   SOLO EDITAR TESIS
+   Igual que Agregar tesis
+========================================== */
+
+#editarTesisPanel .admin-checkbox-group input[type="checkbox"]{
+    appearance:none;
+    -webkit-appearance:none;
+    width:18px;
+    height:18px;
+    border:2px solid #001a78;
+    border-radius:2px;
+    background:#ffffff;
+    cursor:pointer;
+    position:relative;
+    display:inline-block;
+    vertical-align:middle;
+    flex:0 0 auto;
+    margin:0;
+    padding:0;
+}
+
+/* Seleccionado: fondo blanco y borde azul */
+#editarTesisPanel .admin-checkbox-group input[type="checkbox"]:checked{
+    background:#ffffff;
+    border-color:#001a78;
+}
+
+/* Palomita azul */
+#editarTesisPanel .admin-checkbox-group input[type="checkbox"]:checked::after{
+    content:"";
+    position:absolute;
+    left:4px;
+    top:0px;
+    width:5px;
+    height:10px;
+    border:solid #001a78;
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg);
+}
+
+/* Alineación igual que agregar */
+#editarTesisPanel .admin-checkbox-group{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:26px;
+    flex-wrap:nowrap;
+    min-height:auto;
+    margin:0;
+    padding:0;
+}
+
+#editarTesisPanel .admin-checkbox-group label{
+    display:inline-flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:8px;
+    margin:0 !important;
+    padding:0;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:16px;
+    font-weight:400;
+    color:#111;
+    line-height:1;
+    white-space:nowrap;
+    cursor:pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   MODAL ELIMINAR TESIS
+   Confirmación + resultado
+========================================== */
+
+.eliminar-tesis-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.38);
+    backdrop-filter:blur(2px);
+    z-index:9999999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Roboto Condensed', sans-serif;
+}
+
+/* ===============================
+   MODAL BASE
+================================ */
+
+.eliminar-tesis-modal{
+    width:500px;
+    max-width:90vw;
+    background:#ffffff;
+    border-radius:16px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.35);
+    padding:34px 20px 18px;
+    box-sizing:border-box;
+    text-align:center;
+    animation:eliminarModalIn 0.18s ease;
+}
+
+@keyframes eliminarModalIn{
+    from{
+        opacity:0;
+        transform:translateY(8px) scale(0.98);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+/* ===============================
+   ICONO DE ADVERTENCIA
+   Estilo parecido al diseño
+================================ */
+
+.eliminar-tesis-icon-wrap{
+    width:122px;
+    height:122px;
+    border-radius:50%;
+    background:#ffe4e4;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 24px;
+}
+
+/* Convierte el círculo rojo actual en triángulo */
+.eliminar-tesis-icon{
+    width:0;
+    height:0;
+    border-left:34px solid transparent;
+    border-right:34px solid transparent;
+    border-bottom:62px solid #c43b3b;
+    background:transparent !important;
+    border-radius:0;
+    color:#ffffff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0;
+    font-weight:700;
+    line-height:1;
+    position:relative;
+}
+
+/* Signo de admiración dentro del triángulo */
+.eliminar-tesis-icon::after{
+    content:"!";
+    position:absolute;
+    top:22px;
+    left:-6px;
+    color:#ffffff;
+    font-size:34px;
+    font-weight:900;
+    line-height:1;
+}
+
+/* ===============================
+   TEXTO CONFIRMACIÓN
+================================ */
+
+.eliminar-tesis-title{
+    margin:0 auto 22px;
+    color:#000000;
+    font-size:32px;
+    font-weight:800;
+    line-height:1.05;
+    max-width:420px;
+}
+
+/* Ocultamos el texto secundario para que quede como tu diseño */
+.eliminar-tesis-text{
+    display:none;
+}
+
+/* Quitamos la caja gris y dejamos título + autor grande */
+.eliminar-tesis-info{
+    background:transparent;
+    border-radius:0;
+    padding:0;
+    margin:0 auto 36px;
+    text-align:center;
+    max-width:430px;
+}
+
+.eliminar-tesis-info strong{
+    display:block;
+    color:#000000;
+    font-size:30px;
+    font-weight:800;
+    line-height:1.08;
+    margin:0 0 26px;
+}
+
+.eliminar-tesis-info span{
+    display:block;
+    color:#000000;
+    font-size:30px;
+    font-weight:800;
+    line-height:1.08;
+}
+
+/* Agrega visualmente "Autor:" antes del nombre */
+.eliminar-tesis-info span::before{
+    content:"Autor: ";
+}
+
+/* ===============================
+   BOTONES CONFIRMACIÓN
+================================ */
+
+.eliminar-tesis-actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    margin-top:10px;
+}
+
+.eliminar-tesis-actions.center{
+    justify-content:center;
+}
+
+.eliminar-tesis-btn{
+    width:auto;
+    height:auto;
+    border:none;
+    border-radius:0;
+    background:transparent;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:30px;
+    font-weight:800;
+    cursor:pointer;
+    transition:0.2s ease;
+    padding:0;
+}
+
+.eliminar-tesis-btn.cancelar{
+    background:transparent;
+    color:#001a78;
+}
+
+.eliminar-tesis-btn.cancelar:hover{
+    background:transparent;
+    color:#00105a;
+    transform:scale(1.02);
+}
+
+.eliminar-tesis-btn.eliminar{
+    background:transparent;
+    color:#c43b3b;
+}
+
+.eliminar-tesis-btn.eliminar:hover{
+    background:transparent;
+    color:#a80707;
+    transform:scale(1.02);
+}
+
+/* ==========================================
+   MODAL RESULTADO ELIMINAR TESIS
+   Estilo como tu tercera imagen
+========================================== */
+
+.eliminar-tesis-modal--resultado{
+    width:520px;
+    max-width:90vw;
+    padding:28px 30px 26px;
+}
+
+/* En resultado el icono vuelve a ser círculo */
+.eliminar-tesis-modal--resultado .eliminar-tesis-icon-wrap.success{
+    width:110px;
+    height:110px;
+    margin-bottom:22px;
+    background:#e5fbf3;
+}
+
+.eliminar-tesis-modal--resultado .eliminar-tesis-icon.success{
+    width:62px;
+    height:62px;
+    border:none;
+    border-radius:50%;
+    background:#10c989 !important;
+    color:#ffffff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    font-weight:800;
+}
+
+.eliminar-tesis-modal--resultado .eliminar-tesis-icon.success::after{
+    content:none;
+}
+
+.eliminar-tesis-icon-wrap.error{
+    background:#ffe8e8;
+}
+
+.eliminar-tesis-modal--resultado .eliminar-tesis-icon.error{
+    width:62px;
+    height:62px;
+    border:none;
+    border-radius:50%;
+    background:#b30808 !important;
+    color:#ffffff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    font-weight:800;
+}
+
+.eliminar-tesis-modal--resultado .eliminar-tesis-icon.error::after{
+    content:none;
+}
+
+.eliminar-tesis-title--resultado{
+    margin:0;
+    font-size:34px;
+    line-height:1.2;
+    color:#000000;
+    font-weight:800;
+}
+
+.eliminar-tesis-modal--resultado .eliminar-tesis-text{
+    display:none;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:600px){
+    .eliminar-tesis-modal{
+        width:88vw;
+        padding:28px 18px 18px;
+    }
+
+    .eliminar-tesis-icon-wrap{
+        width:105px;
+        height:105px;
+        margin-bottom:20px;
+    }
+
+    .eliminar-tesis-icon{
+        border-left-width:30px;
+        border-right-width:30px;
+        border-bottom-width:55px;
+    }
+
+    .eliminar-tesis-icon::after{
+        top:19px;
+        left:-5px;
+        font-size:30px;
+    }
+
+    .eliminar-tesis-title{
+        font-size:28px;
+    }
+
+    .eliminar-tesis-info strong,
+    .eliminar-tesis-info span{
+        font-size:26px;
+    }
+
+    .eliminar-tesis-btn{
+        font-size:26px;
+    }
+
+    .eliminar-tesis-modal--resultado{
+        width:88vw;
+        padding:26px 18px 24px;
+    }
+
+    .eliminar-tesis-title--resultado{
+        font-size:28px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   ICONOS EDITAR / ELIMINAR EN TARJETAS TESIS
+========================================== */
+
+.tesis-item__actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin-top:18px;
+}
+
+.tesis-item__edit,
+.tesis-item__delete{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    border:none;
+    background:transparent;
+    padding:0;
+    font-family:'Roboto Condensed', sans-serif;
+    font-size:16px;
+    font-weight:700;
+    line-height:1;
+    cursor:pointer;
+    transition:0.2s ease;
+}
+
+.tesis-item__edit{
+    color:#001a78;
+}
+
+.tesis-item__delete{
+    color:#b30808;
+}
+
+.tesis-item__edit:hover,
+.tesis-item__delete:hover{
+    transform:scale(1.03);
+    text-decoration:none;
+}
+
+.tesis-item__action-icon{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:18px;
+    height:18px;
+    color:currentColor;
+}
+
+.tesis-item__action-icon svg{
+    width:18px;
+    height:18px;
+    display:block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   PARCHE FINAL - ICONO DIRECTOR SIN ENCIMARSE
+   Pegar hasta abajo del CSS
+========================================== */
+
+/* AGREGAR TESIS: gana contra la regla vieja que pone padding:8px 14px */
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > input#director{
+    padding-top:8px !important;
+    padding-right:14px !important;
+    padding-bottom:8px !important;
+    padding-left:62px !important;
+    box-sizing:border-box !important;
+}
+
+/* EDITAR TESIS: mismo comportamiento */
+#editarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > input#editarDirector{
+    padding-top:8px !important;
+    padding-right:14px !important;
+    padding-bottom:8px !important;
+    padding-left:62px !important;
+    box-sizing:border-box !important;
+}
+
+/* Forzar placeholder y texto separado */
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > input#director::placeholder,
+#editarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > input#editarDirector::placeholder{
+    color:#8c8c8c !important;
+    opacity:1 !important;
+}
+
+/* Posición correcta del icono */
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > .director-input-icon,
+#editarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > .director-input-icon{
+    position:absolute !important;
+    left:22px !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+    width:22px !important;
+    height:22px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    color:#8b8b8b !important;
+    pointer-events:none !important;
+    z-index:20 !important;
+}
+
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > .director-input-icon svg,
+#editarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > .director-input-icon svg{
+    width:22px !important;
+    height:22px !important;
+    display:block !important;
+}
+
+
+/* ==========================================
+   OCULTAR ICONO DIRECTOR AL HACER FOCUS
+========================================== */
+
+/* Cuando el input está activo, ocultamos el icono */
+#agregarTesisPanel .director-autocomplete-wrap:focus-within .director-input-icon,
+#editarTesisPanel .director-autocomplete-wrap:focus-within .director-input-icon{
+    opacity:0 !important;
+    visibility:hidden !important;
+}
+
+/* Cuando el input está activo, el texto vuelve más a la izquierda */
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap:focus-within > input#director{
+    padding-left:22px !important;
+}
+
+#editarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap:focus-within > input#editarDirector{
+    padding-left:22px !important;
+}
+
+/* Cuando NO está activo, mantiene espacio para el icono */
+#agregarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > input#director{
+    padding-left:62px !important;
+}
+
+#editarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > input#editarDirector{
+    padding-left:62px !important;
+}

@@ -202,12 +202,20 @@ function validarDatosTesis(datos) {
         throw new Error('Selecciona el estado de la tesis.');
     }
 
-    if (!datos.url) {
-        throw new Error('Agrega el link del archivo de la tesis.');
+    /*
+        NUEVA REGLA:
+        - Si es solo Fisico: NO pide link.
+        - Si es Digital: SÍ pide link.
+        - Si es Digital y Fisico: SÍ pide link.
+    */
+    const requiereLinkDigital = datos.estado === 'Digital' || datos.estado === 'Digital y Fisico';
+
+    if (requiereLinkDigital && !datos.url) {
+        throw new Error('Agrega el link del archivo digital de la tesis.');
     }
 
-    if (!esUrlValida(datos.url)) {
-        throw new Error('El link del archivo de la tesis no tiene un formato válido.');
+    if (datos.url && !esUrlValida(datos.url)) {
+        throw new Error('El link del archivo digital de la tesis no tiene un formato válido.');
     }
 
     if (!window.AltaTesisArchivos || !window.AltaTesisArchivos.pastaFisica) {

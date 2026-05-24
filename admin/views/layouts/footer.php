@@ -25,15 +25,12 @@ $base = ($base === '/' ? '' : $base);
 <script src="<?= htmlspecialchars($base) ?>/assets/js/director-autocomplete.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/guardar-tesis.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/modal-tesis.js"></script>
+<script src="<?= htmlspecialchars($base) ?>/assets/js/editar-tesis.js"></script>
+<script src="<?= htmlspecialchars($base) ?>/assets/js/eliminar-tesis.js"></script>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-flatpickr("#fechaTesis", {
-    dateFormat: "d/m/Y",
-    allowInput: false
-});
-</script>
-
+<script src="<?= htmlspecialchars($base) ?>/assets/js/calendario-tesis.js"></script>
 
 </body>
 </html>

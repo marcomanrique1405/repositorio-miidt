@@ -137,7 +137,7 @@ final class AuthController
         exit;
     }
 
-    // 🔥 SOLO ESTO SE AGREGA (NO TOQUÉ NADA MÁS)
+    
     public function filtrarTesis(): void
     {
         if (empty($_SESSION['admin_auth'])) {
