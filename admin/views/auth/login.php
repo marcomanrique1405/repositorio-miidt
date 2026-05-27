@@ -9,6 +9,7 @@ $base = ($base === '/' ? '' : $base);
 
 $error = $error ?? '';
 $usernameValue = $usernameValue ?? '';
+$csrfToken = $csrfToken ?? ($_SESSION['csrf_token'] ?? '');
 ?>
 <!doctype html>
 <html lang="es">
@@ -41,6 +42,12 @@ $usernameValue = $usernameValue ?? '';
 
             <form method="post" action="<?= htmlspecialchars($base) ?>/index.php/login" class="admin-login__form" autocomplete="off">
 
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars((string)$csrfToken) ?>"
+                >
+
                 <div class="admin-login__field">
                     <label for="username" class="admin-login__label">Usuario:</label>
                     <input
@@ -48,7 +55,9 @@ $usernameValue = $usernameValue ?? '';
                         id="username"
                         name="username"
                         class="admin-login__input"
-                        value=""
+                        value="<?= htmlspecialchars((string)$usernameValue) ?>"
+                        maxlength="80"
+                        autocomplete="username"
                         required
                     >
                 </div><br>
@@ -61,6 +70,8 @@ $usernameValue = $usernameValue ?? '';
                         name="password"
                         class="admin-login__input"
                         value=""
+                        maxlength="255"
+                        autocomplete="current-password"
                         required
                     >
                 </div>

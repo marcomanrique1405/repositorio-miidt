@@ -3860,3 +3860,309 @@ body.admin-vista-editar #editarTesisPanel .admin-dashboard__form-body{
 #editarTesisPanel .admin-dashboard__form-card > .director-autocomplete-wrap > input#editarDirector{
     padding-left:62px !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   FIX TARJETAS TESIS - AÑO / TÍTULO
+   Evita que el año se junte con el título
+========================================== */
+
+.tesis-item{
+    position:relative !important;
+    overflow:hidden !important;
+}
+
+/* Contenedor de información */
+.tesis-item__content,
+.tesis-item__info,
+.tesis-item__body{
+    min-width:0 !important;
+}
+
+/* Título de la tesis */
+.tesis-item__title{
+    display:block !important;
+    line-height:1.25 !important;
+    margin-top:0 !important;
+    margin-bottom:14px !important;
+    padding-right:95px !important;
+    word-break:normal !important;
+    overflow-wrap:break-word !important;
+}
+
+/* Año */
+.tesis-item__year,
+.tesis-item__anio{
+    position:absolute !important;
+    top:22px !important;
+    right:22px !important;
+    min-width:70px !important;
+    text-align:right !important;
+    line-height:1 !important;
+    z-index:2 !important;
+}
+
+/* ==========================================
+   PANTALLAS MEDIANAS
+========================================== */
+
+@media (max-width:900px){
+    .tesis-item__title{
+        padding-right:85px !important;
+    }
+
+    .tesis-item__year,
+    .tesis-item__anio{
+        top:20px !important;
+        right:18px !important;
+        min-width:65px !important;
+    }
+}
+
+/* ==========================================
+   CELULAR
+========================================== */
+
+@media (max-width:600px){
+    .tesis-item{
+        padding:16px 14px !important;
+        gap:14px !important;
+    }
+
+    .tesis-item__title{
+        padding-right:72px !important;
+        margin-bottom:12px !important;
+        font-size:16px !important;
+        line-height:1.25 !important;
+    }
+
+    .tesis-item__year,
+    .tesis-item__anio{
+        top:18px !important;
+        right:14px !important;
+        min-width:58px !important;
+        font-size:22px !important;
+        line-height:1 !important;
+    }
+
+    .tesis-item p{
+        line-height:1.25 !important;
+        margin-bottom:8px !important;
+    }
+}
+
+/* ==========================================
+   CELULARES MUY PEQUEÑOS
+========================================== */
+
+@media (max-width:420px){
+    .tesis-item__title{
+        padding-right:68px !important;
+        font-size:15px !important;
+    }
+
+    .tesis-item__year,
+    .tesis-item__anio{
+        right:12px !important;
+        font-size:21px !important;
+        min-width:55px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   FIX STATS RESPONSIVE
+   Evita que las tarjetas de arriba se muevan
+   al entrar a Agregar / Editar
+========================================== */
+
+/* Mantiene el contenedor de stats estable */
+.admin-dashboard__stats,
+.dashboard-stats,
+.stats-container{
+    box-sizing:border-box !important;
+}
+
+/* ==========================================
+   TABLET Y CELULAR
+========================================== */
+
+@media (max-width: 768px){
+
+    .admin-dashboard__main{
+        width:100% !important;
+        max-width:100% !important;
+        overflow-x:hidden !important;
+    }
+
+    .admin-dashboard__stats,
+    .dashboard-stats,
+    .stats-container{
+        width:100% !important;
+        max-width:340px !important;
+        margin:18px auto 18px auto !important;
+        padding:0 !important;
+
+        display:grid !important;
+        grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+        gap:14px !important;
+
+        justify-content:center !important;
+        align-items:stretch !important;
+
+        transform:none !important;
+        position:relative !important;
+        left:auto !important;
+        right:auto !important;
+    }
+
+    .admin-dashboard__stat-card,
+    .stats-card,
+    .stat-card{
+        width:100% !important;
+        min-width:0 !important;
+        max-width:none !important;
+        height:76px !important;
+        margin:0 !important;
+
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+
+        flex:none !important;
+        box-sizing:border-box !important;
+    }
+
+    .admin-dashboard__stat-card img,
+    .admin-dashboard__stat-card svg,
+    .stats-card img,
+    .stats-card svg,
+    .stat-card img,
+    .stat-card svg{
+        max-width:44px !important;
+        max-height:44px !important;
+        flex-shrink:0 !important;
+    }
+
+    .admin-dashboard__stat-card strong,
+    .stats-card strong,
+    .stat-card strong{
+        font-size:30px !important;
+        line-height:1 !important;
+        white-space:nowrap !important;
+    }
+
+    .admin-dashboard__stat-card span,
+    .stats-card span,
+    .stat-card span{
+        font-size:12px !important;
+        line-height:1 !important;
+        white-space:nowrap !important;
+    }
+
+    /* Fuerza el mismo acomodo cuando estás en Agregar o Editar */
+    body.admin-vista-agregar .admin-dashboard__stats,
+    body.admin-vista-editar .admin-dashboard__stats,
+    body.admin-vista-agregar .dashboard-stats,
+    body.admin-vista-editar .dashboard-stats,
+    body.admin-vista-agregar .stats-container,
+    body.admin-vista-editar .stats-container{
+        max-width:340px !important;
+        display:grid !important;
+        grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+        gap:14px !important;
+        margin:18px auto 18px auto !important;
+    }
+}
+
+/* ==========================================
+   CELULARES PEQUEÑOS
+========================================== */
+
+@media (max-width: 430px){
+
+    .admin-dashboard__stats,
+    .dashboard-stats,
+    .stats-container{
+        max-width:315px !important;
+        gap:12px !important;
+    }
+
+    .admin-dashboard__stat-card,
+    .stats-card,
+    .stat-card{
+        height:72px !important;
+        border-radius:10px !important;
+    }
+
+    .admin-dashboard__stat-card img,
+    .admin-dashboard__stat-card svg,
+    .stats-card img,
+    .stats-card svg,
+    .stat-card img,
+    .stat-card svg{
+        max-width:40px !important;
+        max-height:40px !important;
+    }
+
+    .admin-dashboard__stat-card strong,
+    .stats-card strong,
+    .stat-card strong{
+        font-size:27px !important;
+    }
+
+    .admin-dashboard__stat-card span,
+    .stats-card span,
+    .stat-card span{
+        font-size:11px !important;
+    }
+}
+
+/* ==========================================
+   EVITA QUE EL FORMULARIO EMPUJE O ENCIME STATS
+========================================== */
+
+#contenedorPrincipal{
+    width:100% !important;
+    clear:both !important;
+}
+
+#vistaAgregar,
+#vistaEditar,
+#vistaLista{
+    width:100% !important;
+    clear:both !important;
+}
+
+#agregarTesisPanel,
+#editarTesisPanel{
+    margin-top:0 !important;
+    clear:both !important;
+}

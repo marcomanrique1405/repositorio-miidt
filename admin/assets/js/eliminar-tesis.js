@@ -93,13 +93,17 @@ function obtenerTextoMetaEliminar(tarjeta, etiqueta) {
 
 async function eliminarTesis(idTesis) {
     try {
+        const csrfToken = obtenerCsrfTokenEliminar();
+
         const response = await fetch(`${BASE_URL}/index.php/tesis/eliminar`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
             },
             body: JSON.stringify({
-                id_tesis: idTesis
+                id_tesis: idTesis,
+                csrf_token: csrfToken
             })
         });
 
@@ -272,4 +276,28 @@ function escaparHtmlEliminar(valor) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+}
+
+/* ==========================================
+   CSRF TOKEN
+========================================== */
+
+function obtenerCsrfTokenEliminar() {
+    if (typeof window.CSRF_TOKEN === 'string' && window.CSRF_TOKEN.trim() !== '') {
+        return window.CSRF_TOKEN.trim();
+    }
+
+    const meta = document.querySelector('meta[name="csrf-token"]');
+
+    if (meta && meta.getAttribute('content')) {
+        return meta.getAttribute('content').trim();
+    }
+
+    const input = document.querySelector('input[name="csrf_token"]');
+
+    if (input && input.value) {
+        return input.value.trim();
+    }
+
+    return '';
 }

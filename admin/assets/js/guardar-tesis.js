@@ -65,6 +65,14 @@ async function guardarTesis() {
         formData.append('autor_sexo', autorSexo);
 
         /*
+            Seguridad CSRF:
+            Se envía al backend para validar que la petición viene del panel admin.
+            El token debe existir en window.CSRF_TOKEN, meta[name="csrf-token"]
+            o input[name="csrf_token"].
+        */
+        formData.append('csrf_token', obtenerCsrfToken());
+
+        /*
             Estas imágenes vienen del archivo upload-imagenes-tesis.js
             Pasta física -> WEBP
             Portada institucional -> PNG
@@ -177,21 +185,8 @@ function validarDatosTesis(datos) {
         throw new Error('Selecciona un director de la lista.');
     }
 
-    if (!datos.idDirectorLinea) {
-        throw new Error('Vuelve a seleccionar el director de la lista.');
-    }
-
     if (!datos.lineaSeleccionada) {
         throw new Error('Selecciona una línea de investigación.');
-    }
-
-    if (String(datos.idDirectorLinea) !== String(datos.lineaSeleccionada.dataset.idLinea)) {
-        const nombreLineaDirector = obtenerNombreLineaPorId(datos.idDirectorLinea);
-        const nombreLineaTesis = obtenerNombreLineaPorId(datos.lineaSeleccionada.dataset.idLinea);
-
-        throw new Error(
-            `El director seleccionado pertenece a ${nombreLineaDirector}, pero la tesis está marcada como ${nombreLineaTesis}. Selecciona una línea correcta o cambia de director.`
-        );
     }
 
     if (!datos.fechaTesis) {
@@ -203,7 +198,7 @@ function validarDatosTesis(datos) {
     }
 
     /*
-        NUEVA REGLA:
+        REGLA:
         - Si es solo Fisico: NO pide link.
         - Si es Digital: SÍ pide link.
         - Si es Digital y Fisico: SÍ pide link.
@@ -307,4 +302,28 @@ function limpiarInput(id) {
     if (input) {
         input.value = '';
     }
+}
+
+/* ==========================================
+   CSRF TOKEN
+========================================== */
+
+function obtenerCsrfToken() {
+    if (typeof window.CSRF_TOKEN === 'string' && window.CSRF_TOKEN.trim() !== '') {
+        return window.CSRF_TOKEN.trim();
+    }
+
+    const meta = document.querySelector('meta[name="csrf-token"]');
+
+    if (meta && meta.getAttribute('content')) {
+        return meta.getAttribute('content').trim();
+    }
+
+    const input = document.querySelector('input[name="csrf_token"]');
+
+    if (input && input.value) {
+        return input.value.trim();
+    }
+
+    return '';
 }

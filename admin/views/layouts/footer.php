@@ -12,6 +12,51 @@ $base = ($base === '/' ? '' : $base);
     const BASE_URL = "<?= htmlspecialchars($base) ?>";
 </script>
 
+<script>
+/* ==========================================
+   SESIÓN EXPIRADA POR INACTIVIDAD
+   Detecta respuestas AJAX con redirect
+========================================== */
+
+(function () {
+    if (!window.fetch) return;
+
+    const fetchOriginal = window.fetch;
+
+    window.fetch = async function () {
+        const response = await fetchOriginal.apply(this, arguments);
+
+        try {
+            const responseClonada = response.clone();
+            const contentType = responseClonada.headers.get('content-type') || '';
+
+            if (contentType.includes('application/json')) {
+                const data = await responseClonada.json();
+
+                if (
+                    data &&
+                    data.redirect &&
+                    (
+                        response.status === 440 ||
+                        response.status === 403 ||
+                        data.error === 'Sesión expirada por inactividad'
+                    )
+                ) {
+                    window.location.href = data.redirect;
+                }
+            }
+        } catch (e) {
+            /*
+                No hacemos nada.
+                Esto evita romper peticiones que no sean JSON.
+            */
+        }
+
+        return response;
+    };
+})();
+</script>
+
 <!-- <script src="<?= htmlspecialchars($base) ?>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 <script src="<?= htmlspecialchars($base) ?>/assets/js/tesis.js"></script>
 <script src="<?= htmlspecialchars($base) ?>/assets/js/filtros.js"></script>

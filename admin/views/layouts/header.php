@@ -6,6 +6,17 @@ $base = defined('ADMIN_BASE')
     : rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
 $base = ($base === '/' ? '' : $base);
+
+/*
+    CSRF TOKEN GLOBAL PARA EL DASHBOARD
+    Este token lo usan guardar, editar y eliminar tesis.
+*/
+$csrfToken = $_SESSION['csrf_token'] ?? '';
+
+if ($csrfToken === '') {
+    $csrfToken = bin2hex(random_bytes(32));
+    $_SESSION['csrf_token'] = $csrfToken;
+}
 ?>
 <!doctype html>
 <html lang="es">
@@ -14,12 +25,17 @@ $base = ($base === '/' ? '' : $base);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin - Dashboard</title>
 
-    <link rel="icon" href="<?= htmlspecialchars($base) ?>/assets/img/favicon.ico" type="image/x-icon">
+    <meta name="csrf-token" content="<?= htmlspecialchars((string)$csrfToken, ENT_QUOTES, 'UTF-8') ?>">
 
+    <link rel="icon" href="<?= htmlspecialchars($base) ?>/assets/img/favicon.ico" type="image/x-icon">
 
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- <link rel="stylesheet" href="<?= htmlspecialchars($base) ?>/assets/vendor/bootstrap/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="<?= htmlspecialchars($base) ?>/assets/css/auth/style.css">
+
+    <script>
+        window.CSRF_TOKEN = "<?= htmlspecialchars((string)$csrfToken, ENT_QUOTES, 'UTF-8') ?>";
+    </script>
 </head>
 <body class="admin-dashboard">
 

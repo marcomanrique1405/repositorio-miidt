@@ -600,6 +600,12 @@ async function actualizarTesis() {
         formData.append('autor_correo', autorCorreo);
         formData.append('autor_sexo', autorSexo);
 
+        /*
+            Seguridad CSRF:
+            Se envía al backend para validar que la petición viene del panel admin.
+        */
+        formData.append('csrf_token', obtenerCsrfTokenEditar());
+
         if (window.EditarTesisArchivos && window.EditarTesisArchivos.pastaFisica) {
             formData.append(
                 'pasta_fisica',
@@ -690,21 +696,8 @@ function validarDatosEditar(datos) {
         throw new Error('Selecciona un director de la lista.');
     }
 
-    if (!datos.idDirectorLinea) {
-        throw new Error('Vuelve a seleccionar el director de la lista.');
-    }
-
     if (!datos.lineaSeleccionada) {
         throw new Error('Selecciona una línea de investigación.');
-    }
-
-    if (String(datos.idDirectorLinea) !== String(datos.lineaSeleccionada.dataset.editarIdLinea)) {
-        const nombreLineaDirector = obtenerNombreLineaEditar(datos.idDirectorLinea);
-        const nombreLineaTesis = obtenerNombreLineaEditar(datos.lineaSeleccionada.dataset.editarIdLinea);
-
-        throw new Error(
-            `El director seleccionado pertenece a ${nombreLineaDirector}, pero la tesis está marcada como ${nombreLineaTesis}. Selecciona una línea correcta o cambia de director.`
-        );
     }
 
     if (!datos.fechaTesis) {
@@ -922,4 +915,28 @@ function cargarImagenEditar(file) {
 
         img.src = url;
     });
+}
+
+/* ==========================================
+   CSRF TOKEN
+========================================== */
+
+function obtenerCsrfTokenEditar() {
+    if (typeof window.CSRF_TOKEN === 'string' && window.CSRF_TOKEN.trim() !== '') {
+        return window.CSRF_TOKEN.trim();
+    }
+
+    const meta = document.querySelector('meta[name="csrf-token"]');
+
+    if (meta && meta.getAttribute('content')) {
+        return meta.getAttribute('content').trim();
+    }
+
+    const input = document.querySelector('input[name="csrf_token"]');
+
+    if (input && input.value) {
+        return input.value.trim();
+    }
+
+    return '';
 }

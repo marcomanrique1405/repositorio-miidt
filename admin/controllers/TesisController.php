@@ -5,11 +5,19 @@ require_once __DIR__ . '/../models/Tesis.php';
 
 final class TesisController
 {
+    private const SESSION_IDLE_SECONDS = 1800; // 30 minutos de inactividad
+
     public function buscar(): void
     {
         header('Content-Type: application/json; charset=utf-8');
 
-        $query = $_GET['q'] ?? '';
+        $this->verificarSesionActiva(true);
+
+        $query = trim((string)($_GET['q'] ?? ''));
+
+        if (mb_strlen($query) > 150) {
+            $query = mb_substr($query, 0, 150);
+        }
 
         $model = new Tesis();
         $tesis = $model->buscar($query);
@@ -22,16 +30,13 @@ final class TesisController
     {
         header('Content-Type: application/json; charset=utf-8');
 
-        if (empty($_SESSION['admin_auth'])) {
-            http_response_code(403);
-            echo json_encode([
-                'ok' => false,
-                'message' => 'No autorizado'
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
-        }
+        $this->verificarSesionActiva(true);
 
         $query = trim((string)($_GET['q'] ?? ''));
+
+        if (mb_strlen($query) > 150) {
+            $query = mb_substr($query, 0, 150);
+        }
 
         $model = new Tesis();
         $directores = $model->buscarDirectores($query);
@@ -44,17 +49,10 @@ final class TesisController
     {
         header('Content-Type: application/json; charset=utf-8');
 
-        if (empty($_SESSION['admin_auth'])) {
-            http_response_code(403);
-            echo json_encode([
-                'ok' => false,
-                'message' => 'No autorizado'
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
-        }
+        $this->verificarSesionActiva(true);
 
         try {
-            $idTesis = (int)($_GET['id'] ?? 0);
+            $idTesis = $this->obtenerEnteroGet('id');
 
             if ($idTesis <= 0) {
                 throw new RuntimeException('No se recibió una tesis válida.');
@@ -74,13 +72,7 @@ final class TesisController
             exit;
 
         } catch (Throwable $e) {
-            http_response_code(422);
-
-            echo json_encode([
-                'ok' => false,
-                'message' => $e->getMessage()
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
+            $this->responderExcepcion($e, 422);
         }
     }
 
@@ -88,30 +80,27 @@ final class TesisController
     {
         header('Content-Type: application/json; charset=utf-8');
 
-        if (empty($_SESSION['admin_auth'])) {
-            http_response_code(403);
-            echo json_encode([
-                'ok' => false,
-                'message' => 'No autorizado'
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
+        $this->verificarSesionActiva(true);
+
+        if (!$this->csrfValidoDesdeRequest()) {
+            $this->responderJson(false, 'Solicitud no válida. Recarga la página e intenta nuevamente.', 403);
         }
 
         try {
-            $titulo = trim((string)($_POST['titulo'] ?? ''));
-            $url = trim((string)($_POST['url'] ?? ''));
-            $fecha = trim((string)($_POST['fecha_registro'] ?? ''));
-            $estado = trim((string)($_POST['estado'] ?? ''));
+            $titulo = $this->obtenerTextoPost('titulo', 250);
+            $url = $this->obtenerTextoPost('url', 600);
+            $fecha = $this->obtenerTextoPost('fecha_registro', 20);
+            $estado = $this->obtenerTextoPost('estado', 30);
 
-            $idDirector = (int)($_POST['id_director'] ?? 0);
-            $idLinea = (int)($_POST['id_linea'] ?? 0);
+            $idDirector = $this->obtenerEnteroPost('id_director');
+            $idLinea = $this->obtenerEnteroPost('id_linea');
 
-            $matricula = trim((string)($_POST['autor_matricula'] ?? ''));
-            $nombre = trim((string)($_POST['autor_nombre'] ?? ''));
-            $apellidoPaterno = trim((string)($_POST['autor_apellido_paterno'] ?? ''));
-            $apellidoMaterno = trim((string)($_POST['autor_apellido_materno'] ?? ''));
-            $correo = trim((string)($_POST['autor_correo'] ?? ''));
-            $sexo = trim((string)($_POST['autor_sexo'] ?? ''));
+            $matricula = $this->obtenerTextoPost('autor_matricula', 50);
+            $nombre = $this->obtenerTextoPost('autor_nombre', 100);
+            $apellidoPaterno = $this->obtenerTextoPost('autor_apellido_paterno', 100);
+            $apellidoMaterno = $this->obtenerTextoPost('autor_apellido_materno', 100);
+            $correo = $this->obtenerTextoPost('autor_correo', 150);
+            $sexo = $this->obtenerTextoPost('autor_sexo', 1);
 
             if ($titulo === '') {
                 throw new RuntimeException('El título de tesis es obligatorio.');
@@ -123,6 +112,10 @@ final class TesisController
 
             if (!in_array($sexo, ['M', 'F'], true)) {
                 throw new RuntimeException('Selecciona el sexo del autor.');
+            }
+
+            if ($correo !== '' && !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                throw new RuntimeException('El correo institucional no tiene un formato válido.');
             }
 
             if ($idLinea <= 0) {
@@ -158,10 +151,6 @@ final class TesisController
             }
 
             $model = new Tesis();
-
-            if (!$model->directorPerteneceALinea($idDirector, $idLinea)) {
-                throw new RuntimeException('El director seleccionado no pertenece a la línea de investigación elegida. Cambia la línea o selecciona otro director.');
-            }
 
             $fechaMysql = $this->convertirFechaMysql($fecha);
             $lineaInfo = $this->obtenerLineaInfo($idLinea);
@@ -224,13 +213,7 @@ final class TesisController
             exit;
 
         } catch (Throwable $e) {
-            http_response_code(422);
-
-            echo json_encode([
-                'ok' => false,
-                'message' => $e->getMessage()
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
+            $this->responderExcepcion($e, 422);
         }
     }
 
@@ -238,32 +221,29 @@ final class TesisController
     {
         header('Content-Type: application/json; charset=utf-8');
 
-        if (empty($_SESSION['admin_auth'])) {
-            http_response_code(403);
-            echo json_encode([
-                'ok' => false,
-                'message' => 'No autorizado'
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
+        $this->verificarSesionActiva(true);
+
+        if (!$this->csrfValidoDesdeRequest()) {
+            $this->responderJson(false, 'Solicitud no válida. Recarga la página e intenta nuevamente.', 403);
         }
 
         try {
-            $idTesis = (int)($_POST['id_tesis'] ?? 0);
+            $idTesis = $this->obtenerEnteroPost('id_tesis');
 
-            $titulo = trim((string)($_POST['titulo'] ?? ''));
-            $url = trim((string)($_POST['url'] ?? ''));
-            $fecha = trim((string)($_POST['fecha_registro'] ?? ''));
-            $estado = trim((string)($_POST['estado'] ?? ''));
+            $titulo = $this->obtenerTextoPost('titulo', 250);
+            $url = $this->obtenerTextoPost('url', 600);
+            $fecha = $this->obtenerTextoPost('fecha_registro', 20);
+            $estado = $this->obtenerTextoPost('estado', 30);
 
-            $idDirector = (int)($_POST['id_director'] ?? 0);
-            $idLinea = (int)($_POST['id_linea'] ?? 0);
+            $idDirector = $this->obtenerEnteroPost('id_director');
+            $idLinea = $this->obtenerEnteroPost('id_linea');
 
-            $matricula = trim((string)($_POST['autor_matricula'] ?? ''));
-            $nombre = trim((string)($_POST['autor_nombre'] ?? ''));
-            $apellidoPaterno = trim((string)($_POST['autor_apellido_paterno'] ?? ''));
-            $apellidoMaterno = trim((string)($_POST['autor_apellido_materno'] ?? ''));
-            $correo = trim((string)($_POST['autor_correo'] ?? ''));
-            $sexo = trim((string)($_POST['autor_sexo'] ?? ''));
+            $matricula = $this->obtenerTextoPost('autor_matricula', 50);
+            $nombre = $this->obtenerTextoPost('autor_nombre', 100);
+            $apellidoPaterno = $this->obtenerTextoPost('autor_apellido_paterno', 100);
+            $apellidoMaterno = $this->obtenerTextoPost('autor_apellido_materno', 100);
+            $correo = $this->obtenerTextoPost('autor_correo', 150);
+            $sexo = $this->obtenerTextoPost('autor_sexo', 1);
 
             if ($idTesis <= 0) {
                 throw new RuntimeException('No se recibió el identificador de la tesis.');
@@ -279,6 +259,10 @@ final class TesisController
 
             if (!in_array($sexo, ['M', 'F'], true)) {
                 throw new RuntimeException('Selecciona el sexo del autor.');
+            }
+
+            if ($correo !== '' && !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                throw new RuntimeException('El correo institucional no tiene un formato válido.');
             }
 
             if ($idLinea <= 0) {
@@ -319,10 +303,6 @@ final class TesisController
 
             if (!$tesisActual) {
                 throw new RuntimeException('No se encontró la tesis que deseas actualizar.');
-            }
-
-            if (!$model->directorPerteneceALinea($idDirector, $idLinea)) {
-                throw new RuntimeException('El director seleccionado no pertenece a la línea de investigación elegida. Cambia la línea o selecciona otro director.');
             }
 
             $fechaMysql = $this->convertirFechaMysql($fecha);
@@ -443,13 +423,7 @@ final class TesisController
             exit;
 
         } catch (Throwable $e) {
-            http_response_code(422);
-
-            echo json_encode([
-                'ok' => false,
-                'message' => $e->getMessage()
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
+            $this->responderExcepcion($e, 422);
         }
     }
 
@@ -457,28 +431,14 @@ final class TesisController
     {
         header('Content-Type: application/json; charset=utf-8');
 
-        if (empty($_SESSION['admin_auth'])) {
-            http_response_code(403);
-            echo json_encode([
-                'ok' => false,
-                'message' => 'No autorizado'
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
+        $this->verificarSesionActiva(true);
+
+        if (!$this->csrfValidoDesdeRequest()) {
+            $this->responderJson(false, 'Solicitud no válida. Recarga la página e intenta nuevamente.', 403);
         }
 
         try {
-            $payload = [];
-
-            $contentType = strtolower((string)($_SERVER['CONTENT_TYPE'] ?? ''));
-
-            if (strpos($contentType, 'application/json') !== false) {
-                $json = file_get_contents('php://input');
-                $decoded = json_decode((string)$json, true);
-
-                if (is_array($decoded)) {
-                    $payload = $decoded;
-                }
-            }
+            $payload = $this->obtenerJsonPayload();
 
             $idTesis = (int)(
                 $_POST['id_tesis']
@@ -510,13 +470,7 @@ final class TesisController
             exit;
 
         } catch (Throwable $e) {
-            http_response_code(422);
-
-            echo json_encode([
-                'ok' => false,
-                'message' => $e->getMessage()
-            ], JSON_UNESCAPED_UNICODE);
-            exit;
+            $this->responderExcepcion($e, 422);
         }
     }
 
@@ -731,5 +685,167 @@ final class TesisController
         }
 
         return copy($rutaAnterior, $rutaNueva);
+    }
+
+    private function verificarSesionActiva(bool $jsonResponse = true): void
+    {
+        if (empty($_SESSION['admin_auth'])) {
+            $this->responderSesionNoValida($jsonResponse, false);
+        }
+
+        if ($this->sesionExpiradaPorInactividad()) {
+            $this->destruirSesion();
+            $this->responderSesionNoValida($jsonResponse, true);
+        }
+
+        $_SESSION['admin_last_activity'] = time();
+    }
+
+    private function sesionExpiradaPorInactividad(): bool
+    {
+        if (empty($_SESSION['admin_auth'])) {
+            return false;
+        }
+
+        $ultimaActividad = (int)($_SESSION['admin_last_activity'] ?? 0);
+
+        if ($ultimaActividad <= 0) {
+            $_SESSION['admin_last_activity'] = time();
+            return false;
+        }
+
+        return (time() - $ultimaActividad) > self::SESSION_IDLE_SECONDS;
+    }
+
+    private function responderSesionNoValida(bool $jsonResponse, bool $expired): void
+    {
+        if ($jsonResponse) {
+            http_response_code($expired ? 440 : 403);
+
+            echo json_encode([
+                'ok' => false,
+                'error' => $expired ? 'Sesión expirada por inactividad' : 'No autorizado',
+                'message' => $expired
+                    ? 'Tu sesión expiró por inactividad. Inicia sesión nuevamente.'
+                    : 'No autorizado',
+                'redirect' => ADMIN_BASE . '/index.php/login' . ($expired ? '?expired=1' : '')
+            ], JSON_UNESCAPED_UNICODE);
+
+            exit;
+        }
+
+        header('Location: ' . ADMIN_BASE . '/index.php/login' . ($expired ? '?expired=1' : ''));
+        exit;
+    }
+
+    private function destruirSesion(): void
+    {
+        $_SESSION = [];
+
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+
+            setcookie(session_name(), '', [
+                'expires' => time() - 42000,
+                'path' => $params['path'] ?? ADMIN_BASE,
+                'domain' => $params['domain'] ?? '',
+                'secure' => (bool)($params['secure'] ?? false),
+                'httponly' => (bool)($params['httponly'] ?? true),
+                'samesite' => $params['samesite'] ?? 'Strict'
+            ]);
+        }
+
+        session_destroy();
+    }
+
+    private function estaAutenticado(): bool
+    {
+        return !empty($_SESSION['admin_auth']);
+    }
+
+    private function obtenerTextoPost(string $key, int $maxLength): string
+    {
+        $valor = trim((string)($_POST[$key] ?? ''));
+
+        if ($maxLength > 0 && mb_strlen($valor) > $maxLength) {
+            $valor = mb_substr($valor, 0, $maxLength);
+        }
+
+        return $valor;
+    }
+
+    private function obtenerEnteroPost(string $key): int
+    {
+        return (int)($_POST[$key] ?? 0);
+    }
+
+    private function obtenerEnteroGet(string $key): int
+    {
+        return (int)($_GET[$key] ?? 0);
+    }
+
+    private function obtenerJsonPayload(): array
+    {
+        $contentType = strtolower((string)($_SERVER['CONTENT_TYPE'] ?? ''));
+
+        if (strpos($contentType, 'application/json') === false) {
+            return [];
+        }
+
+        $json = file_get_contents('php://input');
+        $decoded = json_decode((string)$json, true);
+
+        return is_array($decoded) ? $decoded : [];
+    }
+
+    private function csrfValidoDesdeRequest(): bool
+    {
+        $payload = $this->obtenerJsonPayload();
+
+        $token = (string)(
+            $_POST['csrf_token']
+            ?? $payload['csrf_token']
+            ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '')
+        );
+
+        if ($token === '') {
+            return false;
+        }
+
+        if (function_exists('verificarCsrfToken')) {
+            return verificarCsrfToken($token);
+        }
+
+        if (empty($_SESSION['csrf_token'])) {
+            return false;
+        }
+
+        return hash_equals((string)$_SESSION['csrf_token'], $token);
+    }
+
+    private function responderJson(bool $ok, string $message, int $statusCode = 200): void
+    {
+        http_response_code($statusCode);
+
+        echo json_encode([
+            'ok' => $ok,
+            'message' => $message
+        ], JSON_UNESCAPED_UNICODE);
+
+        exit;
+    }
+
+    private function responderExcepcion(Throwable $e, int $statusCode = 422): void
+    {
+        error_log('TesisController error: ' . $e->getMessage());
+
+        http_response_code($statusCode);
+
+        echo json_encode([
+            'ok' => false,
+            'message' => $e->getMessage()
+        ], JSON_UNESCAPED_UNICODE);
+
+        exit;
     }
 }
