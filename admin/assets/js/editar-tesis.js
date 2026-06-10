@@ -541,6 +541,7 @@ async function actualizarTesis() {
         const idTesis = obtenerValorEditar('editarIdTesis');
         const titulo = obtenerValorEditar('editarTitulo');
         const autorVisible = obtenerValorEditar('editarAutor');
+        const directorTexto = obtenerValorEditar('editarDirector');
         const idDirector = obtenerValorEditar('editarIdDirector');
         const idDirectorLinea = obtenerValorEditar('editarIdDirectorLinea');
         const fechaTesis = obtenerValorEditar('editarFechaTesis');
@@ -571,6 +572,7 @@ async function actualizarTesis() {
             idTesis,
             titulo,
             autorVisible,
+            directorTexto,
             autorMatricula,
             autorNombre,
             autorApellidoPaterno,
@@ -590,7 +592,16 @@ async function actualizarTesis() {
         formData.append('url', url);
         formData.append('fecha_registro', fechaTesis);
         formData.append('estado', estado);
+
+        /*
+            NUEVA MEJORA:
+            - Si el director fue seleccionado de la lista, id_director trae valor.
+            - Si el director fue escrito manualmente y no existe, id_director va vacío,
+              pero director_texto se manda al backend para crearlo automáticamente.
+        */
         formData.append('id_director', idDirector);
+        formData.append('director_texto', directorTexto);
+
         formData.append('id_linea', lineaSeleccionada.dataset.editarIdLinea);
 
         formData.append('autor_matricula', autorMatricula);
@@ -692,8 +703,15 @@ function validarDatosEditar(datos) {
         throw new Error('Completa los datos obligatorios del autor.');
     }
 
-    if (!datos.idDirector) {
-        throw new Error('Selecciona un director de la lista.');
+    /*
+        NUEVA MEJORA:
+        Antes era obligatorio seleccionar un director de la lista.
+        Ahora puede:
+        - Seleccionarlo de la lista: idDirector tiene valor.
+        - Escribirlo manualmente: directorTexto tiene valor y el backend lo crea.
+    */
+    if (!datos.idDirector && !datos.directorTexto) {
+        throw new Error('Selecciona o escribe el nombre del director de tesis.');
     }
 
     if (!datos.lineaSeleccionada) {

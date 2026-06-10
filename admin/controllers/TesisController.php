@@ -93,6 +93,7 @@ final class TesisController
             $estado = $this->obtenerTextoPost('estado', 30);
 
             $idDirector = $this->obtenerEnteroPost('id_director');
+            $directorTexto = $this->obtenerTextoPost('director_texto', 250);
             $idLinea = $this->obtenerEnteroPost('id_linea');
 
             $matricula = $this->obtenerTextoPost('autor_matricula', 50);
@@ -122,8 +123,8 @@ final class TesisController
                 throw new RuntimeException('Selecciona una línea de investigación.');
             }
 
-            if ($idDirector <= 0) {
-                throw new RuntimeException('Selecciona un director de la lista.');
+            if ($idDirector <= 0 && $directorTexto === '') {
+                throw new RuntimeException('Selecciona o escribe el nombre del director de tesis.');
             }
 
             if ($fecha === '') {
@@ -151,6 +152,8 @@ final class TesisController
             }
 
             $model = new Tesis();
+
+            $idDirector = $this->resolverDirector($model, $idDirector, $directorTexto, $idLinea);
 
             $fechaMysql = $this->convertirFechaMysql($fecha);
             $lineaInfo = $this->obtenerLineaInfo($idLinea);
@@ -236,6 +239,7 @@ final class TesisController
             $estado = $this->obtenerTextoPost('estado', 30);
 
             $idDirector = $this->obtenerEnteroPost('id_director');
+            $directorTexto = $this->obtenerTextoPost('director_texto', 250);
             $idLinea = $this->obtenerEnteroPost('id_linea');
 
             $matricula = $this->obtenerTextoPost('autor_matricula', 50);
@@ -269,8 +273,8 @@ final class TesisController
                 throw new RuntimeException('Selecciona una línea de investigación.');
             }
 
-            if ($idDirector <= 0) {
-                throw new RuntimeException('Selecciona un director de la lista.');
+            if ($idDirector <= 0 && $directorTexto === '') {
+                throw new RuntimeException('Selecciona o escribe el nombre del director de tesis.');
             }
 
             if ($fecha === '') {
@@ -298,6 +302,8 @@ final class TesisController
             }
 
             $model = new Tesis();
+
+            $idDirector = $this->resolverDirector($model, $idDirector, $directorTexto, $idLinea);
 
             $tesisActual = $model->obtenerPorId($idTesis);
 
@@ -472,6 +478,35 @@ final class TesisController
         } catch (Throwable $e) {
             $this->responderExcepcion($e, 422);
         }
+    }
+
+    private function resolverDirector(Tesis $model, int $idDirector, string $directorTexto, int $idLinea): int
+    {
+        if ($idDirector > 0) {
+            return $idDirector;
+        }
+
+        $directorTexto = trim($directorTexto);
+
+        if ($directorTexto === '') {
+            throw new RuntimeException('Selecciona o escribe el nombre del director de tesis.');
+        }
+
+        if ($idLinea <= 0) {
+            throw new RuntimeException('Selecciona una línea de investigación antes de crear el director.');
+        }
+
+        if (!method_exists($model, 'obtenerOCrearDirector')) {
+            throw new RuntimeException('No se encontró la función para registrar directores automáticamente.');
+        }
+
+        $idDirectorNuevo = $model->obtenerOCrearDirector($directorTexto, $idLinea);
+
+        if ($idDirectorNuevo <= 0) {
+            throw new RuntimeException('No se pudo registrar el director de tesis.');
+        }
+
+        return $idDirectorNuevo;
     }
 
     private function convertirFechaMysql(string $fecha): string

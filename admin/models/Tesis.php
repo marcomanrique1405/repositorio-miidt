@@ -265,6 +265,126 @@ final class Tesis
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function obtenerOCrearDirector(string $nombreCompleto, int $idLinea): int
+    {
+        $nombreCompleto = $this->limpiarEspacios($nombreCompleto);
+
+        if ($nombreCompleto === '') {
+            throw new RuntimeException('Escribe el nombre del director de tesis.');
+        }
+
+        if ($idLinea <= 0) {
+            throw new RuntimeException('Selecciona una línea de investigación para registrar el director.');
+        }
+
+        $directorExistente = $this->buscarDirectorExactoPorNombre($nombreCompleto);
+
+        if ($directorExistente > 0) {
+            return $directorExistente;
+        }
+
+        $partes = $this->separarNombreDirector($nombreCompleto);
+
+        $sql = "
+            INSERT INTO director
+                (
+                    id_linea,
+                    nombre,
+                    apellido_paterno,
+                    apellido_materno,
+                    fecha_nacimiento
+                )
+            VALUES
+                (?, ?, ?, ?, NULL)
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
+        if (!$stmt) {
+            throw new RuntimeException('No se pudo preparar el registro del director.');
+        }
+
+        $stmt->bind_param(
+            'isss',
+            $idLinea,
+            $partes['nombre'],
+            $partes['apellido_paterno'],
+            $partes['apellido_materno']
+        );
+
+        if (!$stmt->execute()) {
+            throw new RuntimeException('No se pudo registrar el director de tesis.');
+        }
+
+        return (int)$this->db->insert_id;
+    }
+
+    private function buscarDirectorExactoPorNombre(string $nombreCompleto): int
+    {
+        $nombreCompleto = $this->limpiarEspacios($nombreCompleto);
+
+        $sql = "
+            SELECT id_director
+            FROM director
+            WHERE LOWER(TRIM(CONCAT(
+                IFNULL(nombre, ''),
+                ' ',
+                IFNULL(apellido_paterno, ''),
+                ' ',
+                IFNULL(apellido_materno, '')
+            ))) = LOWER(?)
+            LIMIT 1
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
+        if (!$stmt) {
+            return 0;
+        }
+
+        $stmt->bind_param('s', $nombreCompleto);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $director = $result->fetch_assoc();
+
+        return $director ? (int)$director['id_director'] : 0;
+    }
+
+    private function separarNombreDirector(string $nombreCompleto): array
+    {
+        $nombreCompleto = $this->limpiarEspacios($nombreCompleto);
+        $partes = explode(' ', $nombreCompleto);
+        $total = count($partes);
+
+        if ($total < 2) {
+            throw new RuntimeException('Escribe al menos nombre y apellido del director.');
+        }
+
+        if ($total === 2) {
+            return [
+                'nombre' => $partes[0],
+                'apellido_paterno' => $partes[1],
+                'apellido_materno' => null
+            ];
+        }
+
+        $apellidoMaterno = array_pop($partes);
+        $apellidoPaterno = array_pop($partes);
+        $nombre = implode(' ', $partes);
+
+        return [
+            'nombre' => $nombre,
+            'apellido_paterno' => $apellidoPaterno,
+            'apellido_materno' => $apellidoMaterno
+        ];
+    }
+
+    private function limpiarEspacios(string $texto): string
+    {
+        return trim((string)preg_replace('/\s+/', ' ', $texto));
+    }
+
     public function directorPerteneceALinea(int $idDirector, int $idLinea): bool
     {
         $sql = "
