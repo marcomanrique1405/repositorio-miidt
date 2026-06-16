@@ -7,9 +7,7 @@ class TesisModule {
         $this->conn = $conn;
     }
 
-    /**
-     * Obtener tesis filtradas por línea de investigación y otros criterios
-     */
+    //obtener tesis por línea de investigación con filtros opcionales
     public function getTesisByLinea($linea, $busqueda = '', $estado = '', $director = '', $anio = '') {
         $sql = "SELECT 
                     t.id_tesis, 
@@ -54,7 +52,7 @@ class TesisModule {
         if (!empty($director)) {
             $sql .= " AND t.id_director = ?";
             $params[] = $director;
-            $types .= "i"; // Asumiendo que id_director es entero
+            $types .= "i"; 
         }
 
         if (!empty($anio)) {
@@ -67,19 +65,17 @@ class TesisModule {
 
         $stmt = $this->conn->prepare($sql);
         if (!$stmt) {
-            return false; // O manejar el error
+            return false;
         }
 
         $stmt->bind_param($types, ...$params);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         return $result;
     }
 
-    /**
-     * Obtener lista de directores para una línea de investigación
-     */
+    //Obtener lista de directores disponibles para una línea de investigación
     public function getDirectoresByLinea($linea) {
         $sql = "SELECT DISTINCT d.id_director,
                 CONCAT(d.nombre, ' ', d.apellido_paterno, ' ', IFNULL(d.apellido_materno, '')) AS director_completo
@@ -89,16 +85,14 @@ class TesisModule {
                 INNER JOIN linea_investigacion li ON a.id_linea = li.id_linea
                 WHERE li.nombre = ?
                 ORDER BY director_completo ASC";
-        
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $linea);
         $stmt->execute();
         return $stmt->get_result();
     }
 
-    /**
-     * Obtener lista de años disponibles para una línea de investigación
-     */
+    //Obtener lista de años disponibles para una línea de investigación
     public function getAniosByLinea($linea) {
         $sql = "SELECT DISTINCT YEAR(t.fecha_registro) AS anio
                 FROM tesis t
@@ -107,7 +101,7 @@ class TesisModule {
                 WHERE li.nombre = ?
                 AND t.fecha_registro IS NOT NULL
                 ORDER BY anio DESC";
-        
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $linea);
         $stmt->execute();

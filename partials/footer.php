@@ -5,13 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Footer MIIDT</title>
-
-  <!-- Bootstrap CSS local -->
   <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <!-- Bootstrap Icons (para los íconos de teléfono, correo y Facebook) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-  <!-- Tu hoja de estilos -->
   <link rel="stylesheet" href="../public/assets/css/stile.css">
 
 </head>
@@ -44,12 +41,12 @@
 
             <div class="footer-follow">
                 <h6>Síguenos</h6>
-                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="https://www.facebook.com/people/Maestr%C3%ADa-en-Ingenier%C3%ADa-para-la-Innovaci%C3%B3n-y-Desarrollo-Tecnol%C3%B3gico-MIIDT/100083229883955/" target="_blank"><i class="bi bi-facebook"></i></a>
             </div>
 
             <div class="footer-other-pages">
                 <p>Visita nuestras otras páginas:</p>
-                <p class="fw-bold mt-3">MIIDT</p>
+                <p class="fw-bold mt-3"><a href="https://www.miidt.uagro.mx/index.php" target="_blank" >MIIDT</a></p>
             </div>
 
         </div>
