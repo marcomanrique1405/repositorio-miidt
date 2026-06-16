@@ -1,10 +1,12 @@
-<div id="agregarTesisPanel">
+<div id="editarTesisPanel">
+
+    <input type="hidden" id="editarIdTesis">
 
     <div class="admin-dashboard__form-wrapper">
 
         <!-- HEADER -->
         <div class="admin-dashboard__form-header">
-            Alta de tesis
+            Editar tesis
         </div>
 
         <div class="admin-dashboard__form-body">
@@ -19,17 +21,17 @@
                 </div>
 
                 <label>Título de tesis:</label>
-                <input type="text" id="titulo" placeholder="Escribe el título">
+                <input type="text" id="editarTitulo" placeholder="Escribe el título">
 
                 <label>Autor:</label>
-                <input type="text" id="autor" placeholder="Nombre del autor" readonly>
+                <input type="text" id="editarAutor" placeholder="Nombre del autor" readonly>
 
-                <input type="hidden" id="autorMatriculaHidden">
-                <input type="hidden" id="autorNombreHidden">
-                <input type="hidden" id="autorApellidoPaternoHidden">
-                <input type="hidden" id="autorApellidoMaternoHidden">
-                <input type="hidden" id="autorCorreoHidden">
-                <input type="hidden" id="autorSexoHidden">
+                <input type="hidden" id="editarAutorMatriculaHidden">
+                <input type="hidden" id="editarAutorNombreHidden">
+                <input type="hidden" id="editarAutorApellidoPaternoHidden">
+                <input type="hidden" id="editarAutorApellidoMaternoHidden">
+                <input type="hidden" id="editarAutorCorreoHidden">
+                <input type="hidden" id="editarAutorSexoHidden">
 
                 <label>Director de tesis:</label>
                 <div class="director-autocomplete-wrap">
@@ -40,33 +42,33 @@
                         </svg>
                     </span>
 
-                    <input type="text" id="director" placeholder="Buscar director" autocomplete="off">
-                    <input type="hidden" id="idDirector">
-                    <input type="hidden" id="idDirectorLinea">
-                    <div id="director-sugerencias" class="director-sugerencias"></div>
+                    <input type="text" id="editarDirector" placeholder="Buscar director" autocomplete="off">
+                    <input type="hidden" id="editarIdDirector">
+                    <input type="hidden" id="editarIdDirectorLinea">
+                    <div id="editarDirectorSugerencias" class="director-sugerencias"></div>
                 </div>
 
                 <div class="admin-dashboard__form-row">
 
                     <div>
                         <label>Año:</label>
-                        <input type="text" id="fechaTesis" placeholder="DD/MM/AAAA" readonly>
+                        <input type="text" id="editarFechaTesis" placeholder="DD/MM/AAAA" readonly>
                     </div>
 
                     <div>
                         <label>Línea de Investigación:</label>
                         <div class="admin-checkbox-group">
-                            <label><input type="checkbox" value="CSR" data-id-linea="1"> CSR</label>
-                            <label><input type="checkbox" value="Geomatica" data-id-linea="3"> Geomática</label>
-                            <label><input type="checkbox" value="TIC" data-id-linea="2"> TIC</label>
+                            <label><input type="checkbox" value="CSR" data-editar-id-linea="1"> CSR</label>
+                            <label><input type="checkbox" value="Geomatica" data-editar-id-linea="3"> Geomática</label>
+                            <label><input type="checkbox" value="TIC" data-editar-id-linea="2"> TIC</label>
                         </div>
                     </div>
 
                     <div>
                         <label>Estado:</label>
                         <div class="admin-checkbox-group">
-                            <label><input type="checkbox" value="Fisico"> Físico</label>
-                            <label><input type="checkbox" value="Digital"> Digital</label>
+                            <label><input type="checkbox" value="Fisico" data-editar-estado="Fisico"> Físico</label>
+                            <label><input type="checkbox" value="Digital" data-editar-estado="Digital"> Digital</label>
                         </div>
                     </div>
 
@@ -84,20 +86,24 @@
                 </div>
 
                 <label>Link del archivo (tesis):</label>
-                <input type="text" id="url" placeholder="Pega la url aquí">
+                <input type="text" id="editarUrl" placeholder="Pega la url aquí">
 
                 <div class="admin-dashboard__form-files">
 
                     <div class="admin-dashboard__file-box">
                         <span>Pasta física:</span>
-                        <input type="file" id="pastaFisicaInput" accept="image/*" hidden>
-                        <button type="button" id="btnPastaFisica" class="btn-subir">Subir imagen</button>
+                        <input type="file" id="editarPastaFisicaInput" accept="image/*" hidden>
+                        <button type="button" id="editarBtnPastaFisica" class="btn-subir">
+                            Conservar imagen
+                        </button>
                     </div>
 
                     <div class="admin-dashboard__file-box">
                         <span>Portada institucional:</span>
-                        <input type="file" id="portadaInstitucionalInput" accept="image/*" hidden>
-                        <button type="button" id="btnPortadaInstitucional" class="btn-subir">Subir imagen</button>
+                        <input type="file" id="editarPortadaInstitucionalInput" accept="image/*" hidden>
+                        <button type="button" id="editarBtnPortadaInstitucional" class="btn-subir">
+                            Conservar imagen
+                        </button>
                     </div>
 
                 </div>
@@ -108,8 +114,8 @@
             <!-- BOTONES -->
             <!-- ===================== -->
             <div class="admin-dashboard__form-actions">
-                <button type="button" class="btn-cancelar" onclick="cancelarAgregarTesis()">Cancelar</button>
-                <button type="button" class="btn-guardar" onclick="guardarTesis()">Agregar</button>
+                <button type="button" class="btn-cancelar" onclick="mostrarVistaLista()">Cancelar</button>
+                <button type="button" class="btn-guardar" onclick="actualizarTesis()">Actualizar</button>
             </div>
 
         </div>

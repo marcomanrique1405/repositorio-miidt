@@ -7,6 +7,7 @@ async function guardarTesis() {
     try {
         const titulo = obtenerValor('titulo');
         const autorVisible = obtenerValor('autor');
+        const directorTexto = obtenerValor('director');
         const idDirector = obtenerValor('idDirector');
         const idDirectorLinea = obtenerValor('idDirectorLinea');
         const fechaTesis = obtenerValor('fechaTesis');
@@ -36,6 +37,7 @@ async function guardarTesis() {
         validarDatosTesis({
             titulo,
             autorVisible,
+            directorTexto,
             autorMatricula,
             autorNombre,
             autorApellidoPaterno,
@@ -54,7 +56,16 @@ async function guardarTesis() {
         formData.append('url', url);
         formData.append('fecha_registro', fechaTesis);
         formData.append('estado', estado);
+
+        /*
+            NUEVA MEJORA:
+            - Si el director fue seleccionado de la lista, id_director trae valor.
+            - Si el director fue escrito manualmente y no existe, id_director va vacío,
+              pero director_texto se manda al backend para crearlo automáticamente.
+        */
         formData.append('id_director', idDirector);
+        formData.append('director_texto', directorTexto);
+
         formData.append('id_linea', lineaSeleccionada.dataset.idLinea);
 
         formData.append('autor_matricula', autorMatricula);
@@ -63,6 +74,14 @@ async function guardarTesis() {
         formData.append('autor_apellido_materno', autorApellidoMaterno);
         formData.append('autor_correo', autorCorreo);
         formData.append('autor_sexo', autorSexo);
+
+        /*
+            Seguridad CSRF:
+            Se envía al backend para validar que la petición viene del panel admin.
+            El token debe existir en window.CSRF_TOKEN, meta[name="csrf-token"]
+            o input[name="csrf_token"].
+        */
+        formData.append('csrf_token', obtenerCsrfToken());
 
         /*
             Estas imágenes vienen del archivo upload-imagenes-tesis.js
@@ -173,25 +192,19 @@ function validarDatosTesis(datos) {
         throw new Error('Completa los datos obligatorios del autor.');
     }
 
-    if (!datos.idDirector) {
-        throw new Error('Selecciona un director de la lista.');
-    }
-
-    if (!datos.idDirectorLinea) {
-        throw new Error('Vuelve a seleccionar el director de la lista.');
+    /*
+        NUEVA MEJORA:
+        Antes era obligatorio seleccionar un director de la lista.
+        Ahora puede:
+        - Seleccionarlo de la lista: idDirector tiene valor.
+        - Escribirlo manualmente: directorTexto tiene valor y el backend lo crea.
+    */
+    if (!datos.idDirector && !datos.directorTexto) {
+        throw new Error('Selecciona o escribe el nombre del director de tesis.');
     }
 
     if (!datos.lineaSeleccionada) {
         throw new Error('Selecciona una línea de investigación.');
-    }
-
-    if (String(datos.idDirectorLinea) !== String(datos.lineaSeleccionada.dataset.idLinea)) {
-        const nombreLineaDirector = obtenerNombreLineaPorId(datos.idDirectorLinea);
-        const nombreLineaTesis = obtenerNombreLineaPorId(datos.lineaSeleccionada.dataset.idLinea);
-
-        throw new Error(
-            `El director seleccionado pertenece a ${nombreLineaDirector}, pero la tesis está marcada como ${nombreLineaTesis}. Selecciona una línea correcta o cambia de director.`
-        );
     }
 
     if (!datos.fechaTesis) {
@@ -202,12 +215,20 @@ function validarDatosTesis(datos) {
         throw new Error('Selecciona el estado de la tesis.');
     }
 
-    if (!datos.url) {
-        throw new Error('Agrega el link del archivo de la tesis.');
+    /*
+        REGLA:
+        - Si es solo Fisico: NO pide link.
+        - Si es Digital: SÍ pide link.
+        - Si es Digital y Fisico: SÍ pide link.
+    */
+    const requiereLinkDigital = datos.estado === 'Digital' || datos.estado === 'Digital y Fisico';
+
+    if (requiereLinkDigital && !datos.url) {
+        throw new Error('Agrega el link del archivo digital de la tesis.');
     }
 
-    if (!esUrlValida(datos.url)) {
-        throw new Error('El link del archivo de la tesis no tiene un formato válido.');
+    if (datos.url && !esUrlValida(datos.url)) {
+        throw new Error('El link del archivo digital de la tesis no tiene un formato válido.');
     }
 
     if (!window.AltaTesisArchivos || !window.AltaTesisArchivos.pastaFisica) {
@@ -255,6 +276,14 @@ function cambiarEstadoBotonGuardar(boton, cargando) {
     }
 }
 
+function cancelarAgregarTesis() {
+    limpiarFormularioAltaTesis();
+
+    if (typeof mostrarVistaLista === 'function') {
+        mostrarVistaLista();
+    }
+}
+
 function limpiarFormularioAltaTesis() {
     limpiarInput('titulo');
     limpiarInput('autor');
@@ -299,4 +328,28 @@ function limpiarInput(id) {
     if (input) {
         input.value = '';
     }
+}
+
+/* ==========================================
+   CSRF TOKEN
+========================================== */
+
+function obtenerCsrfToken() {
+    if (typeof window.CSRF_TOKEN === 'string' && window.CSRF_TOKEN.trim() !== '') {
+        return window.CSRF_TOKEN.trim();
+    }
+
+    const meta = document.querySelector('meta[name="csrf-token"]');
+
+    if (meta && meta.getAttribute('content')) {
+        return meta.getAttribute('content').trim();
+    }
+
+    const input = document.querySelector('input[name="csrf_token"]');
+
+    if (input && input.value) {
+        return input.value.trim();
+    }
+
+    return '';
 }

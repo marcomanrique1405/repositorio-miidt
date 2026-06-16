@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const anioActual = new Date().getFullYear();
 
-        for (let anio = anioActual; anio >= 2016; anio--) {
+        for (let anio = 2016; anio <= anioActual; anio++) {
 
             const option = document.createElement('div');
             option.textContent = anio;

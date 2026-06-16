@@ -1,4 +1,4 @@
-<?php 
+<?php
 declare(strict_types=1);
 
 final class Tesis
@@ -13,7 +13,8 @@ final class Tesis
 
     public function buscar(string $query): array
     {
-        
+        $query = trim($query);
+
         if ($query === '') {
 
             $sql = "
@@ -24,9 +25,21 @@ final class Tesis
                     CONCAT('/repositorio_MIIDT', t.portada) AS imagen,
                     t.estado,
 
-                    CONCAT(a.nombre, ' ', a.apellido_paterno, ' ', IFNULL(a.apellido_materno,'')) AS autor,
+                    TRIM(CONCAT(
+                        IFNULL(a.nombre, ''),
+                        ' ',
+                        IFNULL(a.apellido_paterno, ''),
+                        ' ',
+                        IFNULL(a.apellido_materno, '')
+                    )) AS autor,
 
-                    CONCAT(d.nombre, ' ', d.apellido_paterno, ' ', IFNULL(d.apellido_materno,'')) AS director,
+                    TRIM(CONCAT(
+                        IFNULL(d.nombre, ''),
+                        ' ',
+                        IFNULL(d.apellido_paterno, ''),
+                        ' ',
+                        IFNULL(d.apellido_materno, '')
+                    )) AS director,
 
                     l.nombre AS lies
 
@@ -51,9 +64,21 @@ final class Tesis
                 CONCAT('/repositorio_MIIDT', t.portada) AS imagen,
                 t.estado,
 
-                CONCAT(a.nombre, ' ', a.apellido_paterno, ' ', IFNULL(a.apellido_materno,'')) AS autor,
+                TRIM(CONCAT(
+                    IFNULL(a.nombre, ''),
+                    ' ',
+                    IFNULL(a.apellido_paterno, ''),
+                    ' ',
+                    IFNULL(a.apellido_materno, '')
+                )) AS autor,
 
-                CONCAT(d.nombre, ' ', d.apellido_paterno, ' ', IFNULL(d.apellido_materno,'')) AS director,
+                TRIM(CONCAT(
+                    IFNULL(d.nombre, ''),
+                    ' ',
+                    IFNULL(d.apellido_paterno, ''),
+                    ' ',
+                    IFNULL(d.apellido_materno, '')
+                )) AS director,
 
                 l.nombre AS lies
 
@@ -64,8 +89,20 @@ final class Tesis
 
             WHERE 
                 t.titulo LIKE ?
-                OR CONCAT(a.nombre, ' ', a.apellido_paterno, ' ', a.apellido_materno) LIKE ?
-                OR CONCAT(d.nombre, ' ', d.apellido_paterno, ' ', d.apellido_materno) LIKE ?
+                OR TRIM(CONCAT(
+                    IFNULL(a.nombre, ''),
+                    ' ',
+                    IFNULL(a.apellido_paterno, ''),
+                    ' ',
+                    IFNULL(a.apellido_materno, '')
+                )) LIKE ?
+                OR TRIM(CONCAT(
+                    IFNULL(d.nombre, ''),
+                    ' ',
+                    IFNULL(d.apellido_paterno, ''),
+                    ' ',
+                    IFNULL(d.apellido_materno, '')
+                )) LIKE ?
 
             ORDER BY t.fecha_registro DESC
         ";
@@ -94,9 +131,21 @@ final class Tesis
                 CONCAT('/repositorio_MIIDT', t.portada) AS imagen,
                 t.estado,
 
-                CONCAT(a.nombre, ' ', a.apellido_paterno, ' ', IFNULL(a.apellido_materno,'')) AS autor,
+                TRIM(CONCAT(
+                    IFNULL(a.nombre, ''),
+                    ' ',
+                    IFNULL(a.apellido_paterno, ''),
+                    ' ',
+                    IFNULL(a.apellido_materno, '')
+                )) AS autor,
 
-                CONCAT(d.nombre, ' ', d.apellido_paterno, ' ', IFNULL(d.apellido_materno,'')) AS director,
+                TRIM(CONCAT(
+                    IFNULL(d.nombre, ''),
+                    ' ',
+                    IFNULL(d.apellido_paterno, ''),
+                    ' ',
+                    IFNULL(d.apellido_materno, '')
+                )) AS director,
 
                 l.nombre AS lies
 
@@ -118,7 +167,15 @@ final class Tesis
         }
 
         if (!empty($filtros['director'])) {
-            $sql .= " AND CONCAT(d.nombre, ' ', d.apellido_paterno, ' ', IFNULL(d.apellido_materno,'')) LIKE ?";
+            $sql .= "
+                AND TRIM(CONCAT(
+                    IFNULL(d.nombre, ''),
+                    ' ',
+                    IFNULL(d.apellido_paterno, ''),
+                    ' ',
+                    IFNULL(d.apellido_materno, '')
+                )) LIKE ?
+            ";
             $params[] = "%" . $filtros['director'] . "%";
             $types .= "s";
         }
@@ -175,9 +232,21 @@ final class Tesis
                 nombre,
                 apellido_paterno,
                 apellido_materno,
-                CONCAT_WS(' ', nombre, apellido_paterno, apellido_materno) AS nombre_completo
+                TRIM(CONCAT(
+                    IFNULL(nombre, ''),
+                    ' ',
+                    IFNULL(apellido_paterno, ''),
+                    ' ',
+                    IFNULL(apellido_materno, '')
+                )) AS nombre_completo
             FROM director
-            WHERE CONCAT_WS(' ', nombre, apellido_paterno, apellido_materno) LIKE ?
+            WHERE TRIM(CONCAT(
+                IFNULL(nombre, ''),
+                ' ',
+                IFNULL(apellido_paterno, ''),
+                ' ',
+                IFNULL(apellido_materno, '')
+            )) LIKE ?
             ORDER BY nombre ASC, apellido_paterno ASC
             LIMIT 10
         ";
@@ -194,6 +263,126 @@ final class Tesis
         $stmt->execute();
 
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function obtenerOCrearDirector(string $nombreCompleto, int $idLinea): int
+    {
+        $nombreCompleto = $this->limpiarEspacios($nombreCompleto);
+
+        if ($nombreCompleto === '') {
+            throw new RuntimeException('Escribe el nombre del director de tesis.');
+        }
+
+        if ($idLinea <= 0) {
+            throw new RuntimeException('Selecciona una línea de investigación para registrar el director.');
+        }
+
+        $directorExistente = $this->buscarDirectorExactoPorNombre($nombreCompleto);
+
+        if ($directorExistente > 0) {
+            return $directorExistente;
+        }
+
+        $partes = $this->separarNombreDirector($nombreCompleto);
+
+        $sql = "
+            INSERT INTO director
+                (
+                    id_linea,
+                    nombre,
+                    apellido_paterno,
+                    apellido_materno,
+                    fecha_nacimiento
+                )
+            VALUES
+                (?, ?, ?, ?, NULL)
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
+        if (!$stmt) {
+            throw new RuntimeException('No se pudo preparar el registro del director.');
+        }
+
+        $stmt->bind_param(
+            'isss',
+            $idLinea,
+            $partes['nombre'],
+            $partes['apellido_paterno'],
+            $partes['apellido_materno']
+        );
+
+        if (!$stmt->execute()) {
+            throw new RuntimeException('No se pudo registrar el director de tesis.');
+        }
+
+        return (int)$this->db->insert_id;
+    }
+
+    private function buscarDirectorExactoPorNombre(string $nombreCompleto): int
+    {
+        $nombreCompleto = $this->limpiarEspacios($nombreCompleto);
+
+        $sql = "
+            SELECT id_director
+            FROM director
+            WHERE LOWER(TRIM(CONCAT(
+                IFNULL(nombre, ''),
+                ' ',
+                IFNULL(apellido_paterno, ''),
+                ' ',
+                IFNULL(apellido_materno, '')
+            ))) = LOWER(?)
+            LIMIT 1
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
+        if (!$stmt) {
+            return 0;
+        }
+
+        $stmt->bind_param('s', $nombreCompleto);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $director = $result->fetch_assoc();
+
+        return $director ? (int)$director['id_director'] : 0;
+    }
+
+    private function separarNombreDirector(string $nombreCompleto): array
+    {
+        $nombreCompleto = $this->limpiarEspacios($nombreCompleto);
+        $partes = explode(' ', $nombreCompleto);
+        $total = count($partes);
+
+        if ($total < 2) {
+            throw new RuntimeException('Escribe al menos nombre y apellido del director.');
+        }
+
+        if ($total === 2) {
+            return [
+                'nombre' => $partes[0],
+                'apellido_paterno' => $partes[1],
+                'apellido_materno' => null
+            ];
+        }
+
+        $apellidoMaterno = array_pop($partes);
+        $apellidoPaterno = array_pop($partes);
+        $nombre = implode(' ', $partes);
+
+        return [
+            'nombre' => $nombre,
+            'apellido_paterno' => $apellidoPaterno,
+            'apellido_materno' => $apellidoMaterno
+        ];
+    }
+
+    private function limpiarEspacios(string $texto): string
+    {
+        return trim((string)preg_replace('/\s+/', ' ', $texto));
     }
 
     public function directorPerteneceALinea(int $idDirector, int $idLinea): bool
@@ -218,6 +407,73 @@ final class Tesis
         $result = $stmt->get_result();
 
         return $result->num_rows > 0;
+    }
+
+    public function obtenerPorId(int $idTesis): ?array
+    {
+        $sql = "
+            SELECT
+                t.id_tesis,
+                t.titulo,
+                t.url,
+                t.portada,
+                t.estado,
+                DATE_FORMAT(t.fecha_registro, '%d/%m/%Y') AS fecha_tesis,
+
+                a.matricula,
+                a.id_linea,
+                a.nombre AS autor_nombre,
+                a.apellido_paterno AS autor_apellido_paterno,
+                a.apellido_materno AS autor_apellido_materno,
+                a.correo_institucional AS autor_correo,
+                a.sexo AS autor_sexo,
+
+                TRIM(CONCAT(
+                    IFNULL(a.nombre, ''),
+                    ' ',
+                    IFNULL(a.apellido_paterno, ''),
+                    ' ',
+                    IFNULL(a.apellido_materno, '')
+                )) AS autor_completo,
+
+                d.id_director,
+                d.id_linea AS director_id_linea,
+                d.nombre AS director_nombre,
+                d.apellido_paterno AS director_apellido_paterno,
+                d.apellido_materno AS director_apellido_materno,
+
+                TRIM(CONCAT(
+                    IFNULL(d.nombre, ''),
+                    ' ',
+                    IFNULL(d.apellido_paterno, ''),
+                    ' ',
+                    IFNULL(d.apellido_materno, '')
+                )) AS director_completo,
+
+                l.nombre AS linea_nombre
+
+            FROM tesis t
+            LEFT JOIN autor a ON a.matricula = t.matricula
+            LEFT JOIN director d ON d.id_director = t.id_director
+            LEFT JOIN linea_investigacion l ON l.id_linea = a.id_linea
+
+            WHERE t.id_tesis = ?
+            LIMIT 1
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
+        if (!$stmt) {
+            return null;
+        }
+
+        $stmt->bind_param('i', $idTesis);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $tesis = $result->fetch_assoc();
+
+        return $tesis ?: null;
     }
 
     public function guardarAlta(array $data): int
@@ -263,6 +519,127 @@ final class Tesis
             $this->db->commit();
 
             return $idTesis;
+
+        } catch (Throwable $e) {
+            $this->db->rollback();
+            throw $e;
+        }
+    }
+
+    public function actualizarTesis(array $data): void
+    {
+        $this->db->begin_transaction();
+
+        try {
+            $autor = $data['autor'];
+            $tesis = $data['tesis'];
+
+            $this->guardarAutor($autor);
+
+            if (!empty($tesis['portada'])) {
+                $sqlTesis = "
+                    UPDATE tesis
+                    SET 
+                        matricula = ?,
+                        id_director = ?,
+                        titulo = ?,
+                        url = ?,
+                        portada = ?,
+                        fecha_registro = ?,
+                        estado = ?
+                    WHERE id_tesis = ?
+                    LIMIT 1
+                ";
+
+                $stmt = $this->db->prepare($sqlTesis);
+
+                if (!$stmt) {
+                    throw new RuntimeException('No se pudo preparar la actualización de la tesis.');
+                }
+
+                $stmt->bind_param(
+                    'sisssssi',
+                    $tesis['matricula'],
+                    $tesis['id_director'],
+                    $tesis['titulo'],
+                    $tesis['url'],
+                    $tesis['portada'],
+                    $tesis['fecha_registro'],
+                    $tesis['estado'],
+                    $tesis['id_tesis']
+                );
+            } else {
+                $sqlTesis = "
+                    UPDATE tesis
+                    SET 
+                        matricula = ?,
+                        id_director = ?,
+                        titulo = ?,
+                        url = ?,
+                        fecha_registro = ?,
+                        estado = ?
+                    WHERE id_tesis = ?
+                    LIMIT 1
+                ";
+
+                $stmt = $this->db->prepare($sqlTesis);
+
+                if (!$stmt) {
+                    throw new RuntimeException('No se pudo preparar la actualización de la tesis.');
+                }
+
+                $stmt->bind_param(
+                    'sissssi',
+                    $tesis['matricula'],
+                    $tesis['id_director'],
+                    $tesis['titulo'],
+                    $tesis['url'],
+                    $tesis['fecha_registro'],
+                    $tesis['estado'],
+                    $tesis['id_tesis']
+                );
+            }
+
+            if (!$stmt->execute()) {
+                throw new RuntimeException('No se pudo actualizar la tesis.');
+            }
+
+            $this->db->commit();
+
+        } catch (Throwable $e) {
+            $this->db->rollback();
+            throw $e;
+        }
+    }
+
+    public function eliminar(int $idTesis): void
+    {
+        $this->db->begin_transaction();
+
+        try {
+            $sql = "
+                DELETE FROM tesis
+                WHERE id_tesis = ?
+                LIMIT 1
+            ";
+
+            $stmt = $this->db->prepare($sql);
+
+            if (!$stmt) {
+                throw new RuntimeException('No se pudo preparar la eliminación de la tesis.');
+            }
+
+            $stmt->bind_param('i', $idTesis);
+
+            if (!$stmt->execute()) {
+                throw new RuntimeException('No se pudo eliminar la tesis.');
+            }
+
+            if ($stmt->affected_rows <= 0) {
+                throw new RuntimeException('No se encontró la tesis que deseas eliminar.');
+            }
+
+            $this->db->commit();
 
         } catch (Throwable $e) {
             $this->db->rollback();

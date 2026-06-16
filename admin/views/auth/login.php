@@ -1,4 +1,4 @@
-<?php
+<?php 
 declare(strict_types=1);
 
 $base = defined('ADMIN_BASE')
@@ -9,6 +9,13 @@ $base = ($base === '/' ? '' : $base);
 
 $error = $error ?? '';
 $usernameValue = $usernameValue ?? '';
+$csrfToken = $csrfToken ?? ($_SESSION['csrf_token'] ?? '');
+
+/*
+    Si hay error, no dejamos que PHP vuelva a pintar el usuario.
+    Esto ayuda a que se borre junto con la contraseña.
+*/
+$usernameValueMostrar = !empty($error) ? '' : $usernameValue;
 ?>
 <!doctype html>
 <html lang="es">
@@ -41,6 +48,12 @@ $usernameValue = $usernameValue ?? '';
 
             <form method="post" action="<?= htmlspecialchars($base) ?>/index.php/login" class="admin-login__form" autocomplete="off">
 
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars((string)$csrfToken) ?>"
+                >
+
                 <div class="admin-login__field">
                     <label for="username" class="admin-login__label">Usuario:</label>
                     <input
@@ -48,7 +61,11 @@ $usernameValue = $usernameValue ?? '';
                         id="username"
                         name="username"
                         class="admin-login__input"
-                        value=""
+                        value="<?= htmlspecialchars((string)$usernameValueMostrar) ?>"
+                        maxlength="80"
+                        autocomplete="new-password"
+                        autocapitalize="off"
+                        spellcheck="false"
                         required
                     >
                 </div><br>
@@ -61,6 +78,8 @@ $usernameValue = $usernameValue ?? '';
                         name="password"
                         class="admin-login__input"
                         value=""
+                        maxlength="255"
+                        autocomplete="new-password"
                         required
                     >
                 </div>
@@ -77,6 +96,21 @@ $usernameValue = $usernameValue ?? '';
 </main>
 
 <script>
+function limpiarCamposLogin() {
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+
+    if (usernameInput) {
+        usernameInput.value = '';
+        usernameInput.setAttribute('value', '');
+    }
+
+    if (passwordInput) {
+        passwordInput.value = '';
+        passwordInput.setAttribute('value', '');
+    }
+}
+
 const usernameInput = document.getElementById('username');
 
 if (usernameInput) {
@@ -85,10 +119,28 @@ if (usernameInput) {
     });
 }
 
-setTimeout(() => {
-    const alert = document.querySelector('.admin-login__alert');
-    if(alert) alert.remove();
-}, 4000);
+/*
+    Si hay alerta de error, se limpian ambos campos.
+    Se repite varias veces porque Brave/Chrome a veces autocompleta
+    después de que el DOM ya cargó.
+*/
+document.addEventListener('DOMContentLoaded', () => {
+    const alertLogin = document.querySelector('.admin-login__alert');
+
+    if (alertLogin) {
+        limpiarCamposLogin();
+
+        setTimeout(limpiarCamposLogin, 50);
+        setTimeout(limpiarCamposLogin, 200);
+        setTimeout(limpiarCamposLogin, 500);
+        setTimeout(limpiarCamposLogin, 1000);
+    }
+
+    setTimeout(() => {
+        const alert = document.querySelector('.admin-login__alert');
+        if (alert) alert.remove();
+    }, 4000);
+});
 </script>
 
 </body>
