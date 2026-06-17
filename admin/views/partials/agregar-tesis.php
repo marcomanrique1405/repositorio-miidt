@@ -108,7 +108,7 @@
             <!-- BOTONES -->
             <!-- ===================== -->
             <div class="admin-dashboard__form-actions">
-                <button type="button" class="btn-cancelar" onclick="mostrarVistaLista()">Cancelar</button>
+                <button type="button" class="btn-cancelar" onclick="cancelarAgregarTesis()">Cancelar</button>
                 <button type="button" class="btn-guardar" onclick="guardarTesis()">Agregar</button>
             </div>
 

@@ -276,6 +276,14 @@ function cambiarEstadoBotonGuardar(boton, cargando) {
     }
 }
 
+function cancelarAgregarTesis() {
+    limpiarFormularioAltaTesis();
+
+    if (typeof mostrarVistaLista === 'function') {
+        mostrarVistaLista();
+    }
+}
+
 function limpiarFormularioAltaTesis() {
     limpiarInput('titulo');
     limpiarInput('autor');
